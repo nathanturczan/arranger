@@ -1,0 +1,13 @@
+# Satie Sarabande - continuously modulating version
+name: sarabande
+description: Erik Satie's Sarabande No. 1, segmented into 78 chord samples
+
+path: /Users/soney/Music/samples/sarabande
+sample_prefix: satie_sarabande
+sample_pattern: "{prefix}_{num:04d}"  # satie_sarabande_0001, satie_sarabande_0002, etc.
+num_samples: 78
+
+transpositions: [-7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4]
+crossfade_ms: 1
+
+output_prefix: satie_vaporwave

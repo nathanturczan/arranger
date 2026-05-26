@@ -35,6 +35,7 @@ dependencies = [
 audio = [
     "pydub>=0.25.0",
     "pretty_midi>=0.2.10",
+    "pyyaml>=6.0",
 ]
 dev = [
     "pytest>=7.0.0",

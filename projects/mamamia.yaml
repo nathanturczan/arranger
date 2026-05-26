@@ -1,0 +1,13 @@
+# ABBA - Mamma Mia
+name: mamamia
+description: ABBA Mamma Mia chord samples
+
+path: /Users/soney/Music/sample-laboratory/mamamia
+sample_prefix: mamamia
+sample_pattern: "{prefix}_{num}_"
+num_samples: 20
+
+transpositions: [-7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4]
+crossfade_ms: 1
+
+output_prefix: mamamia_modulating

@@ -6,6 +6,7 @@ graphviz>=0.20.0
 # Audio concatenation (optional)
 pydub>=0.25.0
 pretty_midi>=0.2.10
+pyyaml>=6.0
 
 # Optional: for development
 # pytest>=7.0.0

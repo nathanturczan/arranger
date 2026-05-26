@@ -1,0 +1,13 @@
+# Cream - White Room
+name: whiteroom
+description: Cream White Room triads (9 samples)
+
+path: /Users/soney/Music/sample-laboratory/whiteroom
+sample_prefix: whiteroom
+sample_pattern: "{prefix}_{num}_"
+num_samples: 9
+
+transpositions: [-7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4]
+crossfade_ms: 1
+
+output_prefix: whiteroom_modulating

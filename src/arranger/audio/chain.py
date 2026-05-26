@@ -174,7 +174,7 @@ def concatenate_audio(
     current_scale, current_sample = random.choice(initial_options)
 
     # Initialize audio
-    combined = AudioSegment.from_wav(current_sample)
+    combined = AudioSegment.from_file(current_sample)
     current_time_ms = 0
 
     # Get pitch class info for first sample
@@ -228,7 +228,7 @@ def concatenate_audio(
         current_scale = next_sample.parent.name
 
         # Get audio and timing
-        next_audio = AudioSegment.from_wav(next_sample)
+        next_audio = AudioSegment.from_file(next_sample)
         duration_ms = len(next_audio)
 
         # Get pitch class info

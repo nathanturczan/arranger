@@ -1,0 +1,13 @@
+# MacDowell - To a Wild Rose
+name: wildrose
+description: Edward MacDowell's To a Wild Rose, segmented into 50 chord samples
+
+path: /Users/soney/Music/sample-laboratory/wildrose
+sample_prefix: wildrose
+sample_pattern: "{prefix}_{num}_"  # wildrose_1_, wildrose_2_, etc.
+num_samples: 50
+
+transpositions: [-7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4]
+crossfade_ms: 1
+
+output_prefix: wildrose_withscore
