@@ -101,6 +101,16 @@ FEEDBACK_DIR = Path("/Users/soney/Music/samples/feedback")
 FEEDBACK_AUDIO_DIR = FEEDBACK_DIR / "samples"
 FEEDBACK_MANIFEST_PATH = FEEDBACK_DIR / "samples_data.json"
 
+# Avery Violin Phrase (continuous, like bass flute)
+AVERYVIOLIN_DIR = Path("/Users/soney/Music/samples/violin_avery_phrase")
+AVERYVIOLIN_AUDIO_DIR = AVERYVIOLIN_DIR / "samples"
+AVERYVIOLIN_MANIFEST_PATH = AVERYVIOLIN_DIR / "samples_data.json"
+
+# Dictamel (continuous, like bass flute)
+DICTAMEL_DIR = Path("/Users/soney/Music/samples/dictamel")
+DICTAMEL_AUDIO_DIR = DICTAMEL_DIR / "samples"
+DICTAMEL_MANIFEST_PATH = DICTAMEL_DIR / "samples_data.json"
+
 # Laken samples (single-note, similar to gothic harp)
 LAKEN_DIR = Path("/Users/soney/Music/samples/laken")
 LAKEN_AUDIO_DIR = LAKEN_DIR / "samples"
@@ -197,6 +207,12 @@ GENTLEHARPSI_SAMPLES: List[Dict] = []
 
 # Global Feedback samples (loaded once)
 FEEDBACK_SAMPLES: List[Dict] = []
+
+# Global Avery Violin samples (loaded once)
+AVERYVIOLIN_SAMPLES: Dict[str, Dict] = {}
+
+# Global Dictamel samples (loaded once)
+DICTAMEL_SAMPLES: Dict[str, Dict] = {}
 
 # Global Laken samples (loaded once)
 LAKEN_SAMPLES: List[Dict] = []
@@ -1830,6 +1846,102 @@ def load_feedback_samples() -> List[Dict]:
 
     FEEDBACK_SAMPLES = samples_list  # Don't sort - will be randomized during playback
     return FEEDBACK_SAMPLES
+
+
+def load_averyviolin_samples() -> Dict[str, Dict]:
+    """Load Avery Violin Phrase samples metadata (continuous, like bass flute)."""
+    global AVERYVIOLIN_SAMPLES
+    if AVERYVIOLIN_SAMPLES:
+        return AVERYVIOLIN_SAMPLES
+
+    if not AVERYVIOLIN_MANIFEST_PATH.exists():
+        print(f"Warning: Avery Violin manifest not found at {AVERYVIOLIN_MANIFEST_PATH}")
+        return {}
+
+    with open(AVERYVIOLIN_MANIFEST_PATH) as f:
+        raw_data = json.load(f)
+
+    note_to_pc = {
+        'c': 0, 'cs': 1, 'df': 1, 'd': 2, 'ds': 3, 'ef': 3, 'e': 4,
+        'f': 5, 'fs': 6, 'gf': 6, 'g': 7, 'gs': 8, 'af': 8, 'a': 9,
+        'as': 10, 'bf': 10, 'b': 11
+    }
+
+    for sample_name, sample_data in raw_data.items():
+        if sample_name.startswith("_"):
+            continue
+
+        note_names = sample_data.get("note_names", [])
+        pitch_classes = []
+        for note in note_names:
+            note_lower = note.lower()
+            if note_lower in note_to_pc:
+                pitch_classes.append(note_to_pc[note_lower])
+
+        if pitch_classes:
+            audio_path = AVERYVIOLIN_AUDIO_DIR / f"{sample_name}.wav"
+            if audio_path.exists():
+                try:
+                    audio = AudioSegment.from_file(audio_path)
+                    duration_ms = len(audio)
+                except Exception:
+                    duration_ms = 20000
+                AVERYVIOLIN_SAMPLES[sample_name] = {
+                    "pitch_classes": set(pitch_classes),
+                    "note_names": note_names,
+                    "audio_path": audio_path,
+                    "duration_ms": duration_ms,
+                }
+
+    return AVERYVIOLIN_SAMPLES
+
+
+def load_dictamel_samples() -> Dict[str, Dict]:
+    """Load Dictamel samples metadata (continuous, like bass flute)."""
+    global DICTAMEL_SAMPLES
+    if DICTAMEL_SAMPLES:
+        return DICTAMEL_SAMPLES
+
+    if not DICTAMEL_MANIFEST_PATH.exists():
+        print(f"Warning: Dictamel manifest not found at {DICTAMEL_MANIFEST_PATH}")
+        return {}
+
+    with open(DICTAMEL_MANIFEST_PATH) as f:
+        raw_data = json.load(f)
+
+    note_to_pc = {
+        'c': 0, 'cs': 1, 'df': 1, 'd': 2, 'ds': 3, 'ef': 3, 'e': 4,
+        'f': 5, 'fs': 6, 'gf': 6, 'g': 7, 'gs': 8, 'af': 8, 'a': 9,
+        'as': 10, 'bf': 10, 'b': 11
+    }
+
+    for sample_name, sample_data in raw_data.items():
+        if sample_name.startswith("_"):
+            continue
+
+        note_names = sample_data.get("note_names", [])
+        pitch_classes = []
+        for note in note_names:
+            note_lower = note.lower()
+            if note_lower in note_to_pc:
+                pitch_classes.append(note_to_pc[note_lower])
+
+        if pitch_classes:
+            audio_path = DICTAMEL_AUDIO_DIR / f"{sample_name}.wav"
+            if audio_path.exists():
+                try:
+                    audio = AudioSegment.from_file(audio_path)
+                    duration_ms = len(audio)
+                except Exception:
+                    duration_ms = 20000
+                DICTAMEL_SAMPLES[sample_name] = {
+                    "pitch_classes": set(pitch_classes),
+                    "note_names": note_names,
+                    "audio_path": audio_path,
+                    "duration_ms": duration_ms,
+                }
+
+    return DICTAMEL_SAMPLES
 
 
 def load_laken_samples() -> List[Dict]:
@@ -5246,6 +5358,8 @@ def render_chain_to_wav(
     include_gentleharpsi: bool = False,
     include_feedback: bool = False,
     feedback_interval: float = 4.0,
+    include_averyviolin: bool = False,
+    include_dictamel: bool = False,
     include_synth_bass: bool = True,
     render_midi_synth: bool = True,
     seed: Optional[int] = None,
@@ -5373,10 +5487,18 @@ def render_chain_to_wav(
         current_sample += num_samples
 
     current_time_ms = rendered_cursor_ms  # Use the rendered cursor as total time
-    total_duration_ms = current_time_ms
+    chain_duration_ms = current_time_ms
+
+    # Limit layer duration to requested max_duration_ms
+    if max_duration_ms is not None:
+        total_duration_ms = min(chain_duration_ms, float(max_duration_ms))
+    else:
+        total_duration_ms = chain_duration_ms
 
     if verbose:
-        print(f"  Chain rendered to numpy buffer: {total_chain_samples} samples ({current_time_ms/1000:.2f}s)")
+        print(f"  Chain rendered to numpy buffer: {total_chain_samples} samples ({chain_duration_ms/1000:.2f}s)")
+        if max_duration_ms is not None:
+            print(f"  Layer duration limited to: {total_duration_ms/1000:.2f}s (requested: {max_duration_ms/1000:.2f}s)")
 
     # === BUILD HARMONIC TIMELINE FROM RENDERED TIMING ===
     # This ensures MIDI uses the exact same timing as the audio render
@@ -5458,13 +5580,17 @@ def render_chain_to_wav(
         eighth_note_ms = 60000.0 / bpm / 2  # 250ms
         note_duration_ms = 100.0  # Short stab for acid feel
 
-        # Get total duration from chord events
+        # Get total duration from chord events for bass MIDI
         if chord_events:
-            total_duration_ms = chord_events[-1]["start_ms"] + chord_events[-1]["duration_ms"]
+            bass_midi_duration_ms = chord_events[-1]["start_ms"] + chord_events[-1]["duration_ms"]
         else:
-            total_duration_ms = 0
+            bass_midi_duration_ms = 0
 
-        num_stabs = int(total_duration_ms / eighth_note_ms)
+        # Limit bass MIDI to requested duration
+        if max_duration_ms is not None:
+            bass_midi_duration_ms = min(bass_midi_duration_ms, float(max_duration_ms))
+
+        num_stabs = int(bass_midi_duration_ms / eighth_note_ms)
 
         for i in range(num_stabs):
             stab_time_ms = i * eighth_note_ms
@@ -6035,6 +6161,92 @@ def render_chain_to_wav(
     if verbose:
         print(f"<<< END layer: feedback ({layer_timings['feedback']:.2f}s)")
 
+    # Layer in Avery Violin (continuous, like bass flute)
+    if verbose:
+        print("\n>>> START layer: averyviolin")
+    t_averyviolin_start = time.perf_counter()
+    if include_averyviolin:
+        if verbose:
+            print("\nLayering Avery Violin samples (NumPy engine, continuous)...")
+
+        averyviolin_dict = load_averyviolin_samples()
+        if averyviolin_dict:
+            # Convert to sample_list format
+            av_sample_list = []
+            for name, data in sorted(averyviolin_dict.items()):
+                av_sample_list.append({
+                    "name": name,
+                    "pitch_classes": data["pitch_classes"],
+                    "audio_path": data["audio_path"]
+                })
+
+            if av_sample_list:
+                averyviolin_np = render_layer_continuous_np(
+                    sample_list=av_sample_list,
+                    harmonic_start_times=harmonic_start_times,
+                    harmonic_events=harmonic_events_sorted,
+                    find_transposition_fn=find_bassflute_transposition,
+                    total_duration_ms=total_duration_ms,
+                    sample_rate=SAMPLE_RATE,
+                    channels=CHANNELS,
+                    gain_db=-6.0,
+                    verbose=verbose,
+                    layer_name="Avery Violin"
+                )
+
+                usable_len = min(len(averyviolin_np), len(master_buffer))
+                master_buffer[:usable_len] += averyviolin_np[:usable_len]
+                combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
+
+                if verbose:
+                    print(f"  Mixed Avery Violin layer (NumPy)")
+    layer_timings['averyviolin'] = time.perf_counter() - t_averyviolin_start
+    if verbose:
+        print(f"<<< END layer: averyviolin ({layer_timings['averyviolin']:.2f}s)")
+
+    # Layer in Dictamel (continuous, like bass flute)
+    if verbose:
+        print("\n>>> START layer: dictamel")
+    t_dictamel_start = time.perf_counter()
+    if include_dictamel:
+        if verbose:
+            print("\nLayering Dictamel samples (NumPy engine, continuous)...")
+
+        dictamel_dict = load_dictamel_samples()
+        if dictamel_dict:
+            # Convert to sample_list format
+            dm_sample_list = []
+            for name, data in sorted(dictamel_dict.items()):
+                dm_sample_list.append({
+                    "name": name,
+                    "pitch_classes": data["pitch_classes"],
+                    "audio_path": data["audio_path"]
+                })
+
+            if dm_sample_list:
+                dictamel_np = render_layer_continuous_np(
+                    sample_list=dm_sample_list,
+                    harmonic_start_times=harmonic_start_times,
+                    harmonic_events=harmonic_events_sorted,
+                    find_transposition_fn=find_bassflute_transposition,
+                    total_duration_ms=total_duration_ms,
+                    sample_rate=SAMPLE_RATE,
+                    channels=CHANNELS,
+                    gain_db=-6.0,
+                    verbose=verbose,
+                    layer_name="Dictamel"
+                )
+
+                usable_len = min(len(dictamel_np), len(master_buffer))
+                master_buffer[:usable_len] += dictamel_np[:usable_len]
+                combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
+
+                if verbose:
+                    print(f"  Mixed Dictamel layer (NumPy)")
+    layer_timings['dictamel'] = time.perf_counter() - t_dictamel_start
+    if verbose:
+        print(f"<<< END layer: dictamel ({layer_timings['dictamel']:.2f}s)")
+
     # Final normalization to prevent clipping
     # Normalize to -3 dB to leave headroom while maximizing volume
     if verbose:
@@ -6213,6 +6425,8 @@ def main():
     parser.add_argument("--gentleharpsi", action="store_true", help="Enable Gentle Harpsichord layer (32nd note clouds, 6s bursts after 10-11s silence)")
     parser.add_argument("--feedback", action="store_true", help="Enable Feedback layer (overlapping, random selection)")
     parser.add_argument("--feedback-interval", type=float, default=4.0, help="Feedback interval in seconds (default: 4)")
+    parser.add_argument("--averyviolin", action="store_true", help="Enable Avery Violin layer (continuous, like bass flute)")
+    parser.add_argument("--dictamel", action="store_true", help="Enable Dictamel layer (continuous, like bass flute)")
     parser.add_argument("--json-only", action="store_true", help="Output JSON only, skip audio rendering")
     parser.add_argument("--duration", type=float, default=90.0, help="Max output duration in seconds (default: 90s = 1:30)")
     parser.add_argument("--fast-preview", action="store_true", help="Use FAST_PREVIEW mode (applies render switches)")
@@ -6289,6 +6503,8 @@ def main():
     print(f"GothicHarp: {'ON (5s clouds after 7-9s silence)' if args.gothicharp else 'OFF'}")
     print(f"GentleHarpsi: {'ON (6s clouds of 32nd notes after 10-11s silence)' if args.gentleharpsi else 'OFF'}")
     print(f"Feedback: {'ON @ every ' + str(args.feedback_interval) + 's (random, overlapping)' if args.feedback else 'OFF'}")
+    print(f"AveryViolin: {'ON (continuous)' if args.averyviolin else 'OFF'}")
+    print(f"Dictamel: {'ON (continuous)' if args.dictamel else 'OFF'}")
     print(f"Max duration: {args.duration:.1f}s ({args.duration/60:.1f} min)")
 
     # Build chain
@@ -6351,6 +6567,8 @@ def main():
             include_gentleharpsi=args.gentleharpsi,
             include_feedback=args.feedback,
             feedback_interval=args.feedback_interval,
+            include_averyviolin=args.averyviolin,
+            include_dictamel=args.dictamel,
             include_synth_bass=not args.no_synth_bass,
             render_midi_synth=not args.no_midi_synth,
             max_duration_ms=int(args.duration * 1000)
