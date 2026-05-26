@@ -444,6 +444,117 @@ def get_harmonic_event_at(start_times: List[float], events: List['HarmonicEvent'
     return event
 
 
+def render_constant_rate_output_driven(
+    samples: np.ndarray,
+    input_pos: float,
+    output_len: int,
+    rate: float,
+    channels: int
+) -> Tuple[np.ndarray, float]:
+    """
+    Render a constant-rate segment with OUTPUT length as the constraint.
+
+    Args:
+        samples: Source audio [N, channels]
+        input_pos: Current position in input samples
+        output_len: Desired number of OUTPUT samples
+        rate: Playback rate (2^(semitones/12))
+        channels: Number of audio channels
+
+    Returns:
+        (rendered_output, new_input_pos)
+    """
+    num_input = len(samples)
+
+    # Generate output sample indices
+    output_indices = np.arange(output_len)
+
+    # Map to input positions: input_pos advances by 'rate' per output sample
+    input_positions = input_pos + output_indices * rate
+
+    # Find where we exceed input bounds
+    valid_mask = input_positions < num_input - 1
+    valid_len = np.sum(valid_mask)
+
+    if valid_len == 0:
+        return np.zeros((0, channels), dtype=np.float32), input_pos
+
+    input_positions = input_positions[:valid_len]
+
+    # Linear interpolation
+    floor_idx = np.floor(input_positions).astype(int)
+    ceil_idx = np.minimum(floor_idx + 1, num_input - 1)
+    fracs = (input_positions - floor_idx).reshape(-1, 1)
+
+    result = samples[floor_idx] * (1 - fracs) + samples[ceil_idx] * fracs
+
+    # Return new input position
+    new_input_pos = input_pos + valid_len * rate
+
+    return result, new_input_pos
+
+
+def render_glissando_output_driven(
+    samples: np.ndarray,
+    input_pos: float,
+    output_len: int,
+    start_trans: float,
+    end_trans: float,
+    channels: int
+) -> Tuple[np.ndarray, float]:
+    """
+    Render a glissando segment with OUTPUT length as the constraint.
+    Uses quarter-sine easing for smooth pitch transition.
+
+    Args:
+        samples: Source audio [N, channels]
+        input_pos: Current position in input samples
+        output_len: Desired number of OUTPUT samples (fixed by glissando_ms)
+        start_trans: Starting transposition in semitones
+        end_trans: Ending transposition in semitones
+        channels: Number of audio channels
+
+    Returns:
+        (rendered_output, new_input_pos)
+    """
+    num_input = len(samples)
+
+    if output_len <= 0:
+        return np.zeros((0, channels), dtype=np.float32), input_pos
+
+    # Build rate curve with quarter-sine easing over OUTPUT samples
+    progress = np.linspace(0, 1, output_len)
+    eased = np.sin(progress * np.pi / 2)
+    trans_curve = start_trans + (end_trans - start_trans) * eased
+    rate_curve = 2 ** (trans_curve / 12.0)
+
+    # Compute input positions by integrating rate over output samples
+    # input_pos[i+1] = input_pos[i] + rate[i]
+    cumulative_input = np.cumsum(rate_curve)
+    input_positions = input_pos + np.insert(cumulative_input, 0, 0)[:-1]
+
+    # Find where we exceed input bounds
+    valid_mask = input_positions < num_input - 1
+    valid_len = np.sum(valid_mask)
+
+    if valid_len == 0:
+        return np.zeros((0, channels), dtype=np.float32), input_pos
+
+    input_positions = input_positions[:valid_len]
+
+    # Linear interpolation
+    floor_idx = np.floor(input_positions).astype(int)
+    ceil_idx = np.minimum(floor_idx + 1, num_input - 1)
+    fracs = (input_positions - floor_idx).reshape(-1, 1)
+
+    result = samples[floor_idx] * (1 - fracs) + samples[ceil_idx] * fracs
+
+    # Return new input position (sum of all rates consumed)
+    new_input_pos = input_pos + cumulative_input[valid_len - 1] if valid_len > 0 else input_pos
+
+    return result, new_input_pos
+
+
 def apply_varispeed_segment_np(samples: np.ndarray, semitones: float) -> np.ndarray:
     """Apply constant varispeed to a segment using vectorized NumPy."""
     if semitones == 0 or len(samples) == 0:
@@ -520,12 +631,15 @@ def render_overlay_reactive_np(
     find_transposition_fn
 ) -> Tuple[np.ndarray, int]:
     """
-    Segment-based vectorized reactive varispeed with glissando.
+    Reactive varispeed with glissando - OUTPUT TIME scheduling.
+
+    CRITICAL: All timing is in OUTPUT/render time. Events, glides, and chord
+    changes are scheduled in rendered time. Only input_pos advances at varispeed.
 
     Architecture:
-    1. Build transposition segments from harmonic events
-    2. For each segment: render with vectorized NumPy (no per-sample loop)
-    3. Concatenate segment outputs
+    1. Build schedule in OUTPUT sample space
+    2. For each output segment: compute input consumption via rate integration
+    3. Render with vectorized NumPy
 
     Returns (processed_samples, gliss_count)
     """
@@ -534,7 +648,7 @@ def render_overlay_reactive_np(
 
     num_input_samples = len(samples)
     channels = samples.shape[1]
-    glissando_ms = GLISSANDO_MS
+    glissando_samples = int(GLISSANDO_MS * sample_rate / 1000)  # OUTPUT samples
 
     # === STEP 1: Find initial transposition ===
     onset_idx = bisect.bisect_right(harmonic_start_times, start_ms) - 1
@@ -548,17 +662,20 @@ def render_overlay_reactive_np(
     if initial_trans is None:
         initial_trans = 0
 
-    # === STEP 2: Build transposition segments ===
-    # Each segment: (input_start_sample, input_end_sample, start_trans, end_trans, is_glide)
-    segments = []
+    # === STEP 2: Build OUTPUT-time schedule ===
+    # Each entry: (output_start_sample, output_end_sample, start_trans, end_trans, is_glide)
+    schedule = []
     gliss_count = 0
 
-    # Estimate sample duration
-    estimated_duration_ms = num_input_samples * 1000.0 / sample_rate
+    # Estimate max output duration (will be refined during rendering)
+    avg_rate_estimate = 2 ** (initial_trans / 12.0)
+    max_output_samples = int(num_input_samples / avg_rate_estimate * 1.5)
+
+    # Collect harmonic events during playback (in output ms from sample start)
+    events_during = []  # [(output_ms_offset, transposition)]
+    estimated_duration_ms = num_input_samples * 1000.0 / sample_rate / avg_rate_estimate
     end_time_ms = start_ms + estimated_duration_ms * 1.5
 
-    # Collect harmonic events during playback
-    events_during = []  # [(ms_offset, transposition)]
     for i in range(onset_idx + 1, len(harmonic_events)):
         he = harmonic_events[i]
         if he.start_ms > end_time_ms:
@@ -566,86 +683,86 @@ def render_overlay_reactive_np(
         if he.start_ms > start_ms:
             trans = find_transposition_fn(original_pcs, he.chord_pcs, he.chord_root)
             if trans is None:
-                trans = initial_trans  # Keep previous if can't fit
+                trans = initial_trans
             events_during.append((he.start_ms - start_ms, trans))
 
-    # Build segments
+    # Build schedule in OUTPUT sample space
     current_trans = float(initial_trans)
-    current_input_pos = 0.0
-    current_output_ms = 0.0
+    current_output_sample = 0
 
     for event_ms_offset, next_trans in events_during:
-        # Calculate how much input we consume to reach this event time
-        # output_ms = event_ms_offset, need to find input samples consumed
-        rate = 2 ** (current_trans / 12.0)
-        segment_output_ms = event_ms_offset - current_output_ms
+        event_output_sample = int(event_ms_offset * sample_rate / 1000)
 
-        if segment_output_ms <= 0:
+        if event_output_sample <= current_output_sample:
             current_trans = float(next_trans)
             continue
 
-        segment_input_samples = int(segment_output_ms * sample_rate / 1000 * rate)
-        input_end = min(current_input_pos + segment_input_samples, num_input_samples)
-
-        if input_end > current_input_pos:
-            # Constant rate segment
-            segments.append((
-                int(current_input_pos),
-                int(input_end),
-                current_trans,
-                current_trans,
-                False  # not a glide
-            ))
-
-        # Glissando segment
-        if next_trans != current_trans:
-            gliss_count += 1
-            gliss_input_samples = int(glissando_ms * sample_rate / 1000 * rate)
-            gliss_end = min(input_end + gliss_input_samples, num_input_samples)
-
-            if gliss_end > input_end:
-                segments.append((
-                    int(input_end),
-                    int(gliss_end),
-                    current_trans,
-                    float(next_trans),
-                    True  # is a glide
-                ))
-                current_input_pos = gliss_end
-            else:
-                current_input_pos = input_end
-        else:
-            current_input_pos = input_end
-
-        current_output_ms = event_ms_offset + glissando_ms
-        current_trans = float(next_trans)
-
-    # Final segment to end of sample
-    if current_input_pos < num_input_samples:
-        segments.append((
-            int(current_input_pos),
-            num_input_samples,
+        # Constant-rate segment up to event
+        schedule.append((
+            current_output_sample,
+            event_output_sample,
             current_trans,
             current_trans,
             False
         ))
 
-    # === STEP 3: Render each segment with vectorized NumPy ===
-    output_segments = []
+        # Glissando segment (fixed duration in OUTPUT time)
+        if next_trans != current_trans:
+            gliss_count += 1
+            gliss_end = event_output_sample + glissando_samples
+            schedule.append((
+                event_output_sample,
+                gliss_end,
+                current_trans,
+                float(next_trans),
+                True
+            ))
+            current_output_sample = gliss_end
+        else:
+            current_output_sample = event_output_sample
 
-    for input_start, input_end, start_trans, end_trans, is_glide in segments:
-        if input_start >= input_end:
+        current_trans = float(next_trans)
+
+    # Final segment - will be trimmed when input runs out
+    schedule.append((
+        current_output_sample,
+        max_output_samples,
+        current_trans,
+        current_trans,
+        False
+    ))
+
+    # === STEP 3: Render each segment ===
+    # Track input position across segments
+    output_segments = []
+    input_pos = 0.0
+
+    for out_start, out_end, start_trans, end_trans, is_glide in schedule:
+        if input_pos >= num_input_samples:
+            break
+
+        out_len = out_end - out_start
+        if out_len <= 0:
             continue
 
-        segment_samples = samples[input_start:input_end]
-
         if is_glide:
-            rendered = apply_glissando_segment_np(segment_samples, start_trans, end_trans, sample_rate)
+            # Glissando: varying rate over output samples
+            rendered, new_input_pos = render_glissando_output_driven(
+                samples, input_pos, out_len, start_trans, end_trans, channels
+            )
         else:
-            rendered = apply_varispeed_segment_np(segment_samples, start_trans)
+            # Constant rate
+            rate = 2 ** (start_trans / 12.0)
+            rendered, new_input_pos = render_constant_rate_output_driven(
+                samples, input_pos, out_len, rate, channels
+            )
 
         if len(rendered) > 0:
             output_segments.append(rendered)
+
+        input_pos = new_input_pos
+        if input_pos >= num_input_samples:
+            break
 
     # === STEP 4: Concatenate ===
     if not output_segments:
@@ -1042,7 +1159,8 @@ def render_layer_interval_np(
     layer_name: str = "Layer",
     skip_to_fitting: bool = True,
     random_selection: bool = False,
-    seed: Optional[int] = None
+    seed: Optional[int] = None,
+    max_overlap: Optional[int] = None
 ) -> np.ndarray:
     """
     Render an interval-based layer (like Organetta) using NumPy.
@@ -1051,6 +1169,8 @@ def render_layer_interval_np(
     skip_to_fitting: If True, skips to next fitting sample when current can't fit.
     random_selection: If True, selects samples randomly instead of sequentially.
     seed: Random seed for reproducible random selection.
+    max_overlap: Maximum number of samples that can play simultaneously.
+                 If None, no limit. Skips firing if limit would be exceeded.
 
     Returns float32 buffer [total_samples, channels]
     """
@@ -1068,15 +1188,20 @@ def render_layer_interval_np(
 
     if verbose:
         mode_str = "random" if random_selection else "sequential"
-        print(f"    {layer_name}: {len(sample_list)} samples, every {interval_seconds}s, {num_fires} total slots ({mode_str})")
+        overlap_str = f", max {max_overlap} overlap" if max_overlap else ""
+        print(f"    {layer_name}: {len(sample_list)} samples, every {interval_seconds}s, {num_fires} total slots ({mode_str}{overlap_str})")
         if skip_to_fitting:
             print(f"    (Reactive transposition + skip-to-fitting-sample enabled)")
 
     played_count = 0
     skipped_count = 0
+    overlap_skipped = 0
     gliss_total = 0
     next_sample_idx = 0
     num_samples = len(sample_list)
+
+    # Track end times of currently playing samples for max_overlap
+    active_end_samples: List[int] = []
 
     for i in range(num_fires):
         start_ms = i * interval_ms
@@ -1084,6 +1209,14 @@ def render_layer_interval_np(
 
         if start_sample >= total_samples:
             break
+
+        # Check overlap limit if set
+        if max_overlap is not None:
+            # Remove samples that have finished
+            active_end_samples = [end for end in active_end_samples if end > start_sample]
+            if len(active_end_samples) >= max_overlap:
+                overlap_skipped += 1
+                continue
 
         # Get current harmonic state
         he = get_harmonic_event_at(harmonic_start_times, harmonic_events, start_ms)
@@ -1158,8 +1291,13 @@ def render_layer_interval_np(
                     result = result.mean(axis=1, keepdims=True)
             buffer[start_sample:end_sample] += result[:usable_len] * gain
 
+            # Track this sample's end time for overlap limiting
+            if max_overlap is not None:
+                active_end_samples.append(start_sample + len(result))
+
     if verbose:
-        print(f"    {layer_name}: {played_count} played, {skipped_count} dropped out, {gliss_total} glissandos")
+        overlap_str = f", {overlap_skipped} overlap-skipped" if max_overlap else ""
+        print(f"    {layer_name}: {played_count} played, {skipped_count} dropped out{overlap_str}, {gliss_total} glissandos")
 
     return buffer
 
@@ -5107,7 +5245,7 @@ def render_chain_to_wav(
     include_laken: bool = False,
     include_gentleharpsi: bool = False,
     include_feedback: bool = False,
-    feedback_interval: float = 8.0,
+    feedback_interval: float = 4.0,
     include_synth_bass: bool = True,
     render_midi_synth: bool = True,
     seed: Optional[int] = None,
@@ -5464,7 +5602,7 @@ def render_chain_to_wav(
                     total_duration_ms=total_duration_ms,
                     sample_rate=SAMPLE_RATE,
                     channels=CHANNELS,
-                    gain_db=-12.0,
+                    gain_db=-3.0,
                     verbose=verbose,
                     layer_name="Bass flute"
                 )
@@ -5880,7 +6018,8 @@ def render_chain_to_wav(
                 layer_name="Feedback",
                 skip_to_fitting=True,
                 random_selection=True,
-                seed=seed
+                seed=seed,
+                max_overlap=2
             )
 
             # Mix into master buffer
@@ -6073,7 +6212,7 @@ def main():
     parser.add_argument("--laken", action="store_true", help="Enable Laken layer (16th note clouds, 5s bursts after 7-9s silence, -5dB)")
     parser.add_argument("--gentleharpsi", action="store_true", help="Enable Gentle Harpsichord layer (32nd note clouds, 6s bursts after 10-11s silence)")
     parser.add_argument("--feedback", action="store_true", help="Enable Feedback layer (overlapping, random selection)")
-    parser.add_argument("--feedback-interval", type=float, default=8.0, help="Feedback interval in seconds (default: 8)")
+    parser.add_argument("--feedback-interval", type=float, default=4.0, help="Feedback interval in seconds (default: 4)")
     parser.add_argument("--json-only", action="store_true", help="Output JSON only, skip audio rendering")
     parser.add_argument("--duration", type=float, default=90.0, help="Max output duration in seconds (default: 90s = 1:30)")
     parser.add_argument("--fast-preview", action="store_true", help="Use FAST_PREVIEW mode (applies render switches)")
