@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "concatenator"
+name = "arranger"
 version = "0.1.0"
 description = "Musical concatenation tools and MIDI dataset utilities"
 readme = "README.md"
@@ -48,12 +48,12 @@ all = [
 ]
 
 [project.scripts]
-concatenate-midi = "concatenator.scripts.concatenate_midi:main"
-concatenate-audio = "concatenator.scripts.concatenate_audio:main"
+concatenate-midi = "arranger.scripts.concatenate_midi:main"
+concatenate-audio = "arranger.scripts.concatenate_audio:main"
 
 [project.urls]
-Homepage = "https://github.com/nathanturczan/concatenator"
-Repository = "https://github.com/nathanturczan/concatenator"
+Homepage = "https://github.com/nathanturczan/arranger"
+Repository = "https://github.com/nathanturczan/arranger"
 
 [tool.setuptools.packages.find]
 where = ["src"]

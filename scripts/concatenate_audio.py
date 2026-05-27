@@ -11,20 +11,20 @@ from pathlib import Path
 # Add src to path for development
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from concatenator.audio import (
+from arranger.audio import (
     concatenate_audio,
     organize_samples,
     generate_companion_midi,
     generate_score_report,
 )
-from concatenator.audio.projects import (
+from arranger.audio.projects import (
     list_projects,
     load_project,
     get_scales_dir,
     get_output_dir,
     format_sample_name,
 )
-from concatenator.scales import load_scales_data
+from arranger.scales import load_scales_data
 
 
 def parse_args(argv=None):

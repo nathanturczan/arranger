@@ -9,7 +9,7 @@ from pathlib import Path
 # Add src to path for development
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from concatenator.midi import (
+from arranger.midi import (
     get_filelist,
     load_or_build_analysis,
     build_connections,

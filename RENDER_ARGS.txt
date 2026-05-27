@@ -1,0 +1,32 @@
+# RENDER ARGUMENTS - Single source of truth
+# Use these exact arguments when running chain_quadruple_hierarchy.py
+
+--seed 789
+--organetta
+--feedback
+--brodero
+--harmonicker
+--prophetfalse
+--gentleharpsi
+--no-midi-synth
+--no-glaz-sax
+--no-hyacinthe
+--no-kraus
+--duration 120
+
+# What this gives you:
+# - Feldman 3voices samples (primary chain)
+# - Handel strings mixed into skeleton chain
+# - Bass flute layer (on by default)
+# - Organetta layer (every 4 seconds)
+# - Feedback layer (overlapping, random)
+# - Brodero clouds (sporadic 16th notes)
+# - Harmonicker layer
+# - Prophet False layer
+# - Gentle Harpsichord clouds
+# - MIDI files exported as companions (not rendered to audio)
+# - No progression samples (glaz, hyacinthe, kraus)
+# - 2 minute output (120 seconds)
+
+# To run:
+# python3 scripts/chain_quadruple_hierarchy.py $(cat RENDER_ARGS.txt | grep -v '^#' | tr '\n' ' ')

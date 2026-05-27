@@ -26,56 +26,105 @@ from dataclasses import dataclass, field
 from pydub import AudioSegment
 import pretty_midi
 import numpy as np
-import sys
 
-# Add src to path for arranger package imports
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+# Paths - Feldman 3voices (primary)
+SAMPLES_DIR = Path("/Users/soney/Music/samples/3voices-feldman")
+AUDIO_DIR = SAMPLES_DIR / "samples"
+MANIFEST_PATH = SAMPLES_DIR / "samples_data.json"
+OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
-from arranger.samples.registry import (
-    # Primary sample libraries
-    SAMPLES_DIR, AUDIO_DIR, MANIFEST_PATH,
-    HANDEL_DIR, HANDEL_AUDIO_DIR, HANDEL_MANIFEST_PATH,
-    # Continuous layers
-    BASSFLUTE_DIR, BASSFLUTE_AUDIO_DIR, BASSFLUTE_MANIFEST_PATH,
-    AVERYVIOLIN_DIR, AVERYVIOLIN_AUDIO_DIR, AVERYVIOLIN_MANIFEST_PATH,
-    DICTAMEL_DIR, DICTAMEL_AUDIO_DIR, DICTAMEL_MANIFEST_PATH,
-    TRICHORDS_DIR, TRICHORDS_AUDIO_DIR, TRICHORDS_MANIFEST_PATH,
-    SCELSIPEZZI_DIR, SCELSIPEZZI_AUDIO_DIR, SCELSIPEZZI_MANIFEST_PATH,
-    # Interval layers
-    ORGANETTA_DIR, ORGANETTA_AUDIO_DIR, ORGANETTA_MANIFEST_PATH,
-    FEEDBACK_DIR, FEEDBACK_AUDIO_DIR, FEEDBACK_MANIFEST_PATH,
-    STYLO_DIR, STYLO_AUDIO_DIR, STYLO_MANIFEST_PATH,
-    TREMOLO_OCT_DIR, TREMOLO_OCT_AUDIO_DIR, TREMOLO_OCT_MANIFEST_PATH,
-    # Cloud layers
-    BRODERO_DIR, BRODERO_MANIFEST_PATH,
-    JICELLO_DIR, JICELLO_AUDIO_DIR, JICELLO_MANIFEST_PATH,
-    GOTHICHARP_DIR, GOTHICHARP_AUDIO_DIR, GOTHICHARP_MANIFEST_PATH,
-    GENTLEHARPSI_DIR, GENTLEHARPSI_AUDIO_DIR, GENTLEHARPSI_MANIFEST_PATH,
-    LAKEN_DIR, LAKEN_AUDIO_DIR, LAKEN_MANIFEST_PATH,
-    # Rhythmic layers
-    MINORCHORDBEAT_DIR, MINORCHORDBEAT_AUDIO_DIR, MINORCHORDBEAT_MANIFEST_PATH,
-    MUTEBOWL_DIR, MUTEBOWL_AUDIO_DIR, MUTEBOWL_MANIFEST_PATH,
-    # Chord/quality layers
-    MINORCHORDS_DIR, MINORCHORDS_AUDIO_DIR, MINORCHORDS_MANIFEST_PATH,
-    MAJORCHORDS_DIR, MAJORCHORDS_AUDIO_DIR, MAJORCHORDS_MANIFEST_PATH,
-    # Single-note layers
-    PROPHETFALSE_DIR, PROPHETFALSE_AUDIO_DIR, PROPHETFALSE_MANIFEST_PATH,
-    HARMONICKER_DIR, HARMONICKER_AUDIO_DIR, HARMONICKER_MANIFEST_PATH,
-    # Progression samples
-    GLAZ_SAX_DIR, GLAZ_SAX_AUDIO_DIR, GLAZ_SAX_MANIFEST_PATH,
-    HYACINTHE_DIR, HYACINTHE_AUDIO_DIR, HYACINTHE_MANIFEST_PATH,
-    KRAUS_DIR, KRAUS_AUDIO_DIR, KRAUS_MANIFEST_PATH,
-    # Chord-triggered layers
-    GODETTE_DIR, GODETTE_AUDIO_DIR, GODETTE_MANIFEST_PATH,
-    # Constants
-    MIN_TRANSPOSITION, MAX_TRANSPOSITION,
-    GLISSANDO_MS, GLISSANDO_ANTICIPATION_MS,
-    SAMPLE_NORMALIZE_DB,
-    OUTPUT_DIR, CHORDS_JSON_PATH,
-    NOTE_NAMES,
-)
-from arranger.audio.normalize import apply_gain_db
-from arranger.layers import LayerConfig, LayerType, SelectionMode, render_layer
+# Strings Handel (secondary - can be mixed in)
+HANDEL_DIR = Path("/Users/soney/Music/samples/strings_handel")
+HANDEL_AUDIO_DIR = HANDEL_DIR / "samples"
+HANDEL_MANIFEST_PATH = HANDEL_DIR / "samples_data.json"
+
+# Bass flute one-shots
+BASSFLUTE_DIR = Path("/Users/soney/Music/samples/bassflute")
+BASSFLUTE_AUDIO_DIR = BASSFLUTE_DIR / "samples"
+BASSFLUTE_MANIFEST_PATH = BASSFLUTE_DIR / "samples_data.json"
+
+# Brodero one-shots (rapid fire)
+BRODERO_DIR = Path("/Users/soney/Music/samples/brodero")
+BRODERO_MANIFEST_PATH = BRODERO_DIR / "samples_data.json"
+
+# Jicello expanded (distributed slowly)
+JICELLO_DIR = Path("/Users/soney/Music/samples/jicelloexpanded")
+JICELLO_AUDIO_DIR = JICELLO_DIR / "samples"
+JICELLO_MANIFEST_PATH = JICELLO_DIR / "samples_data.json"
+
+# Organetta one-shots (every 4 seconds, alphanumeric order)
+ORGANETTA_DIR = Path("/Users/soney/Music/samples/organetta")
+ORGANETTA_AUDIO_DIR = ORGANETTA_DIR / "samples"
+ORGANETTA_MANIFEST_PATH = ORGANETTA_DIR / "samples_data.json"
+
+# MinorChordBeat one-shots (eighth notes at 120 BPM = 250ms)
+MINORCHORDBEAT_DIR = Path("/Users/soney/Music/samples/minorchordbeat")
+MINORCHORDBEAT_AUDIO_DIR = MINORCHORDBEAT_DIR / "samples"
+MINORCHORDBEAT_MANIFEST_PATH = MINORCHORDBEAT_DIR / "samples_data.json"
+
+# MuteBowl one-shots (eighth notes at 120 BPM = 250ms)
+MUTEBOWL_DIR = Path("/Users/soney/Music/samples/mutebowl")
+MUTEBOWL_AUDIO_DIR = MUTEBOWL_DIR / "samples"
+MUTEBOWL_MANIFEST_PATH = MUTEBOWL_DIR / "samples_data.json"
+
+# Major/Minor chord samples (quality-aware layer)
+MINORCHORDS_DIR = Path("/Users/soney/Music/samples/minor-chords")
+MINORCHORDS_AUDIO_DIR = MINORCHORDS_DIR / "samples"
+MINORCHORDS_MANIFEST_PATH = MINORCHORDS_DIR / "samples_data.json"
+
+MAJORCHORDS_DIR = Path("/Users/soney/Music/samples/major-chords")
+MAJORCHORDS_AUDIO_DIR = MAJORCHORDS_DIR / "samples"
+MAJORCHORDS_MANIFEST_PATH = MAJORCHORDS_DIR / "samples_data.json"
+
+# Prophet False one-shots (single notes)
+PROPHETFALSE_DIR = Path("/Users/soney/Music/samples/prophet_false")
+PROPHETFALSE_AUDIO_DIR = PROPHETFALSE_DIR / "samples"
+PROPHETFALSE_MANIFEST_PATH = PROPHETFALSE_DIR / "samples_data.json"
+
+# Harmonicker one-shots (harmonica chords/intervals)
+HARMONICKER_DIR = Path("/Users/soney/Music/samples/Harmonicker")
+HARMONICKER_AUDIO_DIR = HARMONICKER_DIR / "samples"
+HARMONICKER_MANIFEST_PATH = HARMONICKER_DIR / "samples_data.json"
+
+# Gothic Harp one-shots (16th note clouds)
+GOTHICHARP_DIR = Path("/Users/soney/Music/samples/gothic_harp")
+GOTHICHARP_AUDIO_DIR = GOTHICHARP_DIR / "samples"
+GOTHICHARP_MANIFEST_PATH = GOTHICHARP_DIR / "samples_data.json"
+
+# Gentle Harpsichord one-shots (32nd note clouds)
+GENTLEHARPSI_DIR = Path("/Users/soney/Music/samples/GentleHarpsichord")
+GENTLEHARPSI_AUDIO_DIR = GENTLEHARPSI_DIR / "samples"
+GENTLEHARPSI_MANIFEST_PATH = GENTLEHARPSI_DIR / "samples_data.json"
+
+# Feedback loops (overlapping, random selection)
+FEEDBACK_DIR = Path("/Users/soney/Music/samples/feedback")
+FEEDBACK_AUDIO_DIR = FEEDBACK_DIR / "samples"
+FEEDBACK_MANIFEST_PATH = FEEDBACK_DIR / "samples_data.json"
+
+# Laken samples (single-note, similar to gothic harp)
+LAKEN_DIR = Path("/Users/soney/Music/samples/laken")
+LAKEN_AUDIO_DIR = LAKEN_DIR / "samples"
+LAKEN_MANIFEST_PATH = LAKEN_DIR / "samples_data.json"
+
+# Progression samples (multi-chord sequences with exact timing)
+# These have chord_sequence with start_time for each chord
+GLAZ_SAX_DIR = Path("/Users/soney/Music/samples/glaz_sax_chorales")
+GLAZ_SAX_AUDIO_DIR = GLAZ_SAX_DIR / "samples"
+GLAZ_SAX_MANIFEST_PATH = GLAZ_SAX_DIR / "samples_data.json"
+
+HYACINTHE_DIR = Path("/Users/soney/Music/samples/hyacinthe")
+HYACINTHE_AUDIO_DIR = HYACINTHE_DIR / "samples"
+HYACINTHE_MANIFEST_PATH = HYACINTHE_DIR / "samples_data.json"
+
+KRAUS_DIR = Path("/Users/soney/Music/samples/KrausChorale")
+KRAUS_AUDIO_DIR = KRAUS_DIR / "samples"
+KRAUS_MANIFEST_PATH = KRAUS_DIR / "samples_data.json"
+
+# Transposition constants (from SNAPS TranspositionUtils)
+MIN_TRANSPOSITION = -9
+MAX_TRANSPOSITION = 5
+GLISSANDO_MS = 200  # 200ms portamento glide duration
+GLISSANDO_ANTICIPATION_MS = 100  # Start glide 100ms earlier than note onset
 
 # =============================================================================
 # RENDER SWITCHES - Toggle layers for fast preview
@@ -100,6 +149,14 @@ ENABLE_SYNTH_BASS = True
 FAST_PREVIEW = False
 
 # =============================================================================
+
+# Normalization target for Feldman/Handel samples
+SAMPLE_NORMALIZE_DB = -5.0  # Peak normalize to -5 dB
+
+# Chord dictionary (local copy - rich chord vocabulary with 30k+ chords)
+CHORDS_JSON_PATH = Path(__file__).parent.parent / "data" / "chords_no_supersets.json"
+
+NOTE_NAMES = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
 
 # Global chord dictionary (loaded once)
 CHORD_DICTIONARY: Dict[str, Dict] = {}
@@ -141,24 +198,6 @@ GENTLEHARPSI_SAMPLES: List[Dict] = []
 # Global Feedback samples (loaded once)
 FEEDBACK_SAMPLES: List[Dict] = []
 
-# Global Stylo samples (loaded once)
-STYLO_SAMPLES: List[Dict] = []
-
-# Global Trichords samples (loaded once)
-TRICHORDS_SAMPLES: List[Dict] = []
-
-# Global Tremolo Oct samples (loaded once)
-TREMOLO_OCT_SAMPLES: List[Dict] = []
-
-# Global Avery Violin samples (loaded once)
-AVERYVIOLIN_SAMPLES: Dict[str, Dict] = {}
-
-# Global Dictamel samples (loaded once)
-DICTAMEL_SAMPLES: Dict[str, Dict] = {}
-
-# Global Scelsi Pezzi samples (loaded once)
-SCELSIPEZZI_SAMPLES: Dict[str, Dict] = {}
-
 # Global Laken samples (loaded once)
 LAKEN_SAMPLES: List[Dict] = []
 
@@ -166,9 +205,6 @@ LAKEN_SAMPLES: List[Dict] = []
 GLAZ_SAX_SAMPLES: List[Dict] = []
 HYACINTHE_SAMPLES: List[Dict] = []
 KRAUS_SAMPLES: List[Dict] = []
-
-# Global chord-triggered samples
-GODETTE_SAMPLES: List[Dict] = []
 
 # =============================================================================
 # AUDIO CACHE - NumPy-based audio storage for fast processing
@@ -182,9 +218,6 @@ def get_cached_audio(audio_path: Path) -> Optional[Dict]:
     Get audio from cache, loading it if not already cached.
     Returns dict with 'samples' (float32 numpy array shape [N, channels]),
     'sample_rate', and 'channels'.
-
-    IMPORTANT: Samples are normalized to [-1.0, 1.0] range for mixing.
-    Handles 8-bit, 16-bit, 24-bit, and 32-bit samples.
     """
     global AUDIO_CACHE
     path_str = str(audio_path)
@@ -200,21 +233,6 @@ def get_cached_audio(audio_path: Path) -> Optional[Dict]:
         raw_samples = audio.get_array_of_samples()
         samples = np.array(raw_samples, dtype=np.float32)
 
-        # Normalize to [-1.0, 1.0] based on actual sample width
-        sample_width = audio.sample_width
-        if sample_width == 1:
-            max_val = 128.0  # 8-bit
-        elif sample_width == 2:
-            max_val = 32768.0  # 16-bit
-        elif sample_width == 3:
-            max_val = 8388608.0  # 24-bit
-        elif sample_width == 4:
-            max_val = 2147483648.0  # 32-bit
-        else:
-            max_val = 32768.0  # fallback to 16-bit
-
-        samples = samples / max_val
-
         channels = audio.channels
         if channels == 2:
             if len(samples) % 2 != 0:
@@ -227,7 +245,7 @@ def get_cached_audio(audio_path: Path) -> Optional[Dict]:
             "samples": samples,
             "sample_rate": audio.frame_rate,
             "channels": channels,
-            "sample_width": sample_width
+            "sample_width": audio.sample_width
         }
         return AUDIO_CACHE[path_str]
     except Exception:
@@ -331,7 +349,7 @@ def mix_into_buffer(buffer: np.ndarray, samples: np.ndarray,
         return
 
     # Convert dB to linear gain
-    gain = apply_gain_db(gain_db)
+    gain = 10 ** (gain_db / 20.0) if gain_db != 0.0 else 1.0
 
     end_sample = start_sample + len(samples)
     if end_sample > len(buffer):
@@ -349,16 +367,15 @@ def mix_into_buffer(buffer: np.ndarray, samples: np.ndarray,
 def buffer_to_audiosegment(buffer: np.ndarray, sample_rate: int) -> AudioSegment:
     """
     Convert float32 numpy buffer to AudioSegment.
-    buffer: shape [N, channels], values in normalized [-1.0, 1.0] range
+    buffer: shape [N, channels], values in [-32768, 32767] range
     """
     channels = buffer.shape[1] if len(buffer.shape) > 1 else 1
 
-    # Clip to [-1.0, 1.0] and convert to int16 scale
-    clipped = np.clip(buffer, -1.0, 1.0)
-    int16_samples = (clipped * 32767.0).astype(np.int16)
+    # Clip and convert to int16
+    clipped = np.clip(buffer, -32768, 32767).astype(np.int16)
 
     # Flatten for pydub (interleaved stereo)
-    flat = int16_samples.flatten()
+    flat = clipped.flatten()
 
     # Ensure even length for stereo
     if channels == 2 and len(flat) % 2 != 0:
@@ -408,183 +425,6 @@ def get_harmonic_event_at(start_times: List[float], events: List['HarmonicEvent'
     return event
 
 
-def render_constant_rate_output_driven(
-    samples: np.ndarray,
-    input_pos: float,
-    output_len: int,
-    rate: float,
-    channels: int
-) -> Tuple[np.ndarray, float]:
-    """
-    Render a constant-rate segment with OUTPUT length as the constraint.
-
-    Args:
-        samples: Source audio [N, channels]
-        input_pos: Current position in input samples
-        output_len: Desired number of OUTPUT samples
-        rate: Playback rate (2^(semitones/12))
-        channels: Number of audio channels
-
-    Returns:
-        (rendered_output, new_input_pos)
-    """
-    num_input = len(samples)
-
-    # Generate output sample indices
-    output_indices = np.arange(output_len)
-
-    # Map to input positions: input_pos advances by 'rate' per output sample
-    input_positions = input_pos + output_indices * rate
-
-    # Find where we exceed input bounds
-    valid_mask = input_positions < num_input - 1
-    valid_len = np.sum(valid_mask)
-
-    if valid_len == 0:
-        return np.zeros((0, channels), dtype=np.float32), input_pos
-
-    input_positions = input_positions[:valid_len]
-
-    # Linear interpolation
-    floor_idx = np.floor(input_positions).astype(int)
-    ceil_idx = np.minimum(floor_idx + 1, num_input - 1)
-    fracs = (input_positions - floor_idx).reshape(-1, 1)
-
-    result = samples[floor_idx] * (1 - fracs) + samples[ceil_idx] * fracs
-
-    # Return new input position
-    new_input_pos = input_pos + valid_len * rate
-
-    return result, new_input_pos
-
-
-def render_glissando_output_driven(
-    samples: np.ndarray,
-    input_pos: float,
-    output_len: int,
-    start_trans: float,
-    end_trans: float,
-    channels: int
-) -> Tuple[np.ndarray, float]:
-    """
-    Render a glissando segment with OUTPUT length as the constraint.
-    Uses quarter-sine easing for smooth pitch transition.
-
-    Args:
-        samples: Source audio [N, channels]
-        input_pos: Current position in input samples
-        output_len: Desired number of OUTPUT samples (fixed by glissando_ms)
-        start_trans: Starting transposition in semitones
-        end_trans: Ending transposition in semitones
-        channels: Number of audio channels
-
-    Returns:
-        (rendered_output, new_input_pos)
-    """
-    num_input = len(samples)
-
-    if output_len <= 0:
-        return np.zeros((0, channels), dtype=np.float32), input_pos
-
-    # Build rate curve with quarter-sine easing over OUTPUT samples
-    progress = np.linspace(0, 1, output_len)
-    eased = np.sin(progress * np.pi / 2)
-    trans_curve = start_trans + (end_trans - start_trans) * eased
-    rate_curve = 2 ** (trans_curve / 12.0)
-
-    # Compute input positions by integrating rate over output samples
-    # input_pos[i+1] = input_pos[i] + rate[i]
-    cumulative_input = np.cumsum(rate_curve)
-    input_positions = input_pos + np.insert(cumulative_input, 0, 0)[:-1]
-
-    # Find where we exceed input bounds
-    valid_mask = input_positions < num_input - 1
-    valid_len = np.sum(valid_mask)
-
-    if valid_len == 0:
-        return np.zeros((0, channels), dtype=np.float32), input_pos
-
-    input_positions = input_positions[:valid_len]
-
-    # Linear interpolation
-    floor_idx = np.floor(input_positions).astype(int)
-    ceil_idx = np.minimum(floor_idx + 1, num_input - 1)
-    fracs = (input_positions - floor_idx).reshape(-1, 1)
-
-    result = samples[floor_idx] * (1 - fracs) + samples[ceil_idx] * fracs
-
-    # Return new input position (sum of all rates consumed)
-    new_input_pos = input_pos + cumulative_input[valid_len - 1] if valid_len > 0 else input_pos
-
-    return result, new_input_pos
-
-
-def apply_varispeed_segment_np(samples: np.ndarray, semitones: float) -> np.ndarray:
-    """Apply constant varispeed to a segment using vectorized NumPy."""
-    if semitones == 0 or len(samples) == 0:
-        return samples.copy()
-
-    rate = 2 ** (semitones / 12.0)
-    original_len = len(samples)
-    new_len = int(original_len / rate)
-
-    if new_len < 1:
-        return samples[:1].copy()
-
-    old_indices = np.linspace(0, original_len - 1, new_len)
-    old_indices_floor = np.floor(old_indices).astype(int)
-    old_indices_ceil = np.minimum(old_indices_floor + 1, original_len - 1)
-    fracs = (old_indices - old_indices_floor).reshape(-1, 1)
-
-    return samples[old_indices_floor] * (1 - fracs) + samples[old_indices_ceil] * fracs
-
-
-def apply_glissando_segment_np(
-    samples: np.ndarray,
-    start_trans: float,
-    end_trans: float,
-    sample_rate: int
-) -> np.ndarray:
-    """
-    Apply glissando (pitch glide) to a segment using vectorized NumPy.
-    Uses quarter-sine easing like the original.
-    """
-    if len(samples) == 0:
-        return samples.copy()
-
-    num_input = len(samples)
-    channels = samples.shape[1] if samples.ndim > 1 else 1
-
-    # Calculate output length based on average rate
-    avg_rate = 2 ** ((start_trans + end_trans) / 2 / 12.0)
-    estimated_output_len = int(num_input / avg_rate) + 100
-
-    # Build rate curve with quarter-sine easing
-    progress = np.linspace(0, 1, estimated_output_len)
-    eased = np.sin(progress * np.pi / 2)
-    trans_curve = start_trans + (end_trans - start_trans) * eased
-    rate_curve = 2 ** (trans_curve / 12.0)
-
-    # Cumulative input position
-    input_positions = np.cumsum(rate_curve)
-    input_positions = np.insert(input_positions, 0, 0)[:-1]
-
-    # Find where we exceed input length
-    valid_mask = input_positions < num_input - 1
-    valid_len = np.sum(valid_mask)
-    if valid_len == 0:
-        return samples[:1].copy()
-
-    input_positions = input_positions[:valid_len]
-
-    # Interpolate
-    floor_idx = np.floor(input_positions).astype(int)
-    ceil_idx = np.minimum(floor_idx + 1, num_input - 1)
-    fracs = (input_positions - floor_idx).reshape(-1, 1)
-
-    return samples[floor_idx] * (1 - fracs) + samples[ceil_idx] * fracs
-
-
 def render_overlay_reactive_np(
     samples: np.ndarray,
     sample_rate: int,
@@ -595,16 +435,12 @@ def render_overlay_reactive_np(
     find_transposition_fn
 ) -> Tuple[np.ndarray, int]:
     """
-    Reactive varispeed with glissando - OUTPUT TIME scheduling.
+    Event-driven reactive varispeed with glissando.
 
-    CRITICAL: All timing is in OUTPUT/render time. Events, glides, and chord
-    changes are scheduled in rendered time. Only input_pos advances at varispeed.
+    OPTIMIZED: Precomputes harmonic event boundaries, only recalculates
+    transposition when crossing an event boundary. No per-sample polling.
 
-    Architecture:
-    1. Build schedule in OUTPUT sample space
-    2. For each output segment: compute input consumption via rate integration
-    3. Render with vectorized NumPy
-
+    samples: float32 array [N, channels]
     Returns (processed_samples, gliss_count)
     """
     if len(samples) == 0:
@@ -612,128 +448,115 @@ def render_overlay_reactive_np(
 
     num_input_samples = len(samples)
     channels = samples.shape[1]
-    glissando_samples = int(GLISSANDO_MS * sample_rate / 1000)  # OUTPUT samples
 
-    # === STEP 1: Find initial transposition ===
+    # Estimate max output length
+    max_output_samples = int(num_input_samples / 0.5) + sample_rate
+
+    output = np.zeros((max_output_samples, channels), dtype=np.float32)
+
+    # === PRECOMPUTE HARMONIC EVENT BOUNDARIES ===
+    # Find initial event
     onset_idx = bisect.bisect_right(harmonic_start_times, start_ms) - 1
     if onset_idx < 0:
         onset_idx = 0
     if onset_idx >= len(harmonic_events):
         onset_idx = len(harmonic_events) - 1
 
-    initial_he = harmonic_events[onset_idx]
-    initial_trans = find_transposition_fn(original_pcs, initial_he.chord_pcs, initial_he.chord_root)
-    if initial_trans is None:
-        initial_trans = 0
+    # Estimate sample duration for event precomputation
+    estimated_end_ms = start_ms + (num_input_samples * 1000.0 / sample_rate) * 2
 
-    # === STEP 2: Build OUTPUT-time schedule ===
-    # Each entry: (output_start_sample, output_end_sample, start_trans, end_trans, is_glide)
-    schedule = []
+    # Build list of (output_sample_idx, event_idx) for events during playback
+    event_boundaries = []  # [(output_sample_idx, harmonic_event)]
+    for i in range(onset_idx, len(harmonic_events)):
+        he = harmonic_events[i]
+        if he.start_ms > estimated_end_ms:
+            break
+        if he.start_ms >= start_ms:
+            output_sample_idx = int((he.start_ms - start_ms) * sample_rate / 1000)
+            event_boundaries.append((output_sample_idx, he))
+
+    # === RENDER WITH EVENT-DRIVEN TRANSPOSITION ===
+    input_pos = 0.0
+    output_idx = 0
     gliss_count = 0
 
-    # Estimate max output duration (will be refined during rendering)
-    avg_rate_estimate = 2 ** (initial_trans / 12.0)
-    max_output_samples = int(num_input_samples / avg_rate_estimate * 1.5)
+    gliss_remaining = 0
+    gliss_start_trans = 0.0
+    gliss_end_trans = 0.0
+    gliss_total_samples = int(GLISSANDO_MS * sample_rate / 1000)
 
-    # Collect harmonic events during playback (in output ms from sample start)
-    events_during = []  # [(output_ms_offset, transposition)]
-    estimated_duration_ms = num_input_samples * 1000.0 / sample_rate / avg_rate_estimate
-    end_time_ms = start_ms + estimated_duration_ms * 1.5
+    # Get initial transposition
+    initial_he = harmonic_events[onset_idx]
+    current_target = find_transposition_fn(original_pcs, initial_he.chord_pcs, initial_he.chord_root)
+    if current_target is None:
+        current_target = 0
+    current_trans = float(current_target)
+    prev_trans = current_target
 
-    for i in range(onset_idx + 1, len(harmonic_events)):
-        he = harmonic_events[i]
-        if he.start_ms > end_time_ms:
-            break
-        if he.start_ms > start_ms:
-            trans = find_transposition_fn(original_pcs, he.chord_pcs, he.chord_root)
-            if trans is None:
-                trans = initial_trans
-            events_during.append((he.start_ms - start_ms, trans))
+    # Track which event boundary we're approaching
+    next_event_ptr = 0
+    # Skip events that are before our start
+    while next_event_ptr < len(event_boundaries) and event_boundaries[next_event_ptr][0] <= 0:
+        next_event_ptr += 1
 
-    # Build schedule in OUTPUT sample space
-    current_trans = float(initial_trans)
-    current_output_sample = 0
+    while input_pos < num_input_samples - 1 and output_idx < max_output_samples:
+        # Check if we've crossed an event boundary (fast integer compare)
+        if next_event_ptr < len(event_boundaries):
+            boundary_idx, boundary_he = event_boundaries[next_event_ptr]
+            if output_idx >= boundary_idx:
+                # Crossed boundary - get new transposition
+                new_trans = find_transposition_fn(original_pcs, boundary_he.chord_pcs, boundary_he.chord_root)
+                if new_trans is None:
+                    # Can't fit - fade out
+                    fade_samples = int(0.1 * sample_rate)
+                    fade_end = min(output_idx + fade_samples, max_output_samples)
+                    for fi in range(output_idx, fade_end):
+                        fade_gain = 1.0 - (fi - output_idx) / fade_samples
+                        int_pos = int(input_pos)
+                        frac = input_pos - int_pos
+                        if int_pos + 1 < num_input_samples:
+                            output[fi] = (samples[int_pos] * (1 - frac) + samples[int_pos + 1] * frac) * fade_gain
+                        elif int_pos < num_input_samples:
+                            output[fi] = samples[int_pos] * fade_gain
+                        input_pos += 1.0
+                    output_idx = fade_end
+                    break
 
-    for event_ms_offset, next_trans in events_during:
-        event_output_sample = int(event_ms_offset * sample_rate / 1000)
+                current_target = new_trans
+                if prev_trans != current_target and gliss_remaining == 0:
+                    gliss_count += 1
+                    gliss_remaining = gliss_total_samples
+                    gliss_start_trans = current_trans
+                    gliss_end_trans = float(current_target)
+                next_event_ptr += 1
 
-        if event_output_sample <= current_output_sample:
-            current_trans = float(next_trans)
-            continue
-
-        # Constant-rate segment up to event
-        schedule.append((
-            current_output_sample,
-            event_output_sample,
-            current_trans,
-            current_trans,
-            False
-        ))
-
-        # Glissando segment (fixed duration in OUTPUT time)
-        if next_trans != current_trans:
-            gliss_count += 1
-            gliss_end = event_output_sample + glissando_samples
-            schedule.append((
-                event_output_sample,
-                gliss_end,
-                current_trans,
-                float(next_trans),
-                True
-            ))
-            current_output_sample = gliss_end
+        # Update transposition (glide if needed)
+        if gliss_remaining > 0:
+            progress = 1.0 - (gliss_remaining / gliss_total_samples)
+            eased = np.sin(progress * np.pi / 2)
+            current_trans = gliss_start_trans + (gliss_end_trans - gliss_start_trans) * eased
+            gliss_remaining -= 1
         else:
-            current_output_sample = event_output_sample
+            current_trans = float(current_target)
 
-        current_trans = float(next_trans)
+        rate = 2 ** (current_trans / 12.0)
 
-    # Final segment - will be trimmed when input runs out
-    schedule.append((
-        current_output_sample,
-        max_output_samples,
-        current_trans,
-        current_trans,
-        False
-    ))
+        # Interpolate sample
+        int_pos = int(input_pos)
+        frac = input_pos - int_pos
 
-    # === STEP 3: Render each segment ===
-    # Track input position across segments
-    output_segments = []
-    input_pos = 0.0
-
-    for out_start, out_end, start_trans, end_trans, is_glide in schedule:
-        if input_pos >= num_input_samples:
-            break
-
-        out_len = out_end - out_start
-        if out_len <= 0:
-            continue
-
-        if is_glide:
-            # Glissando: varying rate over output samples
-            rendered, new_input_pos = render_glissando_output_driven(
-                samples, input_pos, out_len, start_trans, end_trans, channels
-            )
+        if int_pos + 1 < num_input_samples:
+            output[output_idx] = samples[int_pos] * (1 - frac) + samples[int_pos + 1] * frac
+        elif int_pos < num_input_samples:
+            output[output_idx] = samples[int_pos]
         else:
-            # Constant rate
-            rate = 2 ** (start_trans / 12.0)
-            rendered, new_input_pos = render_constant_rate_output_driven(
-                samples, input_pos, out_len, rate, channels
-            )
-
-        if len(rendered) > 0:
-            output_segments.append(rendered)
-
-        input_pos = new_input_pos
-        if input_pos >= num_input_samples:
             break
 
-    # === STEP 4: Concatenate ===
-    if not output_segments:
-        return np.zeros((0, channels), dtype=np.float32), gliss_count
+        input_pos += rate
+        output_idx += 1
+        prev_trans = current_target
 
-    result = np.concatenate(output_segments, axis=0)
-    return result, gliss_count
+    return output[:output_idx], gliss_count
 
 
 def render_sample_reactive_np(
@@ -912,7 +735,7 @@ def render_layer_event_driven_np(
         usable_len = end_sample - current_output_sample
 
         if usable_len > 0:
-            gain = apply_gain_db(gain_db)
+            gain = 10 ** (gain_db / 20.0) if gain_db != 0.0 else 1.0
             # Handle channel mismatch
             if result.ndim == 1:
                 result = result.reshape(-1, 1)
@@ -1017,7 +840,7 @@ def render_layer_onset_transposed_np(
         usable_len = end_sample - current_sample
 
         if usable_len > 0:
-            gain = apply_gain_db(gain_db)
+            gain = 10 ** (gain_db / 20.0) if gain_db != 0.0 else 1.0
             # Handle channel mismatch
             if samples.shape[1] != channels:
                 if channels == 2 and samples.shape[1] == 1:
@@ -1091,7 +914,7 @@ def render_layer_continuous_np(
         usable_len = end_sample - current_sample
 
         if usable_len > 0:
-            gain = apply_gain_db(gain_db)
+            gain = 10 ** (gain_db / 20.0) if gain_db != 0.0 else 1.0
             # Handle channel mismatch
             if result.shape[1] != channels:
                 if channels == 2 and result.shape[1] == 1:
@@ -1105,416 +928,6 @@ def render_layer_continuous_np(
 
     if verbose:
         print(f"    {layer_name}: {played_count} samples played continuously")
-
-    return buffer
-
-
-def render_layer_interval_np(
-    sample_list: List[Dict],
-    harmonic_start_times: List[float],
-    harmonic_events: List['HarmonicEvent'],
-    find_transposition_fn,
-    total_duration_ms: float,
-    interval_seconds: float = 4.0,
-    sample_rate: int = 44100,
-    channels: int = 2,
-    gain_db: float = 0.0,
-    verbose: bool = False,
-    layer_name: str = "Layer",
-    skip_to_fitting: bool = True,
-    random_selection: bool = False,
-    seed: Optional[int] = None,
-    max_overlap: Optional[int] = None
-) -> np.ndarray:
-    """
-    Render an interval-based layer (like Organetta) using NumPy.
-    Samples fire at fixed intervals. Uses event-driven reactive transposition.
-
-    skip_to_fitting: If True, skips to next fitting sample when current can't fit.
-    random_selection: If True, selects samples randomly instead of sequentially.
-    seed: Random seed for reproducible random selection.
-    max_overlap: Maximum number of samples that can play simultaneously.
-                 If None, no limit. Skips firing if limit would be exceeded.
-
-    Returns float32 buffer [total_samples, channels]
-    """
-    if random_selection and seed is not None:
-        random.seed(seed + 777)  # Offset for variety
-
-    total_samples = int(total_duration_ms * sample_rate / 1000)
-    buffer = np.zeros((total_samples, channels), dtype=np.float32)
-
-    if not sample_list:
-        return buffer
-
-    interval_ms = interval_seconds * 1000.0
-    num_fires = int(total_duration_ms / interval_ms)
-
-    if verbose:
-        mode_str = "random" if random_selection else "sequential"
-        overlap_str = f", max {max_overlap} overlap" if max_overlap else ""
-        print(f"    {layer_name}: {len(sample_list)} samples, every {interval_seconds}s, {num_fires} total slots ({mode_str}{overlap_str})")
-        if skip_to_fitting:
-            print(f"    (Reactive transposition + skip-to-fitting-sample enabled)")
-
-    played_count = 0
-    skipped_count = 0
-    overlap_skipped = 0
-    gliss_total = 0
-    next_sample_idx = 0
-    num_samples = len(sample_list)
-
-    # Track end times of currently playing samples for max_overlap
-    active_end_samples: List[int] = []
-
-    for i in range(num_fires):
-        start_ms = i * interval_ms
-        start_sample = int(start_ms * sample_rate / 1000)
-
-        if start_sample >= total_samples:
-            break
-
-        # Check overlap limit if set
-        if max_overlap is not None:
-            # Remove samples that have finished
-            active_end_samples = [end for end in active_end_samples if end > start_sample]
-            if len(active_end_samples) >= max_overlap:
-                overlap_skipped += 1
-                continue
-
-        # Get current harmonic state
-        he = get_harmonic_event_at(harmonic_start_times, harmonic_events, start_ms)
-        if he is None:
-            skipped_count += 1
-            continue
-
-        # Find a sample that fits (if skip_to_fitting)
-        found_sample = None
-        if random_selection:
-            # Random selection - pick randomly, try to find one that fits
-            if skip_to_fitting:
-                shuffled_indices = list(range(num_samples))
-                random.shuffle(shuffled_indices)
-                for idx in shuffled_indices:
-                    sample_data = sample_list[idx]
-                    sample_pcs = sample_data.get("pitch_classes", set())
-                    trans = find_transposition_fn(sample_pcs, he.chord_pcs, he.chord_root)
-                    if trans is not None:
-                        found_sample = sample_data
-                        break
-            else:
-                found_sample = random.choice(sample_list)
-        elif skip_to_fitting:
-            for attempt in range(num_samples):
-                idx = (next_sample_idx + attempt) % num_samples
-                sample_data = sample_list[idx]
-                sample_pcs = sample_data.get("pitch_classes", set())
-                trans = find_transposition_fn(sample_pcs, he.chord_pcs, he.chord_root)
-                if trans is not None:
-                    found_sample = sample_data
-                    next_sample_idx = (idx + 1) % num_samples
-                    break
-        else:
-            found_sample = sample_list[next_sample_idx % num_samples]
-            next_sample_idx = (next_sample_idx + 1) % num_samples
-
-        if found_sample is None:
-            skipped_count += 1
-            continue
-
-        audio_path = found_sample.get("audio_path")
-        sample_pcs = found_sample.get("pitch_classes", set())
-
-        if audio_path is None:
-            skipped_count += 1
-            continue
-
-        result, _, gliss_count = render_sample_reactive_np(
-            audio_path, sample_pcs, start_ms,
-            harmonic_start_times, harmonic_events, find_transposition_fn
-        )
-
-        if len(result) == 0:
-            skipped_count += 1
-            continue
-
-        played_count += 1
-        gliss_total += gliss_count
-
-        # Overlay into buffer at start position
-        end_sample = min(start_sample + len(result), total_samples)
-        usable_len = end_sample - start_sample
-
-        if usable_len > 0:
-            gain = apply_gain_db(gain_db)
-            # Handle channel mismatch
-            if result.shape[1] != channels:
-                if channels == 2 and result.shape[1] == 1:
-                    result = np.tile(result, (1, 2))
-                elif channels == 1 and result.shape[1] == 2:
-                    result = result.mean(axis=1, keepdims=True)
-            buffer[start_sample:end_sample] += result[:usable_len] * gain
-
-            # Track this sample's end time for overlap limiting
-            if max_overlap is not None:
-                active_end_samples.append(start_sample + len(result))
-
-    if verbose:
-        overlap_str = f", {overlap_skipped} overlap-skipped" if max_overlap else ""
-        print(f"    {layer_name}: {played_count} played, {skipped_count} dropped out{overlap_str}, {gliss_total} glissandos")
-
-    return buffer
-
-
-def render_layer_cloud_np(
-    sample_list: List[Dict],
-    harmonic_start_times: List[float],
-    harmonic_events: List['HarmonicEvent'],
-    find_transposition_fn,
-    total_duration_ms: float,
-    min_silence_seconds: float = 10.0,
-    max_silence_seconds: float = 15.0,
-    cloud_duration_seconds: float = 4.0,
-    bpm: float = 120.0,
-    note_division: int = 16,
-    sample_rate: int = 44100,
-    channels: int = 2,
-    gain_db: float = 0.0,
-    verbose: bool = False,
-    layer_name: str = "Cloud",
-    random_selection: bool = False,
-    seed: Optional[int] = None,
-) -> np.ndarray:
-    """
-    Render a cloud-based layer (like Brodero, GothicHarp) using NumPy.
-    Sporadic bursts of rapid notes with random silence between.
-
-    The pattern is:
-    1. Start with random silence (min_silence to max_silence seconds)
-    2. Play a cloud of rapid notes for cloud_duration_seconds
-    3. Random silence
-    4. Repeat until end
-
-    Returns float32 buffer [total_samples, channels]
-    """
-    if seed is not None:
-        random.seed(seed + 888)  # Different seed offset for variety
-
-    total_samples = int(total_duration_ms * sample_rate / 1000)
-    buffer = np.zeros((total_samples, channels), dtype=np.float32)
-
-    if not sample_list:
-        return buffer
-
-    # Calculate note interval based on BPM and division
-    beat_ms = 60000.0 / bpm  # Quarter note in ms
-    note_ms = beat_ms / (note_division / 4)  # e.g., 16th note = beat/4
-
-    # Notes per cloud
-    cloud_duration_ms = cloud_duration_seconds * 1000.0
-    notes_per_cloud = int(cloud_duration_ms / note_ms)
-
-    num_samples = len(sample_list)
-
-    if verbose:
-        note_name = {4: "quarter", 8: "8th", 16: "16th", 32: "32nd"}.get(note_division, f"1/{note_division}")
-        print(f"    {layer_name}: {num_samples} samples")
-        print(f"    Clouds: ~{notes_per_cloud} {note_name} notes ({cloud_duration_seconds}s) after {min_silence_seconds}-{max_silence_seconds}s silence")
-        print(f"    ({note_name} note = {note_ms:.0f}ms at {bpm} BPM)")
-
-    gliss_total = 0
-    total_notes = 0
-    num_clouds = 0
-    next_sample_idx = 0
-
-    # Start with random silence
-    current_ms = random.uniform(min_silence_seconds, max_silence_seconds) * 1000.0
-
-    while current_ms < total_duration_ms:
-        cloud_start_ms = current_ms
-        num_clouds += 1
-
-        # Render notes in this cloud
-        for note_idx in range(notes_per_cloud):
-            note_start_ms = cloud_start_ms + (note_idx * note_ms)
-
-            if note_start_ms >= total_duration_ms:
-                break
-
-            start_sample = int(note_start_ms * sample_rate / 1000)
-            if start_sample >= total_samples:
-                break
-
-            # Get current harmonic state
-            he = get_harmonic_event_at(harmonic_start_times, harmonic_events, note_start_ms)
-            if he is None:
-                continue
-
-            # Select sample
-            if random_selection:
-                sample_data = random.choice(sample_list)
-            else:
-                sample_data = sample_list[next_sample_idx % num_samples]
-                next_sample_idx += 1
-
-            audio_path = sample_data.get("audio_path")
-            sample_pcs = sample_data.get("pitch_classes", set())
-
-            if audio_path is None:
-                continue
-
-            result, _, gliss_count = render_sample_reactive_np(
-                audio_path, sample_pcs, note_start_ms,
-                harmonic_start_times, harmonic_events, find_transposition_fn
-            )
-
-            if len(result) == 0:
-                continue
-
-            total_notes += 1
-            gliss_total += gliss_count
-
-            # Overlay into buffer
-            end_sample = min(start_sample + len(result), total_samples)
-            usable_len = end_sample - start_sample
-
-            if usable_len > 0:
-                gain = apply_gain_db(gain_db)
-                # Handle channel mismatch
-                if result.shape[1] != channels:
-                    if channels == 2 and result.shape[1] == 1:
-                        result = np.tile(result, (1, 2))
-                    elif channels == 1 and result.shape[1] == 2:
-                        result = result.mean(axis=1, keepdims=True)
-                buffer[start_sample:end_sample] += result[:usable_len] * gain
-
-        # Move past cloud, add random silence before next
-        current_ms = cloud_start_ms + cloud_duration_ms
-        current_ms += random.uniform(min_silence_seconds, max_silence_seconds) * 1000.0
-
-    if verbose:
-        print(f"    {layer_name}: {num_clouds} clouds, {total_notes} total notes, {gliss_total} glissandos")
-
-    return buffer
-
-
-def render_layer_chord_triggered_np(
-    sample_list: List[Dict],
-    harmonic_start_times: List[float],
-    harmonic_events: List['HarmonicEvent'],
-    find_transposition_fn,
-    total_duration_ms: float,
-    sample_rate: int = 44100,
-    channels: int = 2,
-    gain_db: float = 0.0,
-    verbose: bool = False,
-    layer_name: str = "Layer",
-    seed: Optional[int] = None,
-) -> np.ndarray:
-    """
-    Render a chord-triggered layer (like Godette) using NumPy.
-
-    Behavior:
-    - Fires at the beginning of each new chord event
-    - Only one sample can play at a time (no overlap)
-    - Only plays if a fitting sample exists for the current chord
-    - Cycles through samples sequentially when fitting samples are found
-
-    Returns float32 buffer [total_samples, channels]
-    """
-    total_samples = int(total_duration_ms * sample_rate / 1000)
-    buffer = np.zeros((total_samples, channels), dtype=np.float32)
-
-    if not sample_list:
-        return buffer
-
-    if not harmonic_events:
-        return buffer
-
-    if verbose:
-        print(f"    {layer_name}: {len(sample_list)} samples, {len(harmonic_events)} chord events")
-        print(f"    (Chord-triggered: fires on chord changes if fitting sample exists)")
-
-    played_count = 0
-    skipped_count = 0
-    gliss_total = 0
-    next_sample_idx = 0
-    num_samples = len(sample_list)
-
-    # Track when current sample ends (for no-overlap rule)
-    current_end_sample = 0
-
-    for i, he in enumerate(harmonic_events):
-        # Get start time from harmonic_start_times
-        if i >= len(harmonic_start_times):
-            break
-
-        start_ms = harmonic_start_times[i]
-        start_sample = int(start_ms * sample_rate / 1000)
-
-        if start_sample >= total_samples:
-            break
-
-        # Check no-overlap rule: skip if previous sample is still playing
-        if start_sample < current_end_sample:
-            skipped_count += 1
-            continue
-
-        # Find a sample that fits the current chord
-        found_sample = None
-        for attempt in range(num_samples):
-            idx = (next_sample_idx + attempt) % num_samples
-            sample_data = sample_list[idx]
-            sample_pcs = sample_data.get("pitch_classes", set())
-            trans = find_transposition_fn(sample_pcs, he.chord_pcs, he.chord_root)
-            if trans is not None:
-                found_sample = sample_data
-                next_sample_idx = (idx + 1) % num_samples
-                break
-
-        if found_sample is None:
-            # No fitting sample found for this chord - skip silently
-            skipped_count += 1
-            continue
-
-        audio_path = found_sample.get("audio_path")
-        sample_pcs = found_sample.get("pitch_classes", set())
-
-        if audio_path is None:
-            skipped_count += 1
-            continue
-
-        result, _, gliss_count = render_sample_reactive_np(
-            audio_path, sample_pcs, start_ms,
-            harmonic_start_times, harmonic_events, find_transposition_fn
-        )
-
-        if len(result) == 0:
-            skipped_count += 1
-            continue
-
-        played_count += 1
-        gliss_total += gliss_count
-
-        # Overlay into buffer at start position
-        end_sample = min(start_sample + len(result), total_samples)
-        usable_len = end_sample - start_sample
-
-        if usable_len > 0:
-            gain = apply_gain_db(gain_db)
-            # Handle channel mismatch
-            if result.shape[1] != channels:
-                if channels == 2 and result.shape[1] == 1:
-                    result = np.tile(result, (1, 2))
-                elif channels == 1 and result.shape[1] == 2:
-                    result = result.mean(axis=1, keepdims=True)
-            buffer[start_sample:end_sample] += result[:usable_len] * gain
-
-            # Update end time for no-overlap tracking
-            current_end_sample = end_sample
-
-    if verbose:
-        print(f"    {layer_name}: {played_count} played, {skipped_count} skipped (no fit or overlap), {gliss_total} glissandos")
 
     return buffer
 
@@ -1606,55 +1019,6 @@ def load_bassflute_samples() -> Dict[str, Dict]:
                 }
 
     return BASSFLUTE_SAMPLES
-
-
-def load_scelsipezzi_samples() -> Dict[str, Dict]:
-    """Load Scelsi Pezzi samples metadata - sustaining single-pitch phrases."""
-    global SCELSIPEZZI_SAMPLES
-    if SCELSIPEZZI_SAMPLES:
-        return SCELSIPEZZI_SAMPLES
-
-    if not SCELSIPEZZI_MANIFEST_PATH.exists():
-        print(f"Warning: Scelsi Pezzi manifest not found at {SCELSIPEZZI_MANIFEST_PATH}")
-        return {}
-
-    with open(SCELSIPEZZI_MANIFEST_PATH) as f:
-        raw_data = json.load(f)
-
-    # Note name to pitch class mapping
-    note_to_pc = {
-        'c': 0, 'cs': 1, 'df': 1, 'd': 2, 'ds': 3, 'ef': 3, 'e': 4,
-        'f': 5, 'fs': 6, 'gf': 6, 'g': 7, 'gs': 8, 'af': 8, 'a': 9,
-        'as': 10, 'bf': 10, 'b': 11
-    }
-
-    for sample_name, sample_data in raw_data.items():
-        if sample_name.startswith("_"):
-            continue
-
-        note_names = sample_data.get("note_names", [])
-        pitch_classes = []
-        for note in note_names:
-            note_lower = note.lower()
-            if note_lower in note_to_pc:
-                pitch_classes.append(note_to_pc[note_lower])
-
-        if pitch_classes:
-            audio_path = SCELSIPEZZI_AUDIO_DIR / f"{sample_name}.wav"
-            if audio_path.exists():
-                try:
-                    audio = AudioSegment.from_file(audio_path)
-                    duration_ms = len(audio)
-                except Exception:
-                    duration_ms = 15000  # Default 15 seconds if can't read
-                SCELSIPEZZI_SAMPLES[sample_name] = {
-                    "pitch_classes": set(pitch_classes),
-                    "note_names": note_names,
-                    "audio_path": audio_path,
-                    "duration_ms": duration_ms,
-                }
-
-    return SCELSIPEZZI_SAMPLES
 
 
 def load_brodero_samples() -> List[Dict]:
@@ -2098,246 +1462,6 @@ def load_feedback_samples() -> List[Dict]:
     return FEEDBACK_SAMPLES
 
 
-def load_stylo_samples() -> List[Dict]:
-    """
-    Load Stylo samples metadata.
-    Similar to Organetta but plays twice as fast (every 2 seconds).
-    """
-    global STYLO_SAMPLES
-    if STYLO_SAMPLES:
-        return STYLO_SAMPLES
-
-    if not STYLO_MANIFEST_PATH.exists():
-        print(f"Warning: Stylo manifest not found at {STYLO_MANIFEST_PATH}")
-        return []
-
-    with open(STYLO_MANIFEST_PATH) as f:
-        raw_data = json.load(f)
-
-    note_to_pc = {
-        'c': 0, 'cs': 1, 'df': 1, 'd': 2, 'ds': 3, 'ef': 3, 'e': 4,
-        'f': 5, 'fs': 6, 'gf': 6, 'g': 7, 'gs': 8, 'af': 8, 'a': 9,
-        'as': 10, 'bf': 10, 'b': 11
-    }
-
-    samples_list = []
-    for sample_name, sample_data in raw_data.items():
-        if sample_name.startswith("_"):
-            continue
-
-        note_names = sample_data.get("note_names", [])
-        pitch_classes = []
-        for note in note_names:
-            note_lower = note.lower()
-            if note_lower in note_to_pc:
-                pitch_classes.append(note_to_pc[note_lower])
-
-        if pitch_classes:
-            audio_path = STYLO_AUDIO_DIR / f"{sample_name}.wav"
-            if audio_path.exists():
-                samples_list.append({
-                    "name": sample_name,
-                    "pitch_classes": set(pitch_classes),
-                    "note_names": note_names,
-                    "audio_path": audio_path,
-                })
-
-    STYLO_SAMPLES = sorted(samples_list, key=lambda x: x["name"])
-    return STYLO_SAMPLES
-
-
-def load_trichords_samples() -> List[Dict]:
-    """
-    Load Trichords samples metadata.
-    Continuous layer like bass flute - plays samples back-to-back.
-    """
-    global TRICHORDS_SAMPLES
-    if TRICHORDS_SAMPLES:
-        return TRICHORDS_SAMPLES
-
-    if not TRICHORDS_MANIFEST_PATH.exists():
-        print(f"Warning: Trichords manifest not found at {TRICHORDS_MANIFEST_PATH}")
-        return []
-
-    with open(TRICHORDS_MANIFEST_PATH) as f:
-        raw_data = json.load(f)
-
-    note_to_pc = {
-        'c': 0, 'cs': 1, 'df': 1, 'd': 2, 'ds': 3, 'ef': 3, 'e': 4,
-        'f': 5, 'fs': 6, 'gf': 6, 'g': 7, 'gs': 8, 'af': 8, 'a': 9,
-        'as': 10, 'bf': 10, 'b': 11
-    }
-
-    samples_list = []
-    for sample_name, sample_data in raw_data.items():
-        if sample_name.startswith("_"):
-            continue
-
-        note_names = sample_data.get("note_names", [])
-        pitch_classes = []
-        for note in note_names:
-            note_lower = note.lower()
-            if note_lower in note_to_pc:
-                pitch_classes.append(note_to_pc[note_lower])
-
-        if pitch_classes:
-            audio_path = TRICHORDS_AUDIO_DIR / f"{sample_name}.wav"
-            if audio_path.exists():
-                samples_list.append({
-                    "name": sample_name,
-                    "pitch_classes": set(pitch_classes),
-                    "note_names": note_names,
-                    "audio_path": audio_path,
-                })
-
-    TRICHORDS_SAMPLES = sorted(samples_list, key=lambda x: x["name"])
-    return TRICHORDS_SAMPLES
-
-
-def load_tremolo_oct_samples() -> List[Dict]:
-    """
-    Load Tremolo Oct samples metadata.
-    Interval layer like organetta - plays at fixed intervals.
-    """
-    global TREMOLO_OCT_SAMPLES
-    if TREMOLO_OCT_SAMPLES:
-        return TREMOLO_OCT_SAMPLES
-
-    if not TREMOLO_OCT_MANIFEST_PATH.exists():
-        print(f"Warning: Tremolo Oct manifest not found at {TREMOLO_OCT_MANIFEST_PATH}")
-        return []
-
-    with open(TREMOLO_OCT_MANIFEST_PATH) as f:
-        raw_data = json.load(f)
-
-    note_to_pc = {
-        'c': 0, 'cs': 1, 'df': 1, 'd': 2, 'ds': 3, 'ef': 3, 'e': 4,
-        'f': 5, 'fs': 6, 'gf': 6, 'g': 7, 'gs': 8, 'af': 8, 'a': 9,
-        'as': 10, 'bf': 10, 'b': 11
-    }
-
-    samples_list = []
-    for sample_name, sample_data in raw_data.items():
-        if sample_name.startswith("_"):
-            continue
-
-        note_names = sample_data.get("note_names", [])
-        pitch_classes = []
-        for note in note_names:
-            note_lower = note.lower()
-            if note_lower in note_to_pc:
-                pitch_classes.append(note_to_pc[note_lower])
-
-        if pitch_classes:
-            audio_path = TREMOLO_OCT_AUDIO_DIR / f"{sample_name}.wav"
-            if audio_path.exists():
-                samples_list.append({
-                    "name": sample_name,
-                    "pitch_classes": set(pitch_classes),
-                    "note_names": note_names,
-                    "audio_path": audio_path,
-                })
-
-    TREMOLO_OCT_SAMPLES = sorted(samples_list, key=lambda x: x["name"])
-    return TREMOLO_OCT_SAMPLES
-
-
-def load_averyviolin_samples() -> Dict[str, Dict]:
-    """Load Avery Violin Phrase samples metadata (continuous, like bass flute)."""
-    global AVERYVIOLIN_SAMPLES
-    if AVERYVIOLIN_SAMPLES:
-        return AVERYVIOLIN_SAMPLES
-
-    if not AVERYVIOLIN_MANIFEST_PATH.exists():
-        print(f"Warning: Avery Violin manifest not found at {AVERYVIOLIN_MANIFEST_PATH}")
-        return {}
-
-    with open(AVERYVIOLIN_MANIFEST_PATH) as f:
-        raw_data = json.load(f)
-
-    note_to_pc = {
-        'c': 0, 'cs': 1, 'df': 1, 'd': 2, 'ds': 3, 'ef': 3, 'e': 4,
-        'f': 5, 'fs': 6, 'gf': 6, 'g': 7, 'gs': 8, 'af': 8, 'a': 9,
-        'as': 10, 'bf': 10, 'b': 11
-    }
-
-    for sample_name, sample_data in raw_data.items():
-        if sample_name.startswith("_"):
-            continue
-
-        note_names = sample_data.get("note_names", [])
-        pitch_classes = []
-        for note in note_names:
-            note_lower = note.lower()
-            if note_lower in note_to_pc:
-                pitch_classes.append(note_to_pc[note_lower])
-
-        if pitch_classes:
-            audio_path = AVERYVIOLIN_AUDIO_DIR / f"{sample_name}.wav"
-            if audio_path.exists():
-                try:
-                    audio = AudioSegment.from_file(audio_path)
-                    duration_ms = len(audio)
-                except Exception:
-                    duration_ms = 20000
-                AVERYVIOLIN_SAMPLES[sample_name] = {
-                    "pitch_classes": set(pitch_classes),
-                    "note_names": note_names,
-                    "audio_path": audio_path,
-                    "duration_ms": duration_ms,
-                }
-
-    return AVERYVIOLIN_SAMPLES
-
-
-def load_dictamel_samples() -> Dict[str, Dict]:
-    """Load Dictamel samples metadata (continuous, like bass flute)."""
-    global DICTAMEL_SAMPLES
-    if DICTAMEL_SAMPLES:
-        return DICTAMEL_SAMPLES
-
-    if not DICTAMEL_MANIFEST_PATH.exists():
-        print(f"Warning: Dictamel manifest not found at {DICTAMEL_MANIFEST_PATH}")
-        return {}
-
-    with open(DICTAMEL_MANIFEST_PATH) as f:
-        raw_data = json.load(f)
-
-    note_to_pc = {
-        'c': 0, 'cs': 1, 'df': 1, 'd': 2, 'ds': 3, 'ef': 3, 'e': 4,
-        'f': 5, 'fs': 6, 'gf': 6, 'g': 7, 'gs': 8, 'af': 8, 'a': 9,
-        'as': 10, 'bf': 10, 'b': 11
-    }
-
-    for sample_name, sample_data in raw_data.items():
-        if sample_name.startswith("_"):
-            continue
-
-        note_names = sample_data.get("note_names", [])
-        pitch_classes = []
-        for note in note_names:
-            note_lower = note.lower()
-            if note_lower in note_to_pc:
-                pitch_classes.append(note_to_pc[note_lower])
-
-        if pitch_classes:
-            audio_path = DICTAMEL_AUDIO_DIR / f"{sample_name}.wav"
-            if audio_path.exists():
-                try:
-                    audio = AudioSegment.from_file(audio_path)
-                    duration_ms = len(audio)
-                except Exception:
-                    duration_ms = 20000
-                DICTAMEL_SAMPLES[sample_name] = {
-                    "pitch_classes": set(pitch_classes),
-                    "note_names": note_names,
-                    "audio_path": audio_path,
-                    "duration_ms": duration_ms,
-                }
-
-    return DICTAMEL_SAMPLES
-
-
 def load_laken_samples() -> List[Dict]:
     """
     Load Laken samples metadata.
@@ -2602,56 +1726,6 @@ def load_kraus_samples() -> List[Dict]:
         KRAUS_MANIFEST_PATH, KRAUS_AUDIO_DIR,
         KRAUS_SAMPLES, "KrausChorale"
     )
-
-
-def load_godette_samples() -> List[Dict]:
-    """
-    Load Godette samples metadata.
-    Chord-triggered layer: plays on chord changes if a fitting sample exists.
-    Only one sample can play at a time.
-    """
-    global GODETTE_SAMPLES
-    if GODETTE_SAMPLES:
-        return GODETTE_SAMPLES
-
-    if not GODETTE_MANIFEST_PATH.exists():
-        print(f"Warning: Godette manifest not found at {GODETTE_MANIFEST_PATH}")
-        return []
-
-    with open(GODETTE_MANIFEST_PATH) as f:
-        raw_data = json.load(f)
-
-    note_to_pc = {
-        'c': 0, 'cs': 1, 'df': 1, 'd': 2, 'ds': 3, 'ef': 3, 'e': 4,
-        'f': 5, 'fs': 6, 'gf': 6, 'g': 7, 'gs': 8, 'af': 8, 'a': 9,
-        'as': 10, 'bf': 10, 'b': 11
-    }
-
-    samples_list = []
-    for sample_name, sample_data in raw_data.items():
-        if sample_name.startswith("_"):
-            continue
-
-        note_names = sample_data.get("note_names", [])
-        pitch_classes = []
-        for note in note_names:
-            note_lower = note.lower()
-            if note_lower in note_to_pc:
-                pitch_classes.append(note_to_pc[note_lower])
-
-        if pitch_classes:
-            audio_path = GODETTE_AUDIO_DIR / f"{sample_name}.wav"
-            if audio_path.exists():
-                samples_list.append({
-                    "name": sample_name,
-                    "pitch_classes": set(pitch_classes),
-                    "note_names": note_names,
-                    "audio_path": audio_path,
-                })
-
-    GODETTE_SAMPLES = sorted(samples_list, key=lambda x: x["name"])
-    print(f"  Loaded {len(GODETTE_SAMPLES)} Godette samples")
-    return GODETTE_SAMPLES
 
 
 def get_chord_quality(chord_name: str) -> str:
@@ -3012,27 +2086,22 @@ def score_chord_quality(chord_name: str, chord_type: str) -> float:
     """
     Score a chord based on quality. Lower score = more preferred.
 
-    Preferences (strongly weighted toward major/minor):
+    Preferences:
     - Major and minor chords: best (score 0)
-    - Dominant 7ths, sus chords: okay (score 5)
-    - Augmented: not great (score 8)
-    - Diminished and half-diminished: worst (score 10)
+    - Dominant 7ths, sus chords: good (score 1)
+    - Diminished and half-diminished: worst (score 3)
     """
     name_lower = chord_name.lower()
     type_lower = chord_type.lower() if chord_type else ""
 
     # Check for diminished FIRST (worst) - before minor check
     if 'dim' in name_lower or 'dim' in type_lower or '°' in chord_name:
-        return 10.0
+        return 3.0
 
     # Check for half-diminished BEFORE minor check
     # m7♭5, mø, half-dim all get penalized
     if 'ø' in chord_name or '♭5' in chord_name or 'b5' in name_lower or 'half' in type_lower:
-        return 10.0
-
-    # Check for augmented
-    if 'aug' in name_lower or '+' in chord_name or '#5' in chord_name:
-        return 8.0
+        return 3.0
 
     # Check for major (best)
     if 'M' in chord_name or 'maj' in type_lower:
@@ -3042,12 +2111,12 @@ def score_chord_quality(chord_name: str, chord_type: str) -> float:
     if '_m' in chord_name or 'min' in type_lower:
         return 0.0
 
-    # Dominant 7ths, sus, etc (okay but not preferred)
+    # Dominant 7ths, sus, etc (good)
     if '7' in chord_name or 'sus' in name_lower or 'dom' in type_lower:
-        return 5.0
+        return 1.0
 
-    # Default: slightly penalized
-    return 6.0
+    # Default: neutral
+    return 1.5
 
 
 def score_root_movement(prev_root: Optional[int], new_root: int) -> float:
@@ -3082,40 +2151,12 @@ def score_root_movement(prev_root: Optional[int], new_root: int) -> float:
         return 2.0
 
 
-def score_voice_leading(prev_chord_pcs: Optional[Set[int]], new_chord_pcs: Set[int]) -> float:
-    """
-    Score voice leading based on pitch class similarity.
-    Lower score = smoother voice leading (more shared notes).
-
-    The score is based on how many pitch classes are NOT shared.
-    Maximum similarity = all notes shared = score 0.
-    """
-    if prev_chord_pcs is None:
-        return 0  # First chord, no preference
-
-    # Count shared pitch classes
-    shared = len(prev_chord_pcs & new_chord_pcs)
-    total_unique = len(prev_chord_pcs | new_chord_pcs)
-
-    # Score based on how many notes changed
-    # More shared = lower score = better
-    if total_unique == 0:
-        return 0
-
-    # Percentage of notes that are NOT shared (0 = perfect, 1 = no overlap)
-    change_ratio = 1.0 - (shared / total_unique)
-
-    # Scale to 0-5 range for weighting
-    return change_ratio * 5.0
-
-
 def infer_chord_supersets(
     collection: Set[int],
     max_results: int = 50,
     target_sizes: List[int] = [4, 5, 6],
     exclude_clusters: bool = True,
-    prev_root: Optional[int] = None,
-    prev_chord_pcs: Optional[Set[int]] = None
+    prev_root: Optional[int] = None
 ) -> List[Dict]:
     """
     Find chords that contain the given collection as a subset.
@@ -3123,14 +2164,11 @@ def infer_chord_supersets(
     Uses the rich chord vocabulary from chords_no_supersets.json.
     Optionally excludes chords containing semitone clusters.
 
-    Scoring preferences (in order of importance):
-    1. Voice leading - smooth transitions (max pitch class similarity)
-    2. Quality - major and minor chords strongly preferred
-    3. Named chords preferred over unnamed
-    4. Root movement - fifths and tritones preferred
-    5. Specificity - fewer added notes preferred
+    Scoring preferences:
+    - Major and minor chords preferred over diminished
+    - Fifth and tritone root movement preferred
 
-    Returns list of {pitch_classes, name, size, specificity, quality_score, root_score, voice_leading_score}.
+    Returns list of {pitch_classes, name, size, specificity, quality_score, root_score}.
     """
     chord_dict = load_chord_dictionary()
     results = []
@@ -3158,7 +2196,6 @@ def infer_chord_supersets(
         root = chord_data.get("root", 0)
         quality_score = score_chord_quality(chord_key, chord_type)
         root_score = score_root_movement(prev_root, root)
-        voice_leading_score = score_voice_leading(prev_chord_pcs, chord_pcs)
 
         results.append({
             "pitch_classes": sorted(chord_pcs),
@@ -3169,21 +2206,50 @@ def infer_chord_supersets(
             "specificity": len(chord_pcs) - len(collection),
             "quality_score": quality_score,
             "root_score": root_score,
-            "voice_leading_score": voice_leading_score,
             "named": True,
         })
 
-    # Phase 2 REMOVED: All chords must come from the dictionary.
-    # With 3-5 pitch class inputs, the dictionary always has sufficient coverage.
+    # Phase 2: Generate additional supersets by adding pitch classes
+    # This ensures we find connections even for unusual collections
+    available_pcs = [pc for pc in range(12) if pc not in collection]
 
-    # Sort: prioritize voice leading, then quality, then root, then specificity
+    from itertools import combinations
+
+    for target_size in target_sizes:
+        num_to_add = target_size - len(collection)
+        if num_to_add <= 0:
+            continue
+
+        for added in combinations(available_pcs, num_to_add):
+            chord_pcs = collection | set(added)
+
+            # Skip if chord has semitone cluster
+            if exclude_clusters and has_semitone_cluster(chord_pcs):
+                continue
+
+            pcs_key = tuple(sorted(chord_pcs))
+            if pcs_key in seen_pcs:
+                continue
+            seen_pcs.add(pcs_key)
+
+            notes = [NOTE_NAMES[pc] for pc in sorted(chord_pcs)]
+            results.append({
+                "pitch_classes": sorted(chord_pcs),
+                "name": f"[{','.join(notes)}]",
+                "size": len(chord_pcs),
+                "specificity": len(chord_pcs) - len(collection),
+                "quality_score": 2.0,  # Unnamed chords get neutral quality score
+                "root_score": 2.0,  # No root info for unnamed chords
+                "named": False,
+            })
+
+    # Sort: prefer named chords with good quality, good root movement, then smaller specificity
     # Lower total score = better
-    # All chords are named (from dictionary) - no unnamed chords allowed
     def total_score(x):
         return (
-            x.get("voice_leading_score", 5.0),  # Voice leading FIRST (most important)
-            x.get("quality_score", 8.0),  # Quality (major/minor strongly preferred)
-            x.get("root_score", 2.0),  # Root movement
+            0 if x.get("named", False) else 5,  # Named chords strongly preferred
+            x.get("quality_score", 2.0),  # Quality (major/minor vs diminished)
+            x.get("root_score", 2.0),  # Root movement (fifth/tritone preferred)
             x.get("specificity", 0),  # Fewer added notes preferred
             x["pitch_classes"][0],  # Tiebreaker
         )
@@ -3346,7 +2412,6 @@ def build_chain(
 
     chain: List[ChainLink] = []
     prev_root: Optional[int] = None  # Track previous chord root for movement scoring
-    prev_chord_pcs: Optional[Set[int]] = None  # Track previous chord for voice leading
 
     while True:
         sample_data = valid_samples[current_name]
@@ -3368,13 +2433,12 @@ def build_chain(
             last_pcs = transpose_set(last_pcs, current_trans)
 
         # Infer chord supersets from last_collection
-        # Pass prev_root and prev_chord_pcs for voice leading and root movement scoring
+        # Pass prev_root to prefer fifth/tritone root movement
         chord_candidates = infer_chord_supersets(
             last_pcs,
             max_results=50,
             target_sizes=[4, 5, 6],
-            prev_root=prev_root,
-            prev_chord_pcs=prev_chord_pcs
+            prev_root=prev_root
         )
 
         if not chord_candidates:
@@ -3481,9 +2545,8 @@ def build_chain(
             chord_sequence=sample_data.get("chord_sequence"),
         ))
 
-        # Update prev_root and prev_chord_pcs for next iteration
+        # Update prev_root for next iteration (prefer fifth/tritone movement)
         prev_root = chosen_chord.get("root", 0)
-        prev_chord_pcs = set(chosen_chord.get("pitch_classes", []))
 
         current_name = next_name
 
@@ -3745,7 +2808,6 @@ def build_harmonic_timeline(chain: List[ChainLink]) -> List[HarmonicEvent]:
             # Middle chords: infer new chord supersets
             # Last chord: use link.inferred_chord (already computed during chaining)
             prev_root = None
-            prev_chord_pcs_local = None  # Local tracking for voice leading within progression
             num_chords = len(link.chord_sequence)
 
             for i, chord_data in enumerate(link.chord_sequence):
@@ -3800,8 +2862,7 @@ def build_harmonic_timeline(chain: List[ChainLink]) -> List[HarmonicEvent]:
                         transposed_pcs,
                         max_results=5,
                         target_sizes=[4, 5, 6],
-                        prev_root=prev_root,
-                        prev_chord_pcs=prev_chord_pcs_local
+                        prev_root=prev_root
                     )
 
                     if chord_candidates:
@@ -3809,8 +2870,7 @@ def build_harmonic_timeline(chain: List[ChainLink]) -> List[HarmonicEvent]:
                         chord_pcs = set(inferred.get("pitch_classes", list(transposed_pcs)))
                         chord_root = inferred.get("root", min(transposed_pcs) if transposed_pcs else 0)
                         chord_name = inferred.get("name", f"middle_chord_{i}")
-                        prev_root = chord_root  # Track for root movement
-                        prev_chord_pcs_local = chord_pcs  # Track for voice leading
+                        prev_root = chord_root  # Track for fifth/tritone preference
                     else:
                         # Fallback to raw pitch classes if no superset found
                         chord_pcs = transposed_pcs
@@ -3833,18 +2893,16 @@ def build_harmonic_timeline(chain: List[ChainLink]) -> List[HarmonicEvent]:
             # For the FIRST sample, infer a chord from first_pcs
             if timeline:
                 # Use the last emitted chord (which bridges to this sample)
-                # NOTE: Keep the ORIGINAL chord name (no suffix) so it can be found in chord_dict
                 chord_a_pcs = timeline[-1].chord_pcs
                 chord_a_root = timeline[-1].chord_root
-                chord_a_name = timeline[-1].chord_name.replace("_cont", "")  # Strip any existing suffix
+                chord_a_name = timeline[-1].chord_name + "_cont"
             else:
-                # First sample - infer chord from first_pcs (no prev chord for voice leading)
+                # First sample - infer chord from first_pcs
                 first_pcs_transposed = link.first_pcs
                 if link.transposition != 0:
                     first_pcs_transposed = transpose_set(first_pcs_transposed, link.transposition)
                 chord_a_candidates = infer_chord_supersets(
-                    first_pcs_transposed, max_results=1, target_sizes=[4, 5, 6],
-                    prev_root=None, prev_chord_pcs=None
+                    first_pcs_transposed, max_results=1, target_sizes=[4, 5, 6]
                 )
                 if chord_a_candidates:
                     chord_a_pcs = set(chord_a_candidates[0].get("pitch_classes", list(first_pcs_transposed)))
@@ -3935,7 +2993,6 @@ def build_harmonic_timeline_from_rendered(
             rate = 2 ** (re.transposition / 12.0) if re.transposition != 0 else 1.0
             num_chords = len(link.chord_sequence)
             prev_root = None
-            prev_chord_pcs_local = None
 
             for j, chord_data in enumerate(link.chord_sequence):
                 if j == 0 and num_chords > 1:
@@ -3971,7 +3028,7 @@ def build_harmonic_timeline_from_rendered(
 
                     chord_candidates = infer_chord_supersets(
                         transposed_pcs, max_results=5, target_sizes=[4, 5, 6],
-                        prev_root=prev_root, prev_chord_pcs=prev_chord_pcs_local
+                        prev_root=prev_root
                     )
                     if chord_candidates:
                         inferred = chord_candidates[0]
@@ -3979,7 +3036,6 @@ def build_harmonic_timeline_from_rendered(
                         chord_root = inferred.get("root", min(transposed_pcs) if transposed_pcs else 0)
                         chord_name = inferred.get("name", f"middle_chord_{j}")
                         prev_root = chord_root
-                        prev_chord_pcs_local = chord_pcs
                     else:
                         chord_pcs = transposed_pcs
                         chord_root = min(transposed_pcs) if transposed_pcs else 0
@@ -3997,18 +3053,15 @@ def build_harmonic_timeline_from_rendered(
             # Emit TWO events: chord A at sample start, chord B at onset ratio
 
             # CHORD A: At rendered sample start
-            # Use the previous chord's info (continuation of that chord through sample start)
-            # NOTE: Keep the ORIGINAL chord name (no suffix) so it can be found in chord_dict
             if timeline:
                 chord_a_pcs = timeline[-1].chord_pcs
                 chord_a_root = timeline[-1].chord_root
-                chord_a_name = timeline[-1].chord_name.replace("_cont", "")  # Strip any existing suffix
+                chord_a_name = timeline[-1].chord_name + "_cont"
             else:
-                # First sample - infer chord from first_pcs (no prev chord for voice leading)
+                # First sample - infer chord from first_pcs
                 first_pcs_transposed = re.first_pcs
                 chord_a_candidates = infer_chord_supersets(
-                    first_pcs_transposed, max_results=1, target_sizes=[4, 5, 6],
-                    prev_root=None, prev_chord_pcs=None
+                    first_pcs_transposed, max_results=1, target_sizes=[4, 5, 6]
                 )
                 if chord_a_candidates:
                     chord_a_pcs = set(chord_a_candidates[0].get("pitch_classes", list(first_pcs_transposed)))
@@ -4529,10 +3582,183 @@ def render_qualitychords_layer(
     return layer
 
 
-# NOTE: render_progression_layer has been removed.
-# Progressions (glaz_sax, hyacinthe, kraus) are skeleton samples that participate
-# in chain building and are concatenated sequentially. They are not overlay layers.
-# Their chord_sequence events are added to the harmonic timeline during chain render.
+def render_progression_layer(
+    harmonic_timeline: List[HarmonicEvent],
+    total_duration_ms: float,
+    interval_seconds: float = 8.0,
+    include_glaz_sax: bool = True,
+    include_hyacinthe: bool = True,
+    include_kraus: bool = True,
+    verbose: bool = True
+) -> Tuple[AudioSegment, List[HarmonicEvent]]:
+    """
+    Render progression samples (multi-chord sequences) as a layer.
+
+    These samples contain chord progressions with exact timing for each chord.
+    For each chord in the progression, we infer a chord superset and add it
+    to the harmonic timeline, allowing other layers to follow along.
+
+    Args:
+        harmonic_timeline: The existing harmonic timeline (will be extended)
+        total_duration_ms: Total duration of the piece
+        interval_seconds: How often to trigger a new progression sample
+        include_glaz_sax: Include Glaz Sax Chorale samples
+        include_hyacinthe: Include Hyacinthe samples
+        include_kraus: Include Kraus Chorale samples
+        verbose: Print debug info
+
+    Returns:
+        Tuple of (audio_layer, extended_harmonic_events)
+        The extended_harmonic_events contains chord events from the progressions
+    """
+    # Load all enabled progression samples
+    all_samples = []
+    if include_glaz_sax:
+        all_samples.extend(load_glaz_sax_samples())
+    if include_hyacinthe:
+        all_samples.extend(load_hyacinthe_samples())
+    if include_kraus:
+        all_samples.extend(load_kraus_samples())
+
+    if not all_samples:
+        return AudioSegment.silent(duration=int(total_duration_ms)), []
+
+    layer = AudioSegment.silent(duration=int(total_duration_ms))
+    extended_events = []
+
+    interval_ms = interval_seconds * 1000
+    num_slots = int(total_duration_ms / interval_ms)
+
+    if verbose:
+        print(f"    Progressions: {len(all_samples)} samples, every {interval_seconds:.1f}s, {num_slots} slots")
+
+    played_count = 0
+    gliss_count = 0
+    chord_event_count = 0
+    next_sample_idx = 0
+
+    for slot in range(num_slots):
+        slot_start_ms = slot * interval_ms
+
+        # Get current harmonic context
+        he = get_harmonic_event_at_time(slot_start_ms, harmonic_timeline)
+        if he is None:
+            continue
+
+        # Pick next sample in sequence
+        sample_data = all_samples[next_sample_idx]
+        next_sample_idx = (next_sample_idx + 1) % len(all_samples)
+
+        sample_name = sample_data["name"]
+        audio_path = sample_data["audio_path"]
+        chord_sequence = sample_data["chord_sequence"]
+        sample_duration_sec = sample_data["duration"]
+
+        try:
+            # Load the audio
+            audio = AudioSegment.from_file(audio_path)
+
+            # Calculate transposition based on first chord fitting current harmony
+            first_chord_pcs = chord_sequence[0]["pitch_classes"]
+            current_chord_pcs = he.chord_pcs
+
+            # Find best transposition to fit first chord into current harmonic context
+            best_trans = 0
+            best_fit = 0
+            for trans in range(MIN_TRANSPOSITION, MAX_TRANSPOSITION + 1):
+                transposed_pcs = set((pc + trans) % 12 for pc in first_chord_pcs)
+                fit = len(transposed_pcs & current_chord_pcs)
+                if fit > best_fit:
+                    best_fit = fit
+                    best_trans = trans
+
+            # Apply base transposition to entire sample via sample rate change
+            if best_trans != 0:
+                rate_change = 2 ** (best_trans / 12.0)
+                new_frame_rate = int(audio.frame_rate * rate_change)
+                audio = audio._spawn(audio.raw_data, overrides={"frame_rate": new_frame_rate})
+                audio = audio.set_frame_rate(44100)
+
+            # Calculate the actual duration after transposition
+            if best_trans != 0:
+                actual_duration_ms = len(audio)
+            else:
+                actual_duration_ms = len(audio)
+
+            # For each chord in the progression, create a HarmonicEvent
+            # and infer a chord superset
+            for i, chord_data in enumerate(chord_sequence):
+                chord_start_time_sec = chord_data["start_time"]
+
+                # Adjust start time for transposition (pitch shift affects playback speed)
+                if best_trans != 0:
+                    rate_change = 2 ** (best_trans / 12.0)
+                    adjusted_start_time_sec = chord_start_time_sec / rate_change
+                else:
+                    adjusted_start_time_sec = chord_start_time_sec
+
+                chord_start_ms = slot_start_ms + (adjusted_start_time_sec * 1000)
+
+                # Calculate end time (start of next chord or end of sample)
+                if i < len(chord_sequence) - 1:
+                    next_start_sec = chord_sequence[i + 1]["start_time"]
+                    if best_trans != 0:
+                        next_start_sec = next_start_sec / rate_change
+                    chord_end_ms = slot_start_ms + (next_start_sec * 1000)
+                else:
+                    chord_end_ms = slot_start_ms + actual_duration_ms
+
+                # Transpose the chord's pitch classes
+                original_pcs = chord_data["pitch_classes"]
+                transposed_pcs = set((pc + best_trans) % 12 for pc in original_pcs)
+
+                # Infer a chord superset from the pitch classes
+                chord_candidates = infer_chord_supersets(
+                    transposed_pcs,
+                    max_results=5,
+                    target_sizes=[4, 5, 6],
+                    exclude_clusters=True
+                )
+
+                if chord_candidates:
+                    inferred = chord_candidates[0]
+                    chord_name = inferred.get("name", "unknown")
+                    chord_root = inferred.get("root", 0)
+                    full_pcs = set(inferred.get("pitch_classes", transposed_pcs))
+                else:
+                    # Fall back to just the transposed pitch classes
+                    chord_name = chord_data.get("chord_name", "unknown")
+                    chord_root = min(transposed_pcs) if transposed_pcs else 0
+                    full_pcs = transposed_pcs
+
+                extended_events.append(HarmonicEvent(
+                    start_ms=chord_start_ms,
+                    end_ms=chord_end_ms,
+                    chord_pcs=full_pcs,
+                    chord_root=chord_root,
+                    chord_name=chord_name,
+                ))
+                chord_event_count += 1
+
+            # Normalize and overlay audio
+            audio = normalize_audio_peak(audio, -6.0)
+
+            position_ms = int(slot_start_ms)
+            if position_ms + len(audio) > len(layer):
+                extra = (position_ms + len(audio)) - len(layer)
+                layer = layer + AudioSegment.silent(duration=int(extra))
+
+            layer = layer.overlay(audio, position=position_ms)
+            played_count += 1
+
+        except Exception as e:
+            if verbose:
+                print(f"      Error loading progression {sample_name}: {e}")
+
+    if verbose:
+        print(f"    Progressions: {played_count} played, {chord_event_count} chord events added")
+
+    return layer, extended_events
 
 
 def load_jicello_samples() -> List[Dict]:
@@ -5636,8 +4862,11 @@ def render_chain_to_wav(
     include_mutebowl: bool = False,
     include_qualitychords: bool = False,
     qualitychords_density: float = 0.4,
-    # NOTE: include_progressions removed - progressions are skeleton samples in chain pool,
-    # not an overlay layer. Control via load_all_samples(include_progressions=...) instead.
+    include_progressions: bool = False,
+    progressions_interval: float = 8.0,
+    include_glaz_sax: bool = True,
+    include_hyacinthe: bool = True,
+    include_kraus: bool = True,
     include_prophetfalse: bool = False,
     prophetfalse_interval: float = 3.0,
     include_harmonicker: bool = False,
@@ -5646,17 +4875,7 @@ def render_chain_to_wav(
     include_laken: bool = False,
     include_gentleharpsi: bool = False,
     include_feedback: bool = False,
-    feedback_interval: float = 4.0,
-    include_stylo: bool = False,
-    stylo_interval: float = 2.0,
-    include_trichords: bool = False,
-    include_tremolo_oct: bool = False,
-    tremolo_oct_interval: float = 4.0,
-    include_averyviolin: bool = False,
-    include_dictamel: bool = False,
-    include_scelsipezzi: bool = False,
-    scelsipezzi_interval: float = 8.0,
-    include_godette: bool = False,
+    feedback_interval: float = 8.0,
     include_synth_bass: bool = True,
     render_midi_synth: bool = True,
     seed: Optional[int] = None,
@@ -5752,10 +4971,9 @@ def render_chain_to_wav(
         rendered_events.append(rendered_event)
 
         # Normalize (simple peak normalization)
-        # Samples are in [-1.0, 1.0] range, so target_peak is also normalized
         peak = np.max(np.abs(samples))
         if peak > 0:
-            target_peak = apply_gain_db(SAMPLE_NORMALIZE_DB)  # e.g., -5dB -> ~0.56
+            target_peak = 10 ** (SAMPLE_NORMALIZE_DB / 20.0) * 32767
             samples = samples * (target_peak / peak)
 
         # Ensure stereo
@@ -5784,18 +5002,10 @@ def render_chain_to_wav(
         current_sample += num_samples
 
     current_time_ms = rendered_cursor_ms  # Use the rendered cursor as total time
-    chain_duration_ms = current_time_ms
-
-    # Limit layer duration to requested max_duration_ms
-    if max_duration_ms is not None:
-        total_duration_ms = min(chain_duration_ms, float(max_duration_ms))
-    else:
-        total_duration_ms = chain_duration_ms
+    total_duration_ms = current_time_ms
 
     if verbose:
-        print(f"  Chain rendered to numpy buffer: {total_chain_samples} samples ({chain_duration_ms/1000:.2f}s)")
-        if max_duration_ms is not None:
-            print(f"  Layer duration limited to: {total_duration_ms/1000:.2f}s (requested: {max_duration_ms/1000:.2f}s)")
+        print(f"  Chain rendered to numpy buffer: {total_chain_samples} samples ({current_time_ms/1000:.2f}s)")
 
     # === BUILD HARMONIC TIMELINE FROM RENDERED TIMING ===
     # This ensures MIDI uses the exact same timing as the audio render
@@ -5871,42 +5081,44 @@ def render_chain_to_wav(
                 return chord_data.get("root", 0)
             return 0
 
-        # Generate bass notes aligned with chord events (same onset as voicing)
-        for event in chord_events:
-            root_pc = get_root_at_time(event["start_ms"])
+        # Generate eighth note stabs at 120 BPM (250ms interval)
+        # Acid-style: short notes ~100ms with quick attack/decay
+        bpm = 120.0
+        eighth_note_ms = 60000.0 / bpm / 2  # 250ms
+        note_duration_ms = 100.0  # Short stab for acid feel
+
+        # Get total duration from chord events
+        if chord_events:
+            total_duration_ms = chord_events[-1]["start_ms"] + chord_events[-1]["duration_ms"]
+        else:
+            total_duration_ms = 0
+
+        num_stabs = int(total_duration_ms / eighth_note_ms)
+
+        for i in range(num_stabs):
+            stab_time_ms = i * eighth_note_ms
+            root_pc = get_root_at_time(stab_time_ms)
             root_midi = 36 + root_pc  # C2 range for deep sub bass
 
-            start_sec = event["start_ms"] / 1000.0
-            duration_sec = event["duration_ms"] / 1000.0
+            start_sec = stab_time_ms / 1000.0
+            end_sec = start_sec + (note_duration_ms / 1000.0)
 
             bass_note = pretty_midi.Note(
                 velocity=110,  # Punchy
                 pitch=root_midi,
                 start=start_sec,
-                end=start_sec + duration_sec
+                end=end_sec
             )
             sub_bass.notes.append(bass_note)
 
         if verbose:
-            print(f"  Bass: {len(chord_events)} sustained notes (aligned with voicing chords)")
+            print(f"  Bass: {num_stabs} eighth-note stabs (acid style, {note_duration_ms:.0f}ms each)")
 
         # Add voicing notes to keys MIDI (sustained, for export only)
         for event in chord_events:
             chord_name = event["chord"]["name"]
             chord_data = chord_dict.get(chord_name, {})
             voicing = chord_data.get("original_voicing", [])
-
-            # If no voicing found (synthetic chord), generate one from pitch classes
-            if not voicing:
-                pcs = event["chord"].get("pitch_classes", [])
-                if pcs:
-                    # Generate voicing: root in bass (octave 3), rest spread in octave 4-5
-                    root = event["chord"].get("root", min(pcs) if pcs else 0)
-                    voicing = [48 + root]  # Root in octave 3
-                    for pc in sorted(pcs):
-                        if pc != root:
-                            # Place non-root notes in octave 4 or 5
-                            voicing.append(60 + pc if pc < 6 else 60 + pc)
 
             start_sec = event["start_ms"] / 1000.0
             duration_sec = event["duration_ms"] / 1000.0
@@ -6010,30 +5222,25 @@ def render_chain_to_wav(
                     })
 
             if bf_sample_list:
-                # Use unified rendering with LayerConfig
-                bassflute_config = LayerConfig(
-                    name="Bass flute",
-                    samples=bf_sample_list,
-                    layer_type=LayerType.CONTINUOUS,
-                    gain_db=-3.0,
-                )
-
-                bassflute_np = render_layer(
-                    config=bassflute_config,
+                # Use optimized reactive transposition (event-driven, no polling)
+                bassflute_np = render_layer_continuous_np(
+                    sample_list=bf_sample_list,
                     harmonic_start_times=harmonic_start_times,
                     harmonic_events=harmonic_events_sorted,
                     find_transposition_fn=find_bassflute_transposition,
                     total_duration_ms=total_duration_ms,
                     sample_rate=SAMPLE_RATE,
                     channels=CHANNELS,
+                    gain_db=-12.0,
                     verbose=verbose,
-                    seed=seed,
-                    render_continuous_fn=render_layer_continuous_np,
-                    render_interval_fn=render_layer_interval_np,
+                    layer_name="Bass flute"
                 )
 
+                # Mix into master buffer
                 usable_len = min(len(bassflute_np), len(master_buffer))
                 master_buffer[:usable_len] += bassflute_np[:usable_len]
+
+                # Update combined AudioSegment for compatibility
                 combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
 
                 if verbose:
@@ -6045,203 +5252,150 @@ def render_chain_to_wav(
     if verbose:
         print(f"<<< END layer: bass_flute ({layer_timings['bass_flute']:.2f}s)")
 
-    # Layer in Brodero samples (clouds of 16th notes with silence) - UNIFIED NUMPY VERSION
+    # Layer in Brodero samples (clouds of 16th notes with silence)
+    # (harmonic_timeline already built at start of function)
     if verbose:
         print("\n>>> START layer: brodero")
     t_brodero_start = time.perf_counter()
     if include_brodero:
         if verbose:
-            print("\nLayering Brodero samples (NumPy engine, 16th note clouds)...")
+            print("\nLayering Brodero samples (clouds)...")
 
-        brodero_samples = load_brodero_samples()
-        if brodero_samples:
-            brodero_config = LayerConfig(
-                name="Brodero",
-                samples=brodero_samples,
-                layer_type=LayerType.CLOUD,
-                min_silence_seconds=10.0,
-                max_silence_seconds=15.0,
-                cloud_duration_seconds=4.0,
-                bpm=120.0,
-                note_division=16,
-                gain_db=-15.0,
-                selection=SelectionMode.SEQUENTIAL,
+        brodero_layer = render_brodero_layer(
+            harmonic_timeline=harmonic_timeline,
+            total_duration_ms=len(combined),
+            verbose=verbose,
+            seed=seed
+        )
+
+        # Ensure same length
+        if len(brodero_layer) < len(combined):
+            brodero_layer = brodero_layer + AudioSegment.silent(
+                duration=len(combined) - len(brodero_layer)
             )
+        elif len(brodero_layer) > len(combined):
+            brodero_layer = brodero_layer[:len(combined)]
 
-            brodero_np = render_layer(
-                config=brodero_config,
-                harmonic_start_times=harmonic_start_times,
-                harmonic_events=harmonic_events_sorted,
-                find_transposition_fn=find_bassflute_transposition,
-                total_duration_ms=total_duration_ms,
-                sample_rate=SAMPLE_RATE,
-                channels=CHANNELS,
-                verbose=verbose,
-                seed=seed,
-                render_continuous_fn=render_layer_continuous_np,
-                render_interval_fn=render_layer_interval_np,
-                render_cloud_fn=render_layer_cloud_np,
-            )
+        # Mix Brodero (quieter to blend)
+        brodero_layer = brodero_layer - 15  # -15 dB
+        combined = combined.overlay(brodero_layer)
 
-            usable_len = min(len(brodero_np), len(master_buffer))
-            master_buffer[:usable_len] += brodero_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
+        if verbose:
+            print(f"  Mixed Brodero layer with chain")
 
-            if verbose:
-                print(f"  Mixed Brodero layer (NumPy)")
-
-    # Layer in Jicello samples (distributed evenly) - UNIFIED NUMPY VERSION
+    # Layer in Jicello samples (distributed evenly) - NUMPY VERSION
     if include_jicello:
         if verbose:
             print("\nLayering Jicello samples CONTINUOUSLY (NumPy engine)...")
 
         jicello_samples = load_jicello_samples()
         if jicello_samples:
-            jicello_config = LayerConfig(
-                name="Jicello",
-                samples=jicello_samples,
-                layer_type=LayerType.CONTINUOUS,
-                gain_db=-12.0,
-            )
-
-            jicello_np = render_layer(
-                config=jicello_config,
+            jicello_np = render_layer_continuous_np(
+                sample_list=jicello_samples,
                 harmonic_start_times=harmonic_start_times,
                 harmonic_events=harmonic_events_sorted,
                 find_transposition_fn=find_bassflute_transposition,
                 total_duration_ms=total_duration_ms,
                 sample_rate=SAMPLE_RATE,
                 channels=CHANNELS,
+                gain_db=-12.0,
                 verbose=verbose,
-                seed=seed,
-                render_continuous_fn=render_layer_continuous_np,
-                render_interval_fn=render_layer_interval_np,
+                layer_name="Jicello"
             )
 
+            # Mix into master buffer
             usable_len = min(len(jicello_np), len(master_buffer))
             master_buffer[:usable_len] += jicello_np[:usable_len]
+
+            # Update combined AudioSegment for compatibility
             combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
 
             if verbose:
                 print(f"  Mixed Jicello layer (NumPy)")
 
-    # Layer in Organetta samples (every N seconds) - UNIFIED NUMPY VERSION
-    if verbose:
-        print("\n>>> START layer: organetta")
-    t_organetta_start = time.perf_counter()
+    # Layer in Organetta samples (every N seconds)
+    # (harmonic_timeline already built at start of function)
     if include_organetta:
         if verbose:
-            print("\nLayering Organetta samples (NumPy engine)...")
+            print("\nLayering Organetta samples...")
 
-        organetta_samples = load_organetta_samples()
-        if organetta_samples:
-            organetta_config = LayerConfig(
-                name="Organetta",
-                samples=organetta_samples,
-                layer_type=LayerType.INTERVAL,
-                interval_seconds=organetta_interval,
-                gain_db=-5.0,
-                selection=SelectionMode.SEQUENTIAL,
+        organetta_layer = render_organetta_layer(
+            harmonic_timeline=harmonic_timeline,
+            total_duration_ms=len(combined),
+            interval_seconds=organetta_interval,
+            verbose=verbose
+        )
+
+        # Ensure same length
+        if len(organetta_layer) < len(combined):
+            organetta_layer = organetta_layer + AudioSegment.silent(
+                duration=len(combined) - len(organetta_layer)
             )
+        elif len(organetta_layer) > len(combined):
+            organetta_layer = organetta_layer[:len(combined)]
 
-            organetta_np = render_layer(
-                config=organetta_config,
-                harmonic_start_times=harmonic_start_times,
-                harmonic_events=harmonic_events_sorted,
-                find_transposition_fn=find_bassflute_transposition,
-                total_duration_ms=total_duration_ms,
-                sample_rate=SAMPLE_RATE,
-                channels=CHANNELS,
-                verbose=verbose,
-                seed=seed,
-                render_continuous_fn=render_layer_continuous_np,
-                render_interval_fn=render_layer_interval_np,
-            )
+        # Mix Organetta (moderate volume)
+        organetta_layer = organetta_layer - 5  # -5 dB
+        combined = combined.overlay(organetta_layer)
 
-            usable_len = min(len(organetta_np), len(master_buffer))
-            master_buffer[:usable_len] += organetta_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
+        if verbose:
+            print(f"  Mixed Organetta layer with chain")
 
-            if verbose:
-                print(f"  Mixed Organetta layer (NumPy)")
-    layer_timings['organetta'] = time.perf_counter() - t_organetta_start
-    if verbose:
-        print(f"<<< END layer: organetta ({layer_timings['organetta']:.2f}s)")
-
-    # Layer in MinorChordBeat samples (eighth notes) - UNIFIED NUMPY VERSION
+    # Layer in MinorChordBeat samples (eighth notes)
+    # (harmonic_timeline already built at start of function)
     if include_minorchordbeat:
         if verbose:
-            print("\nLayering MinorChordBeat samples (NumPy engine, eighth notes @ 120 BPM)...")
+            print("\nLayering MinorChordBeat samples (eighth notes @ 120 BPM)...")
 
-        minorchordbeat_samples = load_minorchordbeat_samples()
-        if minorchordbeat_samples:
-            # Eighth note at 120 BPM = 0.5 seconds
-            minorchordbeat_config = LayerConfig(
-                name="MinorChordBeat",
-                samples=minorchordbeat_samples,
-                layer_type=LayerType.INTERVAL,
-                interval_seconds=0.5,  # 120 BPM eighth note
-                gain_db=-6.0,
-                selection=SelectionMode.SEQUENTIAL,
+        minorchordbeat_layer = render_minorchordbeat_layer(
+            harmonic_timeline=harmonic_timeline,
+            total_duration_ms=len(combined),
+            bpm=120.0,
+            verbose=verbose
+        )
+
+        # Ensure same length
+        if len(minorchordbeat_layer) < len(combined):
+            minorchordbeat_layer = minorchordbeat_layer + AudioSegment.silent(
+                duration=len(combined) - len(minorchordbeat_layer)
             )
+        elif len(minorchordbeat_layer) > len(combined):
+            minorchordbeat_layer = minorchordbeat_layer[:len(combined)]
 
-            minorchordbeat_np = render_layer(
-                config=minorchordbeat_config,
-                harmonic_start_times=harmonic_start_times,
-                harmonic_events=harmonic_events_sorted,
-                find_transposition_fn=find_bassflute_transposition,
-                total_duration_ms=total_duration_ms,
-                sample_rate=SAMPLE_RATE,
-                channels=CHANNELS,
-                verbose=verbose,
-                seed=seed,
-                render_continuous_fn=render_layer_continuous_np,
-                render_interval_fn=render_layer_interval_np,
-            )
+        # Mix MinorChordBeat (moderate volume)
+        minorchordbeat_layer = minorchordbeat_layer - 9  # -9 dB
+        combined = combined.overlay(minorchordbeat_layer)
 
-            usable_len = min(len(minorchordbeat_np), len(master_buffer))
-            master_buffer[:usable_len] += minorchordbeat_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
+        if verbose:
+            print(f"  Mixed MinorChordBeat layer with chain")
 
-            if verbose:
-                print(f"  Mixed MinorChordBeat layer (NumPy)")
-
-    # Layer in MuteBowl samples (eighth notes) - UNIFIED NUMPY VERSION
+    # Layer in MuteBowl samples (eighth notes)
+    # (harmonic_timeline already built at start of function)
     if include_mutebowl:
         if verbose:
-            print("\nLayering MuteBowl samples (NumPy engine, eighth notes @ 120 BPM)...")
+            print("\nLayering MuteBowl samples (eighth notes @ 120 BPM)...")
 
-        mutebowl_samples = load_mutebowl_samples()
-        if mutebowl_samples:
-            mutebowl_config = LayerConfig(
-                name="MuteBowl",
-                samples=mutebowl_samples,
-                layer_type=LayerType.INTERVAL,
-                interval_seconds=0.5,  # 120 BPM eighth note
-                gain_db=-6.0,
-                selection=SelectionMode.SEQUENTIAL,
+        mutebowl_layer = render_mutebowl_layer(
+            harmonic_timeline=harmonic_timeline,
+            total_duration_ms=len(combined),
+            bpm=120.0,
+            verbose=verbose
+        )
+
+        # Ensure same length
+        if len(mutebowl_layer) < len(combined):
+            mutebowl_layer = mutebowl_layer + AudioSegment.silent(
+                duration=len(combined) - len(mutebowl_layer)
             )
+        elif len(mutebowl_layer) > len(combined):
+            mutebowl_layer = mutebowl_layer[:len(combined)]
 
-            mutebowl_np = render_layer(
-                config=mutebowl_config,
-                harmonic_start_times=harmonic_start_times,
-                harmonic_events=harmonic_events_sorted,
-                find_transposition_fn=find_bassflute_transposition,
-                total_duration_ms=total_duration_ms,
-                sample_rate=SAMPLE_RATE,
-                channels=CHANNELS,
-                verbose=verbose,
-                seed=seed,
-                render_continuous_fn=render_layer_continuous_np,
-                render_interval_fn=render_layer_interval_np,
-            )
+        # Mix MuteBowl (moderate volume)
+        mutebowl_layer = mutebowl_layer - 9  # -9 dB
+        combined = combined.overlay(mutebowl_layer)
 
-            usable_len = min(len(mutebowl_np), len(master_buffer))
-            master_buffer[:usable_len] += mutebowl_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
-
-            if verbose:
-                print(f"  Mixed MuteBowl layer (NumPy)")
+        if verbose:
+            print(f"  Mixed MuteBowl layer with chain")
 
     # Layer in quality-aware chord samples (major/minor, sporadic)
     # (harmonic_timeline already built at start of function)
@@ -6273,571 +5427,219 @@ def render_chain_to_wav(
         if verbose:
             print(f"  Mixed QualityChords layer with chain")
 
-    # NOTE: Progressions (glaz_sax, hyacinthe, kraus) are skeleton samples.
-    # They participate in chain building and are concatenated sequentially.
-    # There is NO progressions overlay layer - that concept has been removed.
-    # The --progressions flag controls whether progression samples are in the chain pool.
+    # Layer in progression samples (multi-chord sequences)
+    # (harmonic_timeline already built at start of function)
+    if include_progressions:
+        if verbose:
+            print("\nLayering Progression samples (multi-chord sequences)...")
 
-    # Layer in Prophet False samples (synth one-shots) - UNIFIED NUMPY VERSION
+        progressions_layer, extended_events = render_progression_layer(
+            harmonic_timeline=harmonic_timeline,
+            total_duration_ms=len(combined),
+            interval_seconds=progressions_interval,
+            include_glaz_sax=include_glaz_sax,
+            include_hyacinthe=include_hyacinthe,
+            include_kraus=include_kraus,
+            verbose=verbose
+        )
+
+        # Extend the harmonic timeline with the progression chord events
+        if extended_events:
+            harmonic_timeline.extend(extended_events)
+            # Sort by start time to maintain chronological order
+            harmonic_timeline.sort(key=lambda e: e.start_ms)
+            if verbose:
+                print(f"  Extended harmonic timeline with {len(extended_events)} chord events")
+
+        # Ensure same length
+        if len(progressions_layer) < len(combined):
+            progressions_layer = progressions_layer + AudioSegment.silent(
+                duration=len(combined) - len(progressions_layer)
+            )
+        elif len(progressions_layer) > len(combined):
+            progressions_layer = progressions_layer[:len(combined)]
+
+        # Mix progressions layer (moderate volume)
+        progressions_layer = progressions_layer - 6  # -6 dB
+        combined = combined.overlay(progressions_layer)
+
+        if verbose:
+            print(f"  Mixed Progressions layer with chain")
+
+    # Layer in Prophet False samples (synth one-shots)
     if include_prophetfalse:
         if verbose:
-            print("\nLayering Prophet False samples (NumPy engine)...")
+            print("\nLayering Prophet False samples...")
 
-        prophetfalse_samples = load_prophetfalse_samples()
-        if prophetfalse_samples:
-            prophetfalse_config = LayerConfig(
-                name="ProphetFalse",
-                samples=prophetfalse_samples,
-                layer_type=LayerType.INTERVAL,
-                interval_seconds=prophetfalse_interval,
-                gain_db=-6.0,  # Was -9 dB, now louder
-                selection=SelectionMode.SEQUENTIAL,
+        prophetfalse_layer = render_prophetfalse_layer(
+            harmonic_timeline=harmonic_timeline,
+            total_duration_ms=len(combined),
+            interval_seconds=prophetfalse_interval,
+            verbose=verbose
+        )
+
+        # Ensure same length
+        if len(prophetfalse_layer) < len(combined):
+            prophetfalse_layer = prophetfalse_layer + AudioSegment.silent(
+                duration=len(combined) - len(prophetfalse_layer)
             )
+        elif len(prophetfalse_layer) > len(combined):
+            prophetfalse_layer = prophetfalse_layer[:len(combined)]
 
-            prophetfalse_np = render_layer(
-                config=prophetfalse_config,
-                harmonic_start_times=harmonic_start_times,
-                harmonic_events=harmonic_events_sorted,
-                find_transposition_fn=find_bassflute_transposition,
-                total_duration_ms=total_duration_ms,
-                sample_rate=SAMPLE_RATE,
-                channels=CHANNELS,
-                verbose=verbose,
-                seed=seed,
-                render_continuous_fn=render_layer_continuous_np,
-                render_interval_fn=render_layer_interval_np,
-            )
+        # Mix Prophet False (moderate volume)
+        prophetfalse_layer = prophetfalse_layer - 9  # -9 dB
+        combined = combined.overlay(prophetfalse_layer)
 
-            # Mix into master buffer (NumPy)
-            usable_len = min(len(prophetfalse_np), len(master_buffer))
-            master_buffer[:usable_len] += prophetfalse_np[:usable_len]
+        if verbose:
+            print(f"  Mixed Prophet False layer with chain")
 
-            # Update combined AudioSegment for compatibility
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
-
-            if verbose:
-                print(f"  Mixed Prophet False layer (NumPy)")
-
-    # Layer in Harmonicker samples (harmonica chords) - UNIFIED NUMPY VERSION
+    # Layer in Harmonicker samples (harmonica chords)
     if include_harmonicker:
         if verbose:
-            print("\nLayering Harmonicker samples (NumPy engine)...")
+            print("\nLayering Harmonicker samples...")
 
-        harmonicker_samples = load_harmonicker_samples()
-        if harmonicker_samples:
-            harmonicker_config = LayerConfig(
-                name="Harmonicker",
-                samples=harmonicker_samples,
-                layer_type=LayerType.INTERVAL,
-                interval_seconds=harmonicker_interval,
-                gain_db=-15.0,  # Was -19 dB, slightly louder
-                selection=SelectionMode.SEQUENTIAL,
+        harmonicker_layer = render_harmonicker_layer(
+            harmonic_timeline=harmonic_timeline,
+            total_duration_ms=len(combined),
+            interval_seconds=harmonicker_interval,
+            verbose=verbose
+        )
+
+        # Ensure same length
+        if len(harmonicker_layer) < len(combined):
+            harmonicker_layer = harmonicker_layer + AudioSegment.silent(
+                duration=len(combined) - len(harmonicker_layer)
             )
+        elif len(harmonicker_layer) > len(combined):
+            harmonicker_layer = harmonicker_layer[:len(combined)]
 
-            harmonicker_np = render_layer(
-                config=harmonicker_config,
-                harmonic_start_times=harmonic_start_times,
-                harmonic_events=harmonic_events_sorted,
-                find_transposition_fn=find_bassflute_transposition,
-                total_duration_ms=total_duration_ms,
-                sample_rate=SAMPLE_RATE,
-                channels=CHANNELS,
-                verbose=verbose,
-                seed=seed,
-                render_continuous_fn=render_layer_continuous_np,
-                render_interval_fn=render_layer_interval_np,
-            )
+        # Mix Harmonicker (quieter)
+        harmonicker_layer = harmonicker_layer - 19  # -19 dB
+        combined = combined.overlay(harmonicker_layer)
 
-            # Mix into master buffer (NumPy)
-            usable_len = min(len(harmonicker_np), len(master_buffer))
-            master_buffer[:usable_len] += harmonicker_np[:usable_len]
+        if verbose:
+            print(f"  Mixed Harmonicker layer with chain")
 
-            # Update combined AudioSegment for compatibility
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
-
-            if verbose:
-                print(f"  Mixed Harmonicker layer (NumPy)")
-
-    # Layer in Gothic Harp clouds (sporadic 16th note bursts) - UNIFIED NUMPY VERSION
+    # Layer in Gothic Harp clouds (sporadic 16th note bursts)
     if include_gothicharp:
         if verbose:
-            print("\nLayering Gothic Harp clouds (NumPy engine, 16th note bursts)...")
+            print("\nLayering Gothic Harp clouds (16th note bursts)...")
 
-        gothicharp_samples = load_gothicharp_samples()
-        if gothicharp_samples:
-            gothicharp_config = LayerConfig(
-                name="Gothic Harp",
-                samples=gothicharp_samples,
-                layer_type=LayerType.CLOUD,
-                min_silence_seconds=7.0,
-                max_silence_seconds=9.0,
-                cloud_duration_seconds=5.0,
-                bpm=120.0,
-                note_division=16,
-                gain_db=-9.0,
-                selection=SelectionMode.SEQUENTIAL,
+        gothicharp_layer = render_gothicharp_layer(
+            harmonic_timeline=harmonic_timeline,
+            total_duration_ms=len(combined),
+            min_silence_seconds=7.0,
+            max_silence_seconds=9.0,
+            cloud_duration_seconds=5.0,
+            bpm=120.0,
+            verbose=verbose,
+            seed=seed
+        )
+
+        # Ensure same length
+        if len(gothicharp_layer) < len(combined):
+            gothicharp_layer = gothicharp_layer + AudioSegment.silent(
+                duration=len(combined) - len(gothicharp_layer)
             )
+        elif len(gothicharp_layer) > len(combined):
+            gothicharp_layer = gothicharp_layer[:len(combined)]
 
-            gothicharp_np = render_layer(
-                config=gothicharp_config,
-                harmonic_start_times=harmonic_start_times,
-                harmonic_events=harmonic_events_sorted,
-                find_transposition_fn=find_bassflute_transposition,
-                total_duration_ms=total_duration_ms,
-                sample_rate=SAMPLE_RATE,
-                channels=CHANNELS,
-                verbose=verbose,
-                seed=seed,
-                render_continuous_fn=render_layer_continuous_np,
-                render_interval_fn=render_layer_interval_np,
-                render_cloud_fn=render_layer_cloud_np,
-            )
+        # Mix Gothic Harp (moderate volume)
+        gothicharp_layer = gothicharp_layer - 9  # -9 dB
+        combined = combined.overlay(gothicharp_layer)
 
-            usable_len = min(len(gothicharp_np), len(master_buffer))
-            master_buffer[:usable_len] += gothicharp_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
+        if verbose:
+            print(f"  Mixed Gothic Harp layer with chain")
 
-            if verbose:
-                print(f"  Mixed Gothic Harp layer (NumPy)")
-
-    # Layer in Laken clouds (sporadic 16th note bursts) - UNIFIED NUMPY VERSION
+    # Layer in Laken clouds (sporadic 16th note bursts, similar to gothic harp)
     if include_laken:
         if verbose:
-            print("\nLayering Laken clouds (NumPy engine, 16th note bursts)...")
+            print("\nLayering Laken clouds (16th note bursts)...")
 
-        laken_samples = load_laken_samples()
-        if laken_samples:
-            laken_config = LayerConfig(
-                name="Laken",
-                samples=laken_samples,
-                layer_type=LayerType.CLOUD,
-                min_silence_seconds=7.0,
-                max_silence_seconds=9.0,
-                cloud_duration_seconds=5.0,
-                bpm=120.0,
-                note_division=16,
-                gain_db=-15.0,
-                selection=SelectionMode.SEQUENTIAL,
+        laken_layer = render_laken_layer(
+            harmonic_timeline=harmonic_timeline,
+            total_duration_ms=len(combined),
+            min_silence_seconds=7.0,
+            max_silence_seconds=9.0,
+            cloud_duration_seconds=5.0,
+            bpm=120.0,
+            verbose=verbose,
+            seed=seed
+        )
+
+        # Ensure same length
+        if len(laken_layer) < len(combined):
+            laken_layer = laken_layer + AudioSegment.silent(
+                duration=len(combined) - len(laken_layer)
             )
+        elif len(laken_layer) > len(combined):
+            laken_layer = laken_layer[:len(combined)]
 
-            laken_np = render_layer(
-                config=laken_config,
-                harmonic_start_times=harmonic_start_times,
-                harmonic_events=harmonic_events_sorted,
-                find_transposition_fn=find_bassflute_transposition,
-                total_duration_ms=total_duration_ms,
-                sample_rate=SAMPLE_RATE,
-                channels=CHANNELS,
-                verbose=verbose,
-                seed=seed,
-                render_continuous_fn=render_layer_continuous_np,
-                render_interval_fn=render_layer_interval_np,
-                render_cloud_fn=render_layer_cloud_np,
-            )
+        # Mix Laken (quieter volume)
+        laken_layer = laken_layer - 15  # -15 dB (-5 original, then -10 more)
+        combined = combined.overlay(laken_layer)
 
-            usable_len = min(len(laken_np), len(master_buffer))
-            master_buffer[:usable_len] += laken_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
+        if verbose:
+            print(f"  Mixed Laken layer with chain")
 
-            if verbose:
-                print(f"  Mixed Laken layer (NumPy)")
-
-    # Layer in Gentle Harpsichord clouds (sporadic 32nd note bursts) - UNIFIED NUMPY VERSION
+    # Layer in Gentle Harpsichord clouds (sporadic 32nd note bursts)
     if include_gentleharpsi:
         if verbose:
-            print("\nLayering Gentle Harpsichord clouds (NumPy engine, 32nd note bursts)...")
+            print("\nLayering Gentle Harpsichord clouds (32nd note bursts)...")
 
-        gentleharpsi_samples = load_gentleharpsi_samples()
-        if gentleharpsi_samples:
-            gentleharpsi_config = LayerConfig(
-                name="Gentle Harpsichord",
-                samples=gentleharpsi_samples,
-                layer_type=LayerType.CLOUD,
-                min_silence_seconds=10.0,
-                max_silence_seconds=11.0,
-                cloud_duration_seconds=6.0,
-                bpm=120.0,
-                note_division=32,  # 32nd notes
-                gain_db=-9.0,
-                selection=SelectionMode.SEQUENTIAL,
+        gentleharpsi_layer = render_gentleharpsi_layer(
+            harmonic_timeline=harmonic_timeline,
+            total_duration_ms=len(combined),
+            min_silence_seconds=10.0,
+            max_silence_seconds=11.0,
+            cloud_duration_seconds=6.0,
+            bpm=120.0,
+            verbose=verbose,
+            seed=seed
+        )
+
+        # Ensure same length
+        if len(gentleharpsi_layer) < len(combined):
+            gentleharpsi_layer = gentleharpsi_layer + AudioSegment.silent(
+                duration=len(combined) - len(gentleharpsi_layer)
             )
+        elif len(gentleharpsi_layer) > len(combined):
+            gentleharpsi_layer = gentleharpsi_layer[:len(combined)]
 
-            gentleharpsi_np = render_layer(
-                config=gentleharpsi_config,
-                harmonic_start_times=harmonic_start_times,
-                harmonic_events=harmonic_events_sorted,
-                find_transposition_fn=find_bassflute_transposition,
-                total_duration_ms=total_duration_ms,
-                sample_rate=SAMPLE_RATE,
-                channels=CHANNELS,
-                verbose=verbose,
-                seed=seed,
-                render_continuous_fn=render_layer_continuous_np,
-                render_interval_fn=render_layer_interval_np,
-                render_cloud_fn=render_layer_cloud_np,
-            )
+        # Mix Gentle Harpsichord (moderate volume)
+        gentleharpsi_layer = gentleharpsi_layer - 9  # -9 dB
+        combined = combined.overlay(gentleharpsi_layer)
 
-            usable_len = min(len(gentleharpsi_np), len(master_buffer))
-            master_buffer[:usable_len] += gentleharpsi_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
+        if verbose:
+            print(f"  Mixed Gentle Harpsichord layer with chain")
 
-            if verbose:
-                print(f"  Mixed Gentle Harpsichord layer (NumPy)")
-
-    # Layer in Feedback loops (overlapping, random selection) - UNIFIED NUMPY VERSION
-    if verbose:
-        print("\n>>> START layer: feedback")
-    t_feedback_start = time.perf_counter()
+    # Layer in Feedback loops (overlapping, random selection)
     if include_feedback:
         if verbose:
-            print("\nLayering Feedback samples (NumPy engine, random selection)...")
+            print("\nLayering Feedback samples (overlapping, random)...")
 
-        feedback_samples = load_feedback_samples()
-        if feedback_samples:
-            feedback_config = LayerConfig(
-                name="Feedback",
-                samples=feedback_samples,
-                layer_type=LayerType.INTERVAL,
-                interval_seconds=feedback_interval,
-                max_overlap=2,
-                gain_db=-12.0,
-                selection=SelectionMode.RANDOM,
+        feedback_layer = render_feedback_layer(
+            harmonic_timeline=harmonic_timeline,
+            total_duration_ms=len(combined),
+            interval_seconds=feedback_interval,
+            verbose=verbose,
+            seed=seed
+        )
+
+        # Ensure same length
+        if len(feedback_layer) < len(combined):
+            feedback_layer = feedback_layer + AudioSegment.silent(
+                duration=len(combined) - len(feedback_layer)
             )
+        elif len(feedback_layer) > len(combined):
+            feedback_layer = feedback_layer[:len(combined)]
 
-            feedback_np = render_layer(
-                config=feedback_config,
-                harmonic_start_times=harmonic_start_times,
-                harmonic_events=harmonic_events_sorted,
-                find_transposition_fn=find_bassflute_transposition,
-                total_duration_ms=total_duration_ms,
-                sample_rate=SAMPLE_RATE,
-                channels=CHANNELS,
-                verbose=verbose,
-                seed=seed,
-                render_continuous_fn=render_layer_continuous_np,
-                render_interval_fn=render_layer_interval_np,
-            )
+        # Mix Feedback (moderate volume)
+        feedback_layer = feedback_layer - 12  # -12 dB
+        combined = combined.overlay(feedback_layer)
 
-            usable_len = min(len(feedback_np), len(master_buffer))
-            master_buffer[:usable_len] += feedback_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
-
-            if verbose:
-                print(f"  Mixed Feedback layer (NumPy)")
-    layer_timings['feedback'] = time.perf_counter() - t_feedback_start
-    if verbose:
-        print(f"<<< END layer: feedback ({layer_timings['feedback']:.2f}s)")
-
-    # Layer in Stylo samples (like organetta but faster) - UNIFIED NUMPY VERSION
-    if verbose:
-        print("\n>>> START layer: stylo")
-    t_stylo_start = time.perf_counter()
-    if include_stylo:
         if verbose:
-            print("\nLayering Stylo samples (NumPy engine)...")
-
-        stylo_samples = load_stylo_samples()
-        if stylo_samples:
-            stylo_config = LayerConfig(
-                name="Stylo",
-                samples=stylo_samples,
-                layer_type=LayerType.INTERVAL,
-                interval_seconds=stylo_interval,
-                gain_db=-30.0,  # Very quiet
-                selection=SelectionMode.SEQUENTIAL,
-            )
-
-            stylo_np = render_layer(
-                config=stylo_config,
-                harmonic_start_times=harmonic_start_times,
-                harmonic_events=harmonic_events_sorted,
-                find_transposition_fn=find_bassflute_transposition,
-                total_duration_ms=total_duration_ms,
-                sample_rate=SAMPLE_RATE,
-                channels=CHANNELS,
-                verbose=verbose,
-                seed=seed,
-                render_continuous_fn=render_layer_continuous_np,
-                render_interval_fn=render_layer_interval_np,
-            )
-
-            usable_len = min(len(stylo_np), len(master_buffer))
-            master_buffer[:usable_len] += stylo_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
-
-            if verbose:
-                print(f"  Mixed Stylo layer (NumPy)")
-    layer_timings['stylo'] = time.perf_counter() - t_stylo_start
-    if verbose:
-        print(f"<<< END layer: stylo ({layer_timings['stylo']:.2f}s)")
-
-    # Layer in Trichords (continuous, like bass flute) - UNIFIED NUMPY VERSION
-    if verbose:
-        print("\n>>> START layer: trichords")
-    t_trichords_start = time.perf_counter()
-    if include_trichords:
-        if verbose:
-            print("\nLayering Trichords samples (NumPy engine, continuous)...")
-
-        trichords_samples = load_trichords_samples()
-        if trichords_samples:
-            trichords_config = LayerConfig(
-                name="Trichords",
-                samples=trichords_samples,
-                layer_type=LayerType.CONTINUOUS,
-                gain_db=-6.0,
-                selection=SelectionMode.SEQUENTIAL,
-            )
-
-            trichords_np = render_layer(
-                config=trichords_config,
-                harmonic_start_times=harmonic_start_times,
-                harmonic_events=harmonic_events_sorted,
-                find_transposition_fn=find_bassflute_transposition,
-                total_duration_ms=total_duration_ms,
-                sample_rate=SAMPLE_RATE,
-                channels=CHANNELS,
-                verbose=verbose,
-                seed=seed,
-                render_continuous_fn=render_layer_continuous_np,
-                render_interval_fn=render_layer_interval_np,
-                render_cloud_fn=render_layer_cloud_np,
-            )
-
-            usable_len = min(len(trichords_np), len(master_buffer))
-            master_buffer[:usable_len] += trichords_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
-
-            if verbose:
-                print(f"  Mixed Trichords layer (NumPy)")
-    layer_timings['trichords'] = time.perf_counter() - t_trichords_start
-    if verbose:
-        print(f"<<< END layer: trichords ({layer_timings['trichords']:.2f}s)")
-
-    # Layer in Tremolo Oct (interval, like organetta) - UNIFIED NUMPY VERSION
-    if verbose:
-        print("\n>>> START layer: tremolo_oct")
-    t_tremolo_oct_start = time.perf_counter()
-    if include_tremolo_oct:
-        if verbose:
-            print("\nLayering Tremolo Oct samples (NumPy engine)...")
-
-        tremolo_oct_samples = load_tremolo_oct_samples()
-        if tremolo_oct_samples:
-            tremolo_oct_config = LayerConfig(
-                name="Tremolo Oct",
-                samples=tremolo_oct_samples,
-                layer_type=LayerType.INTERVAL,
-                interval_seconds=tremolo_oct_interval,
-                gain_db=-6.0,
-                selection=SelectionMode.SEQUENTIAL,
-            )
-
-            tremolo_oct_np = render_layer(
-                config=tremolo_oct_config,
-                harmonic_start_times=harmonic_start_times,
-                harmonic_events=harmonic_events_sorted,
-                find_transposition_fn=find_bassflute_transposition,
-                total_duration_ms=total_duration_ms,
-                sample_rate=SAMPLE_RATE,
-                channels=CHANNELS,
-                verbose=verbose,
-                seed=seed,
-                render_continuous_fn=render_layer_continuous_np,
-                render_interval_fn=render_layer_interval_np,
-                render_cloud_fn=render_layer_cloud_np,
-            )
-
-            usable_len = min(len(tremolo_oct_np), len(master_buffer))
-            master_buffer[:usable_len] += tremolo_oct_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
-
-            if verbose:
-                print(f"  Mixed Tremolo Oct layer (NumPy)")
-    layer_timings['tremolo_oct'] = time.perf_counter() - t_tremolo_oct_start
-    if verbose:
-        print(f"<<< END layer: tremolo_oct ({layer_timings['tremolo_oct']:.2f}s)")
-
-    # Layer in Avery Violin (continuous, like bass flute) - UNIFIED NUMPY VERSION
-    if verbose:
-        print("\n>>> START layer: averyviolin")
-    t_averyviolin_start = time.perf_counter()
-    if include_averyviolin:
-        if verbose:
-            print("\nLayering Avery Violin samples (NumPy engine, continuous)...")
-
-        averyviolin_dict = load_averyviolin_samples()
-        if averyviolin_dict:
-            av_sample_list = [{"name": name, "pitch_classes": data["pitch_classes"],
-                              "audio_path": data["audio_path"]}
-                             for name, data in sorted(averyviolin_dict.items())]
-
-            if av_sample_list:
-                averyviolin_config = LayerConfig(
-                    name="Avery Violin",
-                    samples=av_sample_list,
-                    layer_type=LayerType.CONTINUOUS,
-                    gain_db=-6.0,
-                )
-
-                averyviolin_np = render_layer(
-                    config=averyviolin_config,
-                    harmonic_start_times=harmonic_start_times,
-                    harmonic_events=harmonic_events_sorted,
-                    find_transposition_fn=find_bassflute_transposition,
-                    total_duration_ms=total_duration_ms,
-                    sample_rate=SAMPLE_RATE,
-                    channels=CHANNELS,
-                    verbose=verbose,
-                    seed=seed,
-                    render_continuous_fn=render_layer_continuous_np,
-                    render_interval_fn=render_layer_interval_np,
-                )
-
-                usable_len = min(len(averyviolin_np), len(master_buffer))
-                master_buffer[:usable_len] += averyviolin_np[:usable_len]
-                combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
-
-                if verbose:
-                    print(f"  Mixed Avery Violin layer (NumPy)")
-    layer_timings['averyviolin'] = time.perf_counter() - t_averyviolin_start
-    if verbose:
-        print(f"<<< END layer: averyviolin ({layer_timings['averyviolin']:.2f}s)")
-
-    # Layer in Dictamel (continuous, like bass flute) - UNIFIED NUMPY VERSION
-    if verbose:
-        print("\n>>> START layer: dictamel")
-    t_dictamel_start = time.perf_counter()
-    if include_dictamel:
-        if verbose:
-            print("\nLayering Dictamel samples (NumPy engine, continuous)...")
-
-        dictamel_dict = load_dictamel_samples()
-        if dictamel_dict:
-            dm_sample_list = [{"name": name, "pitch_classes": data["pitch_classes"],
-                              "audio_path": data["audio_path"]}
-                             for name, data in sorted(dictamel_dict.items())]
-
-            if dm_sample_list:
-                dictamel_config = LayerConfig(
-                    name="Dictamel",
-                    samples=dm_sample_list,
-                    layer_type=LayerType.CONTINUOUS,
-                    gain_db=-6.0,
-                )
-
-                dictamel_np = render_layer(
-                    config=dictamel_config,
-                    harmonic_start_times=harmonic_start_times,
-                    harmonic_events=harmonic_events_sorted,
-                    find_transposition_fn=find_bassflute_transposition,
-                    total_duration_ms=total_duration_ms,
-                    sample_rate=SAMPLE_RATE,
-                    channels=CHANNELS,
-                    verbose=verbose,
-                    seed=seed,
-                    render_continuous_fn=render_layer_continuous_np,
-                    render_interval_fn=render_layer_interval_np,
-                )
-
-                usable_len = min(len(dictamel_np), len(master_buffer))
-                master_buffer[:usable_len] += dictamel_np[:usable_len]
-                combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
-
-                if verbose:
-                    print(f"  Mixed Dictamel layer (NumPy)")
-    layer_timings['dictamel'] = time.perf_counter() - t_dictamel_start
-    if verbose:
-        print(f"<<< END layer: dictamel ({layer_timings['dictamel']:.2f}s)")
-
-    # Layer in Scelsi Pezzi (interval-based, like organetta - transposes to fit harmony)
-    if verbose:
-        print("\n>>> START layer: scelsipezzi")
-    t_scelsipezzi_start = time.perf_counter()
-    if include_scelsipezzi:
-        if verbose:
-            print(f"\nLayering Scelsi Pezzi samples (NumPy engine, every {scelsipezzi_interval}s)...")
-
-        scelsipezzi_dict = load_scelsipezzi_samples()
-        if scelsipezzi_dict:
-            sp_sample_list = [{"name": name, "pitch_classes": data["pitch_classes"],
-                              "audio_path": data["audio_path"]}
-                             for name, data in sorted(scelsipezzi_dict.items())]
-
-            if sp_sample_list:
-                scelsipezzi_config = LayerConfig(
-                    name="Scelsi Pezzi",
-                    samples=sp_sample_list,
-                    layer_type=LayerType.INTERVAL,
-                    interval_seconds=scelsipezzi_interval,
-                    gain_db=-6.0,
-                    selection=SelectionMode.SEQUENTIAL,
-                )
-
-                scelsipezzi_np = render_layer(
-                    config=scelsipezzi_config,
-                    harmonic_start_times=harmonic_start_times,
-                    harmonic_events=harmonic_events_sorted,
-                    find_transposition_fn=find_bassflute_transposition,
-                    total_duration_ms=total_duration_ms,
-                    sample_rate=SAMPLE_RATE,
-                    channels=CHANNELS,
-                    verbose=verbose,
-                    seed=seed,
-                    render_continuous_fn=render_layer_continuous_np,
-                    render_interval_fn=render_layer_interval_np,
-                )
-
-                usable_len = min(len(scelsipezzi_np), len(master_buffer))
-                master_buffer[:usable_len] += scelsipezzi_np[:usable_len]
-                combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
-
-                if verbose:
-                    print(f"  Mixed Scelsi Pezzi layer (NumPy)")
-    layer_timings['scelsipezzi'] = time.perf_counter() - t_scelsipezzi_start
-    if verbose:
-        print(f"<<< END layer: scelsipezzi ({layer_timings['scelsipezzi']:.2f}s)")
-
-    # Layer in Godette (chord-triggered, one at a time) - CHORD-TRIGGERED VERSION
-    if verbose:
-        print("\n>>> START layer: godette")
-    t_godette_start = time.perf_counter()
-    if include_godette:
-        if verbose:
-            print("\nLayering Godette samples (NumPy engine, chord-triggered)...")
-
-        godette_samples = load_godette_samples()
-        if godette_samples:
-            godette_config = LayerConfig(
-                name="Godette",
-                samples=godette_samples,
-                layer_type=LayerType.CHORD_TRIGGERED,
-                gain_db=-6.0,
-                selection=SelectionMode.SEQUENTIAL,
-            )
-
-            godette_np = render_layer(
-                config=godette_config,
-                harmonic_start_times=harmonic_start_times,
-                harmonic_events=harmonic_events_sorted,
-                find_transposition_fn=find_bassflute_transposition,
-                total_duration_ms=total_duration_ms,
-                sample_rate=SAMPLE_RATE,
-                channels=CHANNELS,
-                verbose=verbose,
-                seed=seed,
-                render_chord_triggered_fn=render_layer_chord_triggered_np,
-            )
-
-            usable_len = min(len(godette_np), len(master_buffer))
-            master_buffer[:usable_len] += godette_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
-
-            if verbose:
-                print(f"  Mixed Godette layer (NumPy)")
-    layer_timings['godette'] = time.perf_counter() - t_godette_start
-    if verbose:
-        print(f"<<< END layer: godette ({layer_timings['godette']:.2f}s)")
+            print(f"  Mixed Feedback layer with chain")
 
     # Final normalization to prevent clipping
     # Normalize to -3 dB to leave headroom while maximizing volume
@@ -6918,11 +5720,11 @@ def load_all_samples(
     # Load progression samples if enabled
     # Only include samples with verified MIDI/audio sync (Perfect score)
     if include_progressions:
-        # Glaz Sax Chorale - all 3 now have manual timing
+        # Glaz Sax Chorale - valid: 01, 02 (03 has timing issues)
         if include_glaz_sax and GLAZ_SAX_MANIFEST_PATH.exists():
             with open(GLAZ_SAX_MANIFEST_PATH) as f:
                 glaz_samples = json.load(f)
-            valid_glaz = ["glaz_sax_chorale-01", "glaz_sax_chorale-02", "glaz_sax_chorale-03"]
+            valid_glaz = ["glaz_sax_chorale-01", "glaz_sax_chorale-02"]
             for name in valid_glaz:
                 if name in glaz_samples:
                     data = glaz_samples[name]
@@ -6939,11 +5741,11 @@ def load_all_samples(
                     }
                     audio_dirs[prefixed_name] = GLAZ_SAX_AUDIO_DIR
 
-        # Hyacinthe - 01-04 now have manual timing (05 excluded, too long)
+        # Hyacinthe - valid: 01, 02, 04 (03 wrong chord count, 05 no MIDI)
         if include_hyacinthe and HYACINTHE_MANIFEST_PATH.exists():
             with open(HYACINTHE_MANIFEST_PATH) as f:
                 hyacinthe_samples = json.load(f)
-            valid_hyacinthe = ["hyacinthe_01", "hyacinthe_02", "hyacinthe_03", "hyacinthe_04"]
+            valid_hyacinthe = ["hyacinthe_01", "hyacinthe_02", "hyacinthe_04"]
             for name in valid_hyacinthe:
                 if name in hyacinthe_samples:
                     data = hyacinthe_samples[name]
@@ -7002,10 +5804,11 @@ def main():
     parser.add_argument("--mutebowl", action="store_true", help="Enable MuteBowl layer (eighth notes)")
     parser.add_argument("--qualitychords", action="store_true", help="Enable quality-aware chord layer (major/minor)")
     parser.add_argument("--qualitychords-density", type=float, default=0.4, help="QualityChords density 0-1 (default: 0.4 = sporadic)")
-    parser.add_argument("--progressions", action="store_true", help="Include progression samples (glaz_sax, hyacinthe, kraus) in skeleton chain pool")
-    parser.add_argument("--no-glaz-sax", action="store_true", help="Exclude Glaz Sax Chorale from skeleton pool")
-    parser.add_argument("--no-hyacinthe", action="store_true", help="Exclude Hyacinthe from skeleton pool")
-    parser.add_argument("--no-kraus", action="store_true", help="Exclude Kraus Chorale from skeleton pool")
+    parser.add_argument("--progressions", action="store_true", help="Enable progression samples (multi-chord sequences)")
+    parser.add_argument("--progressions-interval", type=float, default=8.0, help="Progression sample interval in seconds (default: 8)")
+    parser.add_argument("--no-glaz-sax", action="store_true", help="Exclude Glaz Sax Chorale from progressions")
+    parser.add_argument("--no-hyacinthe", action="store_true", help="Exclude Hyacinthe from progressions")
+    parser.add_argument("--no-kraus", action="store_true", help="Exclude Kraus Chorale from progressions")
     parser.add_argument("--no-handel", action="store_true", help="Exclude Handel strings from chain")
     parser.add_argument("--prophetfalse", action="store_true", help="Enable Prophet False synth layer")
     parser.add_argument("--prophetfalse-interval", type=float, default=3.0, help="Prophet False interval in seconds (default: 3)")
@@ -7015,52 +5818,11 @@ def main():
     parser.add_argument("--laken", action="store_true", help="Enable Laken layer (16th note clouds, 5s bursts after 7-9s silence, -5dB)")
     parser.add_argument("--gentleharpsi", action="store_true", help="Enable Gentle Harpsichord layer (32nd note clouds, 6s bursts after 10-11s silence)")
     parser.add_argument("--feedback", action="store_true", help="Enable Feedback layer (overlapping, random selection)")
-    parser.add_argument("--feedback-interval", type=float, default=4.0, help="Feedback interval in seconds (default: 4)")
-    parser.add_argument("--stylo", action="store_true", help="Enable Stylo layer (like organetta but faster, every 2s)")
-    parser.add_argument("--stylo-interval", type=float, default=2.0, help="Stylo interval in seconds (default: 2)")
-    parser.add_argument("--trichords", action="store_true", help="Enable Trichords layer (continuous, like bass flute)")
-    parser.add_argument("--tremolo-oct", action="store_true", help="Enable Tremolo Oct layer (interval, like organetta)")
-    parser.add_argument("--tremolo-oct-interval", type=float, default=4.0, help="Tremolo Oct interval in seconds (default: 4)")
-    parser.add_argument("--averyviolin", action="store_true", help="Enable Avery Violin layer (continuous, like bass flute)")
-    parser.add_argument("--dictamel", action="store_true", help="Enable Dictamel layer (continuous, like bass flute)")
-    parser.add_argument("--scelsipezzi", action="store_true", help="Enable Scelsi Pezzi layer (interval-based, transposes to fit harmony)")
-    parser.add_argument("--scelsipezzi-interval", type=float, default=8.0, help="Scelsi Pezzi interval in seconds (default: 8)")
-    parser.add_argument("--godette", action="store_true", help="Enable Godette layer (chord-triggered, one at a time)")
+    parser.add_argument("--feedback-interval", type=float, default=8.0, help="Feedback interval in seconds (default: 8)")
     parser.add_argument("--json-only", action="store_true", help="Output JSON only, skip audio rendering")
     parser.add_argument("--duration", type=float, default=90.0, help="Max output duration in seconds (default: 90s = 1:30)")
     parser.add_argument("--fast-preview", action="store_true", help="Use FAST_PREVIEW mode (applies render switches)")
-    parser.add_argument("--skeleton-test", action="store_true", help="Skeleton timing test: only skeleton + MIDI synth (no other layers)")
     args = parser.parse_args()
-
-    # SKELETON TEST MODE: Only skeleton + MIDI synth chords for timing verification
-    if args.skeleton_test:
-        print("\n[SKELETON TEST MODE - Skeleton + MIDI synth only]")
-        # Disable all layers (but NOT progressions - we want progression samples in chain pool)
-        args.no_bassflute = True
-        args.brodero = False
-        args.jicello = False
-        args.organetta = False
-        args.minorchordbeat = False
-        args.mutebowl = False
-        args.qualitychords = False
-        # Note: args.progressions is NOT set to False here - it controls sample loading
-        # The progression layer rendering is naturally disabled in skeleton-test mode
-        args.prophetfalse = False
-        args.harmonicker = False
-        args.gothicharp = False
-        args.laken = False
-        args.gentleharpsi = False
-        args.feedback = False
-        args.stylo = False
-        args.trichords = False
-        args.tremolo_oct = False
-        args.averyviolin = False
-        args.dictamel = False
-        args.godette = False
-        # Enable MIDI synth so we can hear chord changes
-        args.no_midi = False
-        args.no_midi_synth = False
-        args.no_synth_bass = False  # Keep bass stabs for beat reference
 
     # Apply render switches from module-level constants
     # These override command-line args when set, allowing quick toggling
@@ -7088,7 +5850,7 @@ def main():
     # Load samples from all libraries
     samples, audio_dirs = load_all_samples(
         include_handel=not args.no_handel,
-        include_progressions=args.progressions,  # Only include if --progressions flag is set
+        include_progressions=True,  # Always include in skeleton when available
         include_glaz_sax=not args.no_glaz_sax,
         include_hyacinthe=not args.no_hyacinthe,
         include_kraus=not args.no_kraus
@@ -7125,18 +5887,14 @@ def main():
             prog_sources.append("Hyacinthe")
         if not args.no_kraus:
             prog_sources.append("Kraus")
-        print(f"Progressions in skeleton pool: {', '.join(prog_sources)}")
+        print(f"Progressions: ON @ every {args.progressions_interval:.1f}s ({', '.join(prog_sources)})")
     else:
-        print(f"Progressions in skeleton pool: none")
+        print(f"Progressions: OFF")
     print(f"ProphetFalse: {'ON @ every ' + str(args.prophetfalse_interval) + 's' if args.prophetfalse else 'OFF'}")
     print(f"Harmonicker: {'ON (continuous)' if args.harmonicker else 'OFF'}")
     print(f"GothicHarp: {'ON (5s clouds after 7-9s silence)' if args.gothicharp else 'OFF'}")
     print(f"GentleHarpsi: {'ON (6s clouds of 32nd notes after 10-11s silence)' if args.gentleharpsi else 'OFF'}")
     print(f"Feedback: {'ON @ every ' + str(args.feedback_interval) + 's (random, overlapping)' if args.feedback else 'OFF'}")
-    print(f"Stylo: {'ON @ every ' + str(args.stylo_interval) + 's (sequential)' if args.stylo else 'OFF'}")
-    print(f"AveryViolin: {'ON (continuous)' if args.averyviolin else 'OFF'}")
-    print(f"Dictamel: {'ON (continuous)' if args.dictamel else 'OFF'}")
-    print(f"Godette: {'ON (chord-triggered, one at a time)' if args.godette else 'OFF'}")
     print(f"Max duration: {args.duration:.1f}s ({args.duration/60:.1f} min)")
 
     # Build chain
@@ -7156,19 +5914,16 @@ def main():
 
     # Generate unique filename with timestamp
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    if args.skeleton_test:
-        layer_str = "SKELETON_TEST"
-    else:
-        layers = []
-        if not args.no_midi:
-            layers.append("midi")
-        if not args.no_bassflute:
-            layers.append("bf")
-        if args.brodero:
-            layers.append("bro")
-        if args.jicello:
-            layers.append("jic")
-        layer_str = "_".join(layers) if layers else "dry"
+    layers = []
+    if not args.no_midi:
+        layers.append("midi")
+    if not args.no_bassflute:
+        layers.append("bf")
+    if args.brodero:
+        layers.append("bro")
+    if args.jicello:
+        layers.append("jic")
+    layer_str = "_".join(layers) if layers else "dry"
 
     output_path = OUTPUT_DIR / f"feldman_s{args.seed}_{layer_str}_{timestamp}.wav"
 
@@ -7188,8 +5943,11 @@ def main():
             include_mutebowl=args.mutebowl,
             include_qualitychords=args.qualitychords,
             qualitychords_density=args.qualitychords_density,
-            # Progressions (glaz_sax, hyacinthe, kraus) are skeleton samples in the chain pool.
-            # They are concatenated sequentially, not rendered as an overlay layer.
+            include_progressions=args.progressions,
+            progressions_interval=args.progressions_interval,
+            include_glaz_sax=not args.no_glaz_sax,
+            include_hyacinthe=not args.no_hyacinthe,
+            include_kraus=not args.no_kraus,
             include_prophetfalse=args.prophetfalse,
             prophetfalse_interval=args.prophetfalse_interval,
             include_harmonicker=args.harmonicker,
@@ -7199,16 +5957,6 @@ def main():
             include_gentleharpsi=args.gentleharpsi,
             include_feedback=args.feedback,
             feedback_interval=args.feedback_interval,
-            include_stylo=args.stylo,
-            stylo_interval=args.stylo_interval,
-            include_trichords=args.trichords,
-            include_tremolo_oct=args.tremolo_oct,
-            tremolo_oct_interval=args.tremolo_oct_interval,
-            include_averyviolin=args.averyviolin,
-            include_dictamel=args.dictamel,
-            include_scelsipezzi=args.scelsipezzi,
-            scelsipezzi_interval=args.scelsipezzi_interval,
-            include_godette=args.godette,
             include_synth_bass=not args.no_synth_bass,
             render_midi_synth=not args.no_midi_synth,
             max_duration_ms=int(args.duration * 1000)
@@ -7258,15 +6006,13 @@ def main():
             "minorchordbeat": args.minorchordbeat,
             "mutebowl": args.mutebowl,
             "qualitychords": {"enabled": args.qualitychords, "density": args.qualitychords_density} if args.qualitychords else False,
-            # Progressions are skeleton samples, not overlay layers. They participate in chain building.
-            "progressions_in_skeleton_pool": args.progressions,
+            "progressions": {"enabled": args.progressions, "interval_seconds": args.progressions_interval} if args.progressions else False,
             "prophetfalse": {"enabled": args.prophetfalse, "interval_seconds": args.prophetfalse_interval} if args.prophetfalse else False,
             "harmonicker": {"enabled": args.harmonicker, "interval_seconds": args.harmonicker_interval} if args.harmonicker else False,
             "gothicharp": {"enabled": args.gothicharp, "silence_range": "7-9s", "cloud_duration": "5s", "note_value": "16th"} if args.gothicharp else False,
             "laken": {"enabled": args.laken, "silence_range": "7-9s", "cloud_duration": "5s", "note_value": "16th", "volume_db": -15} if args.laken else False,
             "gentleharpsi": {"enabled": args.gentleharpsi, "silence_range": "10-11s", "cloud_duration": "6s", "note_value": "32nd"} if args.gentleharpsi else False,
             "feedback": {"enabled": args.feedback, "interval_seconds": args.feedback_interval} if args.feedback else False,
-            "scelsipezzi": {"enabled": args.scelsipezzi, "interval_seconds": args.scelsipezzi_interval} if args.scelsipezzi else False,
         },
         "glissando": {
             "duration_ms": GLISSANDO_MS,
