@@ -100,6 +100,11 @@ ENABLE_SYNTH_BASS = True
 FAST_PREVIEW = False
 
 # =============================================================================
+# AUDIO SAMPLE RATE - All audio is resampled to this rate for consistent mixing
+# =============================================================================
+TARGET_SAMPLE_RATE = 44100
+
+# =============================================================================
 
 # Global chord dictionary (loaded once)
 CHORD_DICTIONARY: Dict[str, Dict] = {}
@@ -185,6 +190,7 @@ def get_cached_audio(audio_path: Path) -> Optional[Dict]:
 
     IMPORTANT: Samples are normalized to [-1.0, 1.0] range for mixing.
     Handles 8-bit, 16-bit, 24-bit, and 32-bit samples.
+    Audio is resampled to TARGET_SAMPLE_RATE for consistent mixing.
     """
     global AUDIO_CACHE
     path_str = str(audio_path)
@@ -197,6 +203,7 @@ def get_cached_audio(audio_path: Path) -> Optional[Dict]:
 
     try:
         audio = AudioSegment.from_file(audio_path)
+        source_rate = audio.frame_rate
         raw_samples = audio.get_array_of_samples()
         samples = np.array(raw_samples, dtype=np.float32)
 
@@ -223,9 +230,13 @@ def get_cached_audio(audio_path: Path) -> Optional[Dict]:
         else:
             samples = samples.reshape((-1, 1))
 
+        # Resample to TARGET_SAMPLE_RATE if needed (pitch-preserving)
+        if source_rate != TARGET_SAMPLE_RATE:
+            samples = resample_to_rate(samples, source_rate, TARGET_SAMPLE_RATE)
+
         AUDIO_CACHE[path_str] = {
             "samples": samples,
-            "sample_rate": audio.frame_rate,
+            "sample_rate": TARGET_SAMPLE_RATE,
             "channels": channels,
             "sample_width": sample_width
         }
@@ -258,6 +269,126 @@ def apply_varispeed_np(samples: np.ndarray, semitones: float) -> np.ndarray:
         output[:, ch] = np.interp(output_positions, input_indices, samples[:, ch])
 
     return output
+
+
+def resample_to_rate(samples: np.ndarray, source_rate: int, target_rate: int) -> np.ndarray:
+    """
+    Resample audio from source_rate to target_rate (pitch-preserving).
+    samples: float32 array shape [N, channels]
+    Returns resampled array at target_rate with same duration (different sample count).
+    """
+    if source_rate == target_rate:
+        return samples
+
+    ratio = target_rate / source_rate
+    num_input = len(samples)
+    num_output = max(1, int(num_input * ratio))
+    channels = samples.shape[1]
+
+    # Vectorized resampling using linear interpolation
+    output_positions = np.arange(num_output) / ratio
+    output_positions = np.clip(output_positions, 0, num_input - 1.001)
+    input_indices = np.arange(num_input)
+
+    output = np.zeros((num_output, channels), dtype=np.float32)
+    for ch in range(channels):
+        output[:, ch] = np.interp(output_positions, input_indices, samples[:, ch])
+
+    return output
+
+
+def apply_stereo_pan(samples: np.ndarray, pan: float) -> np.ndarray:
+    """
+    Apply stereo panning to audio.
+    samples: float32 array shape [N, 2] (stereo)
+    pan: -1.0 = full left, 0.0 = center, +1.0 = full right
+    Returns panned stereo array.
+    """
+    if samples.shape[1] != 2:
+        return samples
+
+    # Clamp pan to valid range
+    pan = np.clip(pan, -1.0, 1.0)
+
+    # Equal power panning
+    # At center (pan=0): both channels at ~0.707 (-3dB)
+    # At hard left (pan=-1): left=1.0, right=0.0
+    # At hard right (pan=+1): left=0.0, right=1.0
+    angle = (pan + 1.0) * np.pi / 4.0  # 0 to pi/2
+    left_gain = np.cos(angle)
+    right_gain = np.sin(angle)
+
+    output = samples.copy()
+    # Mix both input channels into each output channel with panning
+    mono = (samples[:, 0] + samples[:, 1]) * 0.5
+    output[:, 0] = mono * left_gain
+    output[:, 1] = mono * right_gain
+
+    return output
+
+
+def apply_dynamic_pan_envelope(samples: np.ndarray, pan_values: np.ndarray) -> np.ndarray:
+    """
+    Apply a time-varying pan envelope to audio.
+    samples: float32 array shape [N, 2] (stereo)
+    pan_values: array of pan values (-1 to +1) of length N
+    Returns panned stereo array.
+    """
+    if samples.shape[1] != 2 or len(pan_values) != len(samples):
+        return samples
+
+    # Clamp pan values
+    pan_values = np.clip(pan_values, -1.0, 1.0)
+
+    # Calculate per-sample gains using equal power panning
+    angles = (pan_values + 1.0) * np.pi / 4.0
+    left_gains = np.cos(angles)
+    right_gains = np.sin(angles)
+
+    # Mix to mono then redistribute
+    mono = (samples[:, 0] + samples[:, 1]) * 0.5
+
+    output = np.zeros_like(samples)
+    output[:, 0] = mono * left_gains
+    output[:, 1] = mono * right_gains
+
+    return output
+
+
+def detect_audio_activity(buffer: np.ndarray, window_ms: int = 50,
+                          sample_rate: int = 44100, threshold: float = 0.001) -> np.ndarray:
+    """
+    Detect where audio is active (has content above threshold).
+    Returns a boolean array of same length as buffer.
+    """
+    if len(buffer) == 0:
+        return np.array([], dtype=bool)
+
+    # Calculate RMS in windows
+    window_samples = int(window_ms * sample_rate / 1000)
+    if window_samples < 1:
+        window_samples = 1
+
+    # Get mono amplitude
+    if len(buffer.shape) > 1:
+        mono = np.abs(buffer).max(axis=1)
+    else:
+        mono = np.abs(buffer)
+
+    # Pad to make length divisible by window
+    pad_len = (window_samples - len(mono) % window_samples) % window_samples
+    if pad_len > 0:
+        mono = np.pad(mono, (0, pad_len), mode='constant')
+
+    # Reshape and calculate max per window
+    num_windows = len(mono) // window_samples
+    windowed = mono[:num_windows * window_samples].reshape(num_windows, window_samples)
+    window_maxes = windowed.max(axis=1)
+
+    # Expand back to sample resolution
+    activity = np.repeat(window_maxes > threshold, window_samples)[:len(buffer)]
+
+    return activity
 
 
 def apply_glissando_np(samples: np.ndarray, sample_rate: int,
@@ -5683,10 +5814,9 @@ def render_chain_to_wav(
     # === NUMPY BUFFER APPROACH ===
     # First pass: render all chain samples and track ACTUAL rendered timing
     # Audio render creates the clock. MIDI follows that clock. Not the other way around.
-    # NOTE: We use 44100 for timing because pydub converts all audio to this rate
-    # for playback. The samples are at 48kHz but get stretched to 44.1kHz, so
-    # MIDI timing must use 44100 to match the actual audio playback.
-    SAMPLE_RATE = 44100
+    # NOTE: All samples are resampled to TARGET_SAMPLE_RATE (44100) on load via
+    # get_cached_audio(), so timing calculations use this consistent rate.
+    SAMPLE_RATE = TARGET_SAMPLE_RATE
     CHANNELS = 2
     chain_samples_list = []  # [(samples_np, duration_samples)]
     rendered_events = []  # List[RenderedSkeletonEvent] - actual timing
@@ -5772,6 +5902,17 @@ def render_chain_to_wav(
         if verbose:
             trans_str = f" (trans {link.transposition:+d})" if link.transposition else ""
             print(f"  {link.sample}{trans_str}: {int(rendered_duration_ms)}ms")
+
+        # Add a gap between skeleton samples (5-10 seconds of silence)
+        # This allows sustained layers to breathe and hold harmonic states longer
+        if i < len(chain) - 1:  # Don't add gap after last sample
+            gap_ms = random.uniform(5000, 10000)  # 5-10 seconds
+            gap_samples = int(gap_ms * SAMPLE_RATE / 1000)
+            silence = np.zeros((gap_samples, CHANNELS), dtype=np.float32)
+            chain_samples_list.append((silence, gap_samples))
+            rendered_cursor_ms += gap_ms
+            if verbose:
+                print(f"    [gap: {gap_ms/1000:.1f}s]")
 
     # Calculate total samples
     total_chain_samples = sum(num_samples for _, num_samples in chain_samples_list)
@@ -6015,7 +6156,7 @@ def render_chain_to_wav(
                     name="Bass flute",
                     samples=bf_sample_list,
                     layer_type=LayerType.CONTINUOUS,
-                    gain_db=-3.0,
+                    gain_db=+3.0,
                 )
 
                 bassflute_np = render_layer(
@@ -6140,7 +6281,7 @@ def render_chain_to_wav(
                 samples=organetta_samples,
                 layer_type=LayerType.INTERVAL,
                 interval_seconds=organetta_interval,
-                gain_db=-5.0,
+                gain_db=-18.0,
                 selection=SelectionMode.SEQUENTIAL,
             )
 
@@ -6330,7 +6471,7 @@ def render_chain_to_wav(
                 samples=harmonicker_samples,
                 layer_type=LayerType.INTERVAL,
                 interval_seconds=harmonicker_interval,
-                gain_db=-15.0,  # Was -19 dB, slightly louder
+                gain_db=-30.0,
                 selection=SelectionMode.SEQUENTIAL,
             )
 
@@ -6358,7 +6499,13 @@ def render_chain_to_wav(
             if verbose:
                 print(f"  Mixed Harmonicker layer (NumPy)")
 
-    # Layer in Gothic Harp clouds (sporadic 16th note bursts) - UNIFIED NUMPY VERSION
+    # ==========================================================================
+    # CLOUD LAYERS WITH DYNAMIC PANNING
+    # Render all clouds first, then apply dynamic panning when they overlap
+    # ==========================================================================
+    cloud_layers = []  # List of (name, buffer, base_pan)
+
+    # Layer in Gothic Harp clouds (sporadic 16th note bursts)
     if include_gothicharp:
         if verbose:
             print("\nLayering Gothic Harp clouds (NumPy engine, 16th note bursts)...")
@@ -6392,15 +6539,10 @@ def render_chain_to_wav(
                 render_interval_fn=render_layer_interval_np,
                 render_cloud_fn=render_layer_cloud_np,
             )
+            # Base pan: slightly left (-0.3)
+            cloud_layers.append(("Gothic Harp", gothicharp_np, -0.3))
 
-            usable_len = min(len(gothicharp_np), len(master_buffer))
-            master_buffer[:usable_len] += gothicharp_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
-
-            if verbose:
-                print(f"  Mixed Gothic Harp layer (NumPy)")
-
-    # Layer in Laken clouds (sporadic 16th note bursts) - UNIFIED NUMPY VERSION
+    # Layer in Laken clouds (sporadic 16th note bursts)
     if include_laken:
         if verbose:
             print("\nLayering Laken clouds (NumPy engine, 16th note bursts)...")
@@ -6434,15 +6576,10 @@ def render_chain_to_wav(
                 render_interval_fn=render_layer_interval_np,
                 render_cloud_fn=render_layer_cloud_np,
             )
+            # Base pan: center (0.0)
+            cloud_layers.append(("Laken", laken_np, 0.0))
 
-            usable_len = min(len(laken_np), len(master_buffer))
-            master_buffer[:usable_len] += laken_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
-
-            if verbose:
-                print(f"  Mixed Laken layer (NumPy)")
-
-    # Layer in Gentle Harpsichord clouds (sporadic 32nd note bursts) - UNIFIED NUMPY VERSION
+    # Layer in Gentle Harpsichord clouds (sporadic 32nd note bursts)
     if include_gentleharpsi:
         if verbose:
             print("\nLayering Gentle Harpsichord clouds (NumPy engine, 32nd note bursts)...")
@@ -6476,13 +6613,86 @@ def render_chain_to_wav(
                 render_interval_fn=render_layer_interval_np,
                 render_cloud_fn=render_layer_cloud_np,
             )
+            # Base pan: slightly right (+0.3)
+            cloud_layers.append(("Gentle Harpsichord", gentleharpsi_np, 0.3))
 
-            usable_len = min(len(gentleharpsi_np), len(master_buffer))
-            master_buffer[:usable_len] += gentleharpsi_np[:usable_len]
-            combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
+    # Apply dynamic panning to clouds based on overlap
+    if cloud_layers:
+        if verbose:
+            print("\nApplying dynamic stereo panning to clouds...")
+
+        # Detect activity for each cloud layer
+        cloud_activities = []
+        for name, buf, base_pan in cloud_layers:
+            usable_len = min(len(buf), len(master_buffer))
+            padded_buf = np.zeros((len(master_buffer), 2), dtype=np.float32)
+            padded_buf[:usable_len] = buf[:usable_len]
+            activity = detect_audio_activity(padded_buf, window_ms=50, sample_rate=SAMPLE_RATE)
+            cloud_activities.append(activity)
+
+        # Calculate overlap count at each sample position
+        activity_stack = np.array(cloud_activities, dtype=np.float32)
+        overlap_count = activity_stack.sum(axis=0)
+
+        # Pan spread factor: more spread when more clouds overlap
+        # 1 cloud = no extra spread, 2+ clouds = spread to opposite sides
+        max_pan_spread = 0.7  # Maximum additional pan when overlapping
+
+        # Apply panning to each cloud layer and mix into master
+        for i, (name, buf, base_pan) in enumerate(cloud_layers):
+            usable_len = min(len(buf), len(master_buffer))
+
+            # Create pan envelope based on overlap
+            pan_envelope = np.full(len(master_buffer), base_pan, dtype=np.float32)
+
+            # When overlapping, spread apart
+            for j, (other_name, other_buf, other_base_pan) in enumerate(cloud_layers):
+                if i == j:
+                    continue
+                # Where both are active, increase pan separation
+                both_active = cloud_activities[i] & cloud_activities[j]
+
+                # Direction: if this cloud's base_pan < other's, go more left, else go more right
+                if base_pan <= other_base_pan:
+                    spread_direction = -1.0  # Go left
+                else:
+                    spread_direction = 1.0   # Go right
+
+                # Smooth the activity detection for gradual panning
+                # Apply a simple smoothing (rolling average)
+                smooth_window = int(SAMPLE_RATE * 0.3)  # 300ms smoothing
+                if smooth_window > 1:
+                    kernel = np.ones(smooth_window) / smooth_window
+                    smooth_activity = np.convolve(both_active.astype(np.float32), kernel, mode='same')
+                else:
+                    smooth_activity = both_active.astype(np.float32)
+
+                # Apply spread
+                pan_envelope += spread_direction * max_pan_spread * smooth_activity
+
+            # Clamp pan to valid range
+            pan_envelope = np.clip(pan_envelope, -1.0, 1.0)
+
+            # Apply panning to buffer
+            padded_buf = np.zeros((len(master_buffer), 2), dtype=np.float32)
+            padded_buf[:usable_len] = buf[:usable_len]
+            panned_buf = apply_dynamic_pan_envelope(padded_buf, pan_envelope)
+
+            # Mix into master
+            master_buffer += panned_buf
 
             if verbose:
-                print(f"  Mixed Gentle Harpsichord layer (NumPy)")
+                # Calculate how much panning was applied
+                active_samples = cloud_activities[i].sum()
+                if active_samples > 0:
+                    active_pan_values = pan_envelope[cloud_activities[i]]
+                    avg_pan = np.mean(active_pan_values)
+                    pan_range = np.max(active_pan_values) - np.min(active_pan_values)
+                    print(f"  Mixed {name} layer (pan: base={base_pan:+.1f}, avg={avg_pan:+.2f}, range={pan_range:.2f})")
+                else:
+                    print(f"  Mixed {name} layer (no activity)")
+
+        combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
 
     # Layer in Feedback loops (overlapping, random selection) - UNIFIED NUMPY VERSION
     if verbose:
@@ -6677,7 +6887,7 @@ def render_chain_to_wav(
                     name="Avery Violin",
                     samples=av_sample_list,
                     layer_type=LayerType.CONTINUOUS,
-                    gain_db=-6.0,
+                    gain_db=-2.0,  # Boosted from -6.0
                 )
 
                 averyviolin_np = render_layer(
@@ -6812,7 +7022,7 @@ def render_chain_to_wav(
                 name="Godette",
                 samples=godette_samples,
                 layer_type=LayerType.CHORD_TRIGGERED,
-                gain_db=-6.0,
+                gain_db=0.0,
                 selection=SelectionMode.SEQUENTIAL,
             )
 
