@@ -1,0 +1,102 @@
+{
+  "seed": 789,
+  "duration_ms": 15000,
+  "sample_rate": 44100,
+  "include_handel": true,
+  "chain_length": 3,
+  "harmonic_events": 6,
+  "rendered_events": [
+    {
+      "sample_name": "3voices_31",
+      "transposition": 0,
+      "rendered_start_ms": 0.0,
+      "rendered_duration_ms": 6566.213151927438,
+      "rendered_end_ms": 6566.213151927438,
+      "chord_b_start_ms": 2450.079534301283
+    },
+    {
+      "sample_name": "3voices_1",
+      "transposition": 4,
+      "rendered_start_ms": 6566.213151927438,
+      "rendered_duration_ms": 3802.222222222222,
+      "rendered_end_ms": 10368.43537414966,
+      "chord_b_start_ms": 7836.001412323088
+    },
+    {
+      "sample_name": "3voices_1",
+      "transposition": 0,
+      "rendered_start_ms": 10368.43537414966,
+      "rendered_duration_ms": 4790.521541950114,
+      "rendered_end_ms": 15158.956916099774,
+      "chord_b_start_ms": 11968.275588535003
+    }
+  ],
+  "harmonic_timeline": [
+    {
+      "start_ms": 0.0,
+      "end_ms": 2450.079534301283,
+      "chord_name": "first_chord",
+      "chord_root": 0,
+      "chord_pcs": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "start_ms": 2450.079534301283,
+      "end_ms": 11566.213151927437,
+      "chord_name": "unknown",
+      "chord_root": 3,
+      "chord_pcs": [
+        10,
+        3,
+        5
+      ]
+    },
+    {
+      "start_ms": 6566.213151927438,
+      "end_ms": 7836.001412323088,
+      "chord_name": "unknown_cont",
+      "chord_root": 3,
+      "chord_pcs": [
+        10,
+        3,
+        5
+      ]
+    },
+    {
+      "start_ms": 7836.001412323088,
+      "end_ms": 15368.43537414966,
+      "chord_name": "unknown",
+      "chord_root": 4,
+      "chord_pcs": [
+        9,
+        4,
+        7
+      ]
+    },
+    {
+      "start_ms": 10368.43537414966,
+      "end_ms": 11968.275588535003,
+      "chord_name": "unknown_cont",
+      "chord_root": 4,
+      "chord_pcs": [
+        9,
+        4,
+        7
+      ]
+    },
+    {
+      "start_ms": 11968.275588535003,
+      "end_ms": 20158.956916099774,
+      "chord_name": "unknown",
+      "chord_root": 0,
+      "chord_pcs": [
+        0,
+        3,
+        5
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9026 @@
+{
+  "seed": 789,
+  "max_uses": 2,
+  "layers": {
+    "midi_chords": true,
+    "synth_bass": true,
+    "bass_flute": true,
+    "brodero": false,
+    "jicello": true,
+    "organetta": {
+      "enabled": true,
+      "interval_seconds": 4.0
+    },
+    "minorchordbeat": false,
+    "mutebowl": false,
+    "qualitychords": false,
+    "progressions": false,
+    "prophetfalse": false,
+    "harmonicker": false,
+    "gothicharp": false,
+    "laken": false,
+    "gentleharpsi": false,
+    "feedback": {
+      "enabled": true,
+      "interval_seconds": 4.0
+    }
+  },
+  "glissando": {
+    "duration_ms": 200,
+    "anticipation_ms": 100
+  },
+  "progression_sources": {
+    "glaz_sax": true,
+    "hyacinthe": true,
+    "kraus": true,
+    "handel": true
+  },
+  "chain": [
+    {
+      "sample": "3voices_34",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        6,
+        11
+      ],
+      "last_pcs": [
+        0,
+        3,
+        5
+      ],
+      "duration_ms": 5857,
+      "chord_b_onset_ratio": 0.28683626429912923,
+      "bridging_chord": {
+        "name": "as_M9(add6)-72",
+        "pitch_classes": [
+          0,
+          3,
+          5,
+          7,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          3,
+          5
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          3,
+          7
+        ],
+        "next_sample": "handel_corelli_7",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "b",
+            "gb",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "b",
+            "gf",
+            "df"
+          ],
+          "note_names_unicode": [
+            "b",
+            "g\u266d",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 1.68,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "f",
+            "c",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "f",
+            "c",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "f",
+            "c",
+            "e\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_corelli_7",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        3,
+        7
+      ],
+      "last_pcs": [
+        0,
+        3,
+        7
+      ],
+      "duration_ms": 3173,
+      "chord_b_onset_ratio": 0.5,
+      "bridging_chord": {
+        "name": "as_M9(add6)-72",
+        "pitch_classes": [
+          0,
+          3,
+          5,
+          7,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          3,
+          7
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          5,
+          10
+        ],
+        "next_sample": "3voices_1",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            0,
+            3,
+            7
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "g"
+          ],
+          "chord_name": "Cm",
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "g"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "g"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_1",
+      "transposition": -1,
+      "first_pcs": [
+        0,
+        5,
+        10
+      ],
+      "last_pcs": [
+        2,
+        4,
+        11
+      ],
+      "duration_ms": 4791,
+      "chord_b_onset_ratio": 0.3339595074097266,
+      "bridging_chord": {
+        "name": "[C,D,E,F,G,B]",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          5,
+          7,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          4,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          2,
+          7,
+          11
+        ],
+        "next_sample": "handel_handel_14",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "db",
+            "gb",
+            "cb"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "gf",
+            "cf"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "g\u266d",
+            "c\u266d"
+          ]
+        },
+        {
+          "start_time": 1.6,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_14",
+      "transposition": 0,
+      "first_pcs": [
+        2,
+        7,
+        11
+      ],
+      "last_pcs": [
+        3,
+        6,
+        7,
+        9
+      ],
+      "duration_ms": 6902,
+      "chord_b_onset_ratio": 0.2540024640657084,
+      "bridging_chord": {
+        "name": "fs_m6/9-43",
+        "pitch_classes": [
+          0,
+          2,
+          3,
+          6,
+          7,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          3,
+          6,
+          7,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          7
+        ],
+        "next_sample": "3voices_4",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            2,
+            7,
+            11
+          ],
+          "note_names": [
+            "d",
+            "g",
+            "b"
+          ],
+          "chord_name": "G",
+          "note_names_lilypond": [
+            "d",
+            "g",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d",
+            "g",
+            "b"
+          ]
+        },
+        {
+          "start_time": 6,
+          "pitch_classes": [
+            3,
+            6,
+            7,
+            9
+          ],
+          "note_names": [
+            "ds",
+            "fs",
+            "g",
+            "a"
+          ],
+          "chord_name": "Edim7",
+          "note_names_lilypond": [
+            "ds",
+            "fs",
+            "g",
+            "a"
+          ],
+          "note_names_unicode": [
+            "d\u266f",
+            "f\u266f",
+            "g",
+            "a"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_4",
+      "transposition": 1,
+      "first_pcs": [
+        0,
+        2,
+        7
+      ],
+      "last_pcs": [
+        1,
+        4,
+        6
+      ],
+      "duration_ms": 4203,
+      "chord_b_onset_ratio": 0.41874851296692833,
+      "bridging_chord": {
+        "name": "g_M9-2",
+        "pitch_classes": [
+          1,
+          2,
+          4,
+          6,
+          7,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          6
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          4,
+          9
+        ],
+        "next_sample": "handel_handel_1",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "db",
+            "cb",
+            "fs"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "cf",
+            "fs"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "c\u266d",
+            "f\u266f"
+          ]
+        },
+        {
+          "start_time": 1.76,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_1",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        4,
+        9
+      ],
+      "last_pcs": [
+        1,
+        4,
+        7,
+        10
+      ],
+      "duration_ms": 6614,
+      "chord_b_onset_ratio": 0.2312471586604031,
+      "bridging_chord": {
+        "name": "a_7\u266d9-32",
+        "pitch_classes": [
+          1,
+          4,
+          6,
+          7,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          7,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          9,
+          10
+        ],
+        "next_sample": "3voices_6",
+        "next_transposition": -3
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            4,
+            9
+          ],
+          "note_names": [
+            "a",
+            "cs",
+            "e"
+          ],
+          "chord_name": "A",
+          "note_names_lilypond": [
+            "a",
+            "cs",
+            "e"
+          ],
+          "note_names_unicode": [
+            "a",
+            "c\u266f",
+            "e"
+          ]
+        },
+        {
+          "start_time": 1.526,
+          "pitch_classes": [
+            1,
+            4,
+            7,
+            10
+          ],
+          "note_names": [
+            "cs",
+            "e",
+            "g",
+            "bb"
+          ],
+          "chord_name": "C#dim7",
+          "note_names_lilypond": [
+            "cs",
+            "e",
+            "g",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "c\u266f",
+            "e",
+            "g",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_6",
+      "transposition": -3,
+      "first_pcs": [
+        1,
+        9,
+        10
+      ],
+      "last_pcs": [
+        0,
+        9,
+        10
+      ],
+      "duration_ms": 4861,
+      "chord_b_onset_ratio": 0.23451964616334087,
+      "bridging_chord": {
+        "name": "c_13\u266d9-108",
+        "pitch_classes": [
+          0,
+          1,
+          4,
+          7,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          9,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          4,
+          7,
+          10
+        ],
+        "next_sample": "handel_handel_10",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            4
+          ],
+          "note_names": [
+            "db",
+            "e",
+            "c"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "e",
+            "c"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "e",
+            "c"
+          ]
+        },
+        {
+          "start_time": 1.14,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "df"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "d\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_10",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        4,
+        7,
+        10
+      ],
+      "last_pcs": [
+        1,
+        4,
+        6,
+        10
+      ],
+      "duration_ms": 7093,
+      "chord_b_onset_ratio": 0.2492598336387988,
+      "bridging_chord": {
+        "name": "fs_7\u266d9-32",
+        "pitch_classes": [
+          0,
+          1,
+          4,
+          6,
+          7,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          6,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          1,
+          7
+        ],
+        "next_sample": "3voices_8",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            4,
+            7,
+            10
+          ],
+          "note_names": [
+            "g",
+            "bb",
+            "db",
+            "e"
+          ],
+          "chord_name": "Gdim7",
+          "note_names_lilypond": [
+            "g",
+            "bf",
+            "df",
+            "e"
+          ],
+          "note_names_unicode": [
+            "g",
+            "b\u266d",
+            "d\u266d",
+            "e"
+          ]
+        },
+        {
+          "start_time": 1.768,
+          "pitch_classes": [
+            1,
+            4,
+            6,
+            10
+          ],
+          "note_names": [
+            "fs",
+            "as",
+            "cs",
+            "e"
+          ],
+          "chord_name": "F#7",
+          "note_names_lilypond": [
+            "fs",
+            "as",
+            "cs",
+            "e"
+          ],
+          "note_names_unicode": [
+            "f\u266f",
+            "a\u266f",
+            "c\u266f",
+            "e"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_8",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        1,
+        7
+      ],
+      "last_pcs": [
+        0,
+        3,
+        5
+      ],
+      "duration_ms": 4886,
+      "chord_b_onset_ratio": 0.38886614817846904,
+      "bridging_chord": {
+        "name": "cs_7 alt.-91",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          5,
+          6,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          3,
+          5
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          5,
+          10
+        ],
+        "next_sample": "handel_handel_11",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            7
+          ],
+          "note_names": [
+            "g",
+            "db",
+            "c"
+          ],
+          "note_names_lilypond": [
+            "g",
+            "df",
+            "c"
+          ],
+          "note_names_unicode": [
+            "g",
+            "d\u266d",
+            "c"
+          ]
+        },
+        {
+          "start_time": 1.9,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "f",
+            "c",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "f",
+            "c",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "f",
+            "c",
+            "e\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_11",
+      "transposition": -1,
+      "first_pcs": [
+        1,
+        5,
+        10
+      ],
+      "last_pcs": [
+        1,
+        4,
+        7,
+        10
+      ],
+      "duration_ms": 7290,
+      "chord_b_onset_ratio": 0.262002743484225,
+      "bridging_chord": {
+        "name": "fs_7\u266d9-32",
+        "pitch_classes": [
+          0,
+          1,
+          4,
+          6,
+          7,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          7,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          1,
+          4
+        ],
+        "next_sample": "3voices_15",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            2,
+            6,
+            11
+          ],
+          "note_names": [
+            "b",
+            "d",
+            "fs"
+          ],
+          "chord_name": "Bm",
+          "note_names_lilypond": [
+            "b",
+            "d",
+            "fs"
+          ],
+          "note_names_unicode": [
+            "b",
+            "d",
+            "f\u266f"
+          ]
+        },
+        {
+          "start_time": 1.91,
+          "pitch_classes": [
+            2,
+            5,
+            8,
+            11
+          ],
+          "note_names": [
+            "f",
+            "ab",
+            "b",
+            "d"
+          ],
+          "chord_name": "Bdim7",
+          "note_names_lilypond": [
+            "f",
+            "af",
+            "b",
+            "d"
+          ],
+          "note_names_unicode": [
+            "f",
+            "a\u266d",
+            "b",
+            "d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_15",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        1,
+        4
+      ],
+      "last_pcs": [
+        0,
+        1,
+        3
+      ],
+      "duration_ms": 4810,
+      "chord_b_onset_ratio": 0.2494802494802495,
+      "bridging_chord": {
+        "name": "[C,Db,Eb,E,Gb,G]",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          4,
+          6,
+          7
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          1,
+          3
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          3,
+          7
+        ],
+        "next_sample": "handel_corelli_8",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            4
+          ],
+          "note_names": [
+            "e",
+            "c",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "e",
+            "c",
+            "df"
+          ],
+          "note_names_unicode": [
+            "e",
+            "c",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 1.2,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "e\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_corelli_8",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        3,
+        7
+      ],
+      "last_pcs": [
+        0,
+        5,
+        8
+      ],
+      "duration_ms": 4423,
+      "chord_b_onset_ratio": 0.2623773671001597,
+      "bridging_chord": {
+        "name": "[C,Db,Eb,F,Gb,Ab]",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          5,
+          6,
+          8
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          5,
+          8
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          1,
+          3
+        ],
+        "next_sample": "3voices_9",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            0,
+            3,
+            7
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "g"
+          ],
+          "chord_name": "Cm",
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "g"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "g"
+          ]
+        },
+        {
+          "start_time": 1.15,
+          "pitch_classes": [
+            0,
+            5,
+            8
+          ],
+          "note_names": [
+            "f",
+            "ab",
+            "c"
+          ],
+          "chord_name": "Fm",
+          "note_names_lilypond": [
+            "f",
+            "af",
+            "c"
+          ],
+          "note_names_unicode": [
+            "f",
+            "a\u266d",
+            "c"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_9",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        1,
+        3
+      ],
+      "last_pcs": [
+        3,
+        5,
+        10
+      ],
+      "duration_ms": 5522,
+      "chord_b_onset_ratio": 0.3585657370517928,
+      "bridging_chord": {
+        "name": "f_m11-49",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          5,
+          8,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          3,
+          5,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          5,
+          8
+        ],
+        "next_sample": "handel_corelli_9",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "db",
+            "c",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "c",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "c",
+            "e\u266d"
+          ]
+        },
+        {
+          "start_time": 1.98,
+          "pitch_classes": [
+            3,
+            5,
+            10
+          ],
+          "note_names": [
+            "bb",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "bf",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "b\u266d",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_corelli_9",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        5,
+        8
+      ],
+      "last_pcs": [
+        2,
+        5,
+        11
+      ],
+      "duration_ms": 8181,
+      "chord_b_onset_ratio": 0.24322023592362882,
+      "bridging_chord": {
+        "name": "b_7#9-109",
+        "pitch_classes": [
+          1,
+          2,
+          5,
+          8,
+          10,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          5,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          2,
+          11
+        ],
+        "next_sample": "3voices_5",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            0,
+            5,
+            8
+          ],
+          "note_names": [
+            "c",
+            "f",
+            "ab"
+          ],
+          "chord_name": "Fm",
+          "note_names_lilypond": [
+            "c",
+            "f",
+            "af"
+          ],
+          "note_names_unicode": [
+            "c",
+            "f",
+            "a\u266d"
+          ]
+        },
+        {
+          "start_time": 2.0,
+          "pitch_classes": [
+            2,
+            5,
+            11
+          ],
+          "note_names": [
+            "b",
+            "d",
+            "f"
+          ],
+          "chord_name": "Bdim",
+          "note_names_lilypond": [
+            "b",
+            "d",
+            "f"
+          ],
+          "note_names_unicode": [
+            "b",
+            "d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_5",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        2,
+        11
+      ],
+      "last_pcs": [
+        1,
+        2,
+        11
+      ],
+      "duration_ms": 3561,
+      "chord_b_onset_ratio": 0.3257511934849761,
+      "bridging_chord": {
+        "name": "b_7#9-109",
+        "pitch_classes": [
+          1,
+          2,
+          5,
+          8,
+          10,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          2,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          5,
+          8,
+          11
+        ],
+        "next_sample": "handel_handel_12",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            11
+          ],
+          "note_names": [
+            "db",
+            "cb",
+            "d"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "cf",
+            "d"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "c\u266d",
+            "d"
+          ]
+        },
+        {
+          "start_time": 1.16,
+          "pitch_classes": [
+            1,
+            2,
+            11
+          ],
+          "note_names": [
+            "b",
+            "db",
+            "d"
+          ],
+          "note_names_lilypond": [
+            "b",
+            "df",
+            "d"
+          ],
+          "note_names_unicode": [
+            "b",
+            "d\u266d",
+            "d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_12",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        5,
+        8,
+        11
+      ],
+      "last_pcs": [
+        1,
+        5,
+        9
+      ],
+      "duration_ms": 7136,
+      "chord_b_onset_ratio": 0.25707303586806957,
+      "bridging_chord": {
+        "name": "[Db,D,F,Ab,A,B]",
+        "pitch_classes": [
+          1,
+          2,
+          5,
+          8,
+          9,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          5,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          2,
+          11
+        ],
+        "next_sample": "3voices_14",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            5,
+            8,
+            11
+          ],
+          "note_names": [
+            "db",
+            "f",
+            "ab",
+            "b"
+          ],
+          "chord_name": "Db7",
+          "note_names_lilypond": [
+            "df",
+            "f",
+            "af",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "f",
+            "a\u266d",
+            "b"
+          ]
+        },
+        {
+          "start_time": 6,
+          "pitch_classes": [
+            1,
+            5,
+            9
+          ],
+          "note_names": [
+            "f",
+            "a",
+            "cs"
+          ],
+          "chord_name": "Faug",
+          "note_names_lilypond": [
+            "f",
+            "a",
+            "cs"
+          ],
+          "note_names_unicode": [
+            "f",
+            "a",
+            "c\u266f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_14",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        2,
+        11
+      ],
+      "last_pcs": [
+        1,
+        2,
+        11
+      ],
+      "duration_ms": 3609,
+      "chord_b_onset_ratio": 0.2881684677195899,
+      "bridging_chord": {
+        "name": "[Db,D,F,Ab,A,B]",
+        "pitch_classes": [
+          1,
+          2,
+          5,
+          8,
+          9,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          2,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          5,
+          8,
+          9,
+          11
+        ],
+        "next_sample": "handel_handel_17",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            11
+          ],
+          "note_names": [
+            "db",
+            "b",
+            "d"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "b",
+            "d"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "b",
+            "d"
+          ]
+        },
+        {
+          "start_time": 1.04,
+          "pitch_classes": [
+            1,
+            2,
+            11
+          ],
+          "note_names": [
+            "d",
+            "db",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "d",
+            "df",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d",
+            "d\u266d",
+            "b"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_17",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        5,
+        8,
+        9,
+        11
+      ],
+      "last_pcs": [
+        1,
+        6,
+        9
+      ],
+      "duration_ms": 6574,
+      "chord_b_onset_ratio": 0.31841393811955543,
+      "bridging_chord": {
+        "name": "[Db,D,F,Gb,Ab,A]",
+        "pitch_classes": [
+          1,
+          2,
+          5,
+          6,
+          8,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          6,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          2,
+          8
+        ],
+        "next_sample": "3voices_17",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            5,
+            8,
+            9,
+            11
+          ],
+          "note_names": [
+            "db",
+            "f",
+            "ab",
+            "a",
+            "b"
+          ],
+          "chord_name": "Db7(add#5)",
+          "note_names_lilypond": [
+            "df",
+            "f",
+            "af",
+            "a",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "f",
+            "a\u266d",
+            "a",
+            "b"
+          ]
+        },
+        {
+          "start_time": 2.12,
+          "pitch_classes": [
+            1,
+            6,
+            9
+          ],
+          "note_names": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "chord_name": "F#m",
+          "note_names_lilypond": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "note_names_unicode": [
+            "f\u266f",
+            "a",
+            "c\u266f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_17",
+      "transposition": 1,
+      "first_pcs": [
+        1,
+        2,
+        8
+      ],
+      "last_pcs": [
+        1,
+        4,
+        6
+      ],
+      "duration_ms": 4832,
+      "chord_b_onset_ratio": 0.38079470198675497,
+      "bridging_chord": {
+        "name": "[Db,D,E,Gb,Ab,A]",
+        "pitch_classes": [
+          1,
+          2,
+          4,
+          6,
+          8,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          6
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          2,
+          6,
+          9
+        ],
+        "next_sample": "handel_handel_13",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            7
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "g"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "g"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "g"
+          ]
+        },
+        {
+          "start_time": 1.84,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "f",
+            "eb",
+            "c"
+          ],
+          "note_names_lilypond": [
+            "f",
+            "ef",
+            "c"
+          ],
+          "note_names_unicode": [
+            "f",
+            "e\u266d",
+            "c"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_13",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        2,
+        6,
+        9
+      ],
+      "last_pcs": [
+        2,
+        7,
+        11
+      ],
+      "duration_ms": 6952,
+      "chord_b_onset_ratio": 0.2612481857764877,
+      "bridging_chord": {
+        "name": "d_m6/9-43",
+        "pitch_classes": [
+          1,
+          2,
+          4,
+          6,
+          7,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          7,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          2,
+          4
+        ],
+        "next_sample": "3voices_3",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            2,
+            6,
+            9
+          ],
+          "note_names": [
+            "d",
+            "fs",
+            "a",
+            "cs"
+          ],
+          "chord_name": "Dmaj7",
+          "note_names_lilypond": [
+            "d",
+            "fs",
+            "a",
+            "cs"
+          ],
+          "note_names_unicode": [
+            "d",
+            "f\u266f",
+            "a",
+            "c\u266f"
+          ]
+        },
+        {
+          "start_time": 1.8,
+          "pitch_classes": [
+            2,
+            7,
+            11
+          ],
+          "note_names": [
+            "g",
+            "b",
+            "d"
+          ],
+          "chord_name": "G",
+          "note_names_lilypond": [
+            "g",
+            "b",
+            "d"
+          ],
+          "note_names_unicode": [
+            "g",
+            "b",
+            "d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_3",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        2,
+        4
+      ],
+      "last_pcs": [
+        0,
+        6,
+        11
+      ],
+      "duration_ms": 3676,
+      "chord_b_onset_ratio": 0.2992383025027204,
+      "bridging_chord": {
+        "name": "fs_M9-2",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          6,
+          7,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          6,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          4,
+          7,
+          11
+        ],
+        "next_sample": "handel_handel_9",
+        "next_transposition": -2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            4
+          ],
+          "note_names": [
+            "db",
+            "d",
+            "e"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "d",
+            "e"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "d",
+            "e"
+          ]
+        },
+        {
+          "start_time": 1.1,
+          "pitch_classes": [
+            0,
+            6,
+            11
+          ],
+          "note_names": [
+            "b",
+            "c",
+            "fs"
+          ],
+          "note_names_lilypond": [
+            "b",
+            "c",
+            "fs"
+          ],
+          "note_names_unicode": [
+            "b",
+            "c",
+            "f\u266f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_9",
+      "transposition": -2,
+      "first_pcs": [
+        4,
+        7,
+        11
+      ],
+      "last_pcs": [
+        2,
+        5,
+        8,
+        11
+      ],
+      "duration_ms": 6504,
+      "chord_b_onset_ratio": 0.23062730627306274,
+      "bridging_chord": {
+        "name": "b_13-100",
+        "pitch_classes": [
+          0,
+          2,
+          5,
+          7,
+          8,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          5,
+          8,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          7
+        ],
+        "next_sample": "3voices_10",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            6,
+            9
+          ],
+          "note_names": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "chord_name": "F#m",
+          "note_names_lilypond": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "note_names_unicode": [
+            "f\u266f",
+            "a",
+            "c\u266f"
+          ]
+        },
+        {
+          "start_time": 1.5,
+          "pitch_classes": [
+            1,
+            4,
+            7,
+            10
+          ],
+          "note_names": [
+            "e",
+            "g",
+            "bb",
+            "db"
+          ],
+          "chord_name": "Edim7",
+          "note_names_lilypond": [
+            "e",
+            "g",
+            "bf",
+            "df"
+          ],
+          "note_names_unicode": [
+            "e",
+            "g",
+            "b\u266d",
+            "d\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_10",
+      "transposition": 1,
+      "first_pcs": [
+        0,
+        2,
+        7
+      ],
+      "last_pcs": [
+        1,
+        4,
+        6
+      ],
+      "duration_ms": 4921,
+      "chord_b_onset_ratio": 0.3657793131477342,
+      "bridging_chord": {
+        "name": "d_m6/9-43",
+        "pitch_classes": [
+          1,
+          2,
+          4,
+          6,
+          7,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          6
+        ],
+        "next_sample_first_pcs_subset": [
+          2,
+          4,
+          6,
+          11
+        ],
+        "next_sample": "handel_handel_16",
+        "next_transposition": 5
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "gb",
+            "db",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "gf",
+            "df",
+            "b"
+          ],
+          "note_names_unicode": [
+            "g\u266d",
+            "d\u266d",
+            "b"
+          ]
+        },
+        {
+          "start_time": 1.8,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "f",
+            "c",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "f",
+            "c",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "f",
+            "c",
+            "e\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_16",
+      "transposition": 5,
+      "first_pcs": [
+        2,
+        4,
+        6,
+        11
+      ],
+      "last_pcs": [
+        1,
+        4,
+        6,
+        10
+      ],
+      "duration_ms": 6843,
+      "chord_b_onset_ratio": 0.25788493528355283,
+      "bridging_chord": {
+        "name": "[Db,D,E,Gb,Bb,B]",
+        "pitch_classes": [
+          1,
+          2,
+          4,
+          6,
+          10,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          6,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          2,
+          4
+        ],
+        "next_sample": "3voices_7",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            6,
+            9,
+            11
+          ],
+          "note_names": [
+            "cb",
+            "fs",
+            "a",
+            "b",
+            "cs"
+          ],
+          "chord_name": "F#m(add11)",
+          "note_names_lilypond": [
+            "cf",
+            "fs",
+            "a",
+            "b",
+            "cs"
+          ],
+          "note_names_unicode": [
+            "c\u266d",
+            "f\u266f",
+            "a",
+            "b",
+            "c\u266f"
+          ]
+        },
+        {
+          "start_time": 6,
+          "pitch_classes": [
+            1,
+            5,
+            8,
+            11
+          ],
+          "note_names": [
+            "db",
+            "f",
+            "ab",
+            "b"
+          ],
+          "chord_name": "Db7",
+          "note_names_lilypond": [
+            "df",
+            "f",
+            "af",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "f",
+            "a\u266d",
+            "b"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_7",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        2,
+        4
+      ],
+      "last_pcs": [
+        0,
+        6,
+        10
+      ],
+      "duration_ms": 4225,
+      "chord_b_onset_ratio": 0.4698224852071007,
+      "bridging_chord": {
+        "name": "c_7\u266d9(\u266d5)-65",
+        "pitch_classes": [
+          0,
+          1,
+          4,
+          6,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          6,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          4,
+          6,
+          10
+        ],
+        "next_sample": "handel_handel_6",
+        "next_transposition": 2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            4
+          ],
+          "note_names": [
+            "e",
+            "d",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "e",
+            "d",
+            "df"
+          ],
+          "note_names_unicode": [
+            "e",
+            "d",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 1.985,
+          "pitch_classes": [
+            0,
+            6,
+            10
+          ],
+          "note_names": [
+            "c",
+            "fs",
+            "bb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "fs",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "c",
+            "f\u266f",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_6",
+      "transposition": 2,
+      "first_pcs": [
+        1,
+        4,
+        6,
+        10
+      ],
+      "last_pcs": [
+        1,
+        3,
+        7,
+        10
+      ],
+      "duration_ms": 6752,
+      "chord_b_onset_ratio": 0.25962878510573273,
+      "bridging_chord": {
+        "name": "ds_7\u266d9-32",
+        "pitch_classes": [
+          1,
+          3,
+          4,
+          6,
+          7,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          3,
+          7,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          3,
+          4,
+          6
+        ],
+        "next_sample": "3voices_12",
+        "next_transposition": 2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            2,
+            4,
+            8,
+            11
+          ],
+          "note_names": [
+            "gs",
+            "b",
+            "d",
+            "e"
+          ],
+          "chord_name": "E7",
+          "note_names_lilypond": [
+            "gs",
+            "b",
+            "d",
+            "e"
+          ],
+          "note_names_unicode": [
+            "g\u266f",
+            "b",
+            "d",
+            "e"
+          ]
+        },
+        {
+          "start_time": 6,
+          "pitch_classes": [
+            1,
+            5,
+            8,
+            11
+          ],
+          "note_names": [
+            "db",
+            "f",
+            "ab",
+            "b"
+          ],
+          "chord_name": "Db7",
+          "note_names_lilypond": [
+            "df",
+            "f",
+            "af",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "f",
+            "a\u266d",
+            "b"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_12",
+      "transposition": 2,
+      "first_pcs": [
+        3,
+        4,
+        6
+      ],
+      "last_pcs": [
+        1,
+        2,
+        8
+      ],
+      "duration_ms": 3660,
+      "chord_b_onset_ratio": 0.31721311475409836,
+      "bridging_chord": {
+        "name": "[Db,D,E,G,Ab,Bb]",
+        "pitch_classes": [
+          1,
+          2,
+          4,
+          7,
+          8,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          2,
+          8
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          4,
+          7,
+          10
+        ],
+        "next_sample": "handel_handel_2",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            4
+          ],
+          "note_names": [
+            "d",
+            "e",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "d",
+            "e",
+            "df"
+          ],
+          "note_names_unicode": [
+            "d",
+            "e",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 1.161,
+          "pitch_classes": [
+            0,
+            6,
+            11
+          ],
+          "note_names": [
+            "c",
+            "b",
+            "gb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "b",
+            "gf"
+          ],
+          "note_names_unicode": [
+            "c",
+            "b",
+            "g\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_2",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        4,
+        7,
+        10
+      ],
+      "last_pcs": [
+        0,
+        3,
+        6,
+        9
+      ],
+      "duration_ms": 6512,
+      "chord_b_onset_ratio": 0.24570024570024573,
+      "bridging_chord": {
+        "name": "a_13\u266d5(\u266d9)-66",
+        "pitch_classes": [
+          0,
+          3,
+          4,
+          6,
+          7,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          3,
+          6,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          3,
+          4,
+          6
+        ],
+        "next_sample": "3voices_16",
+        "next_transposition": 2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            4,
+            7,
+            10
+          ],
+          "note_names": [
+            "cs",
+            "e",
+            "g",
+            "bb"
+          ],
+          "chord_name": "C#dim7",
+          "note_names_lilypond": [
+            "cs",
+            "e",
+            "g",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "c\u266f",
+            "e",
+            "g",
+            "b\u266d"
+          ]
+        },
+        {
+          "start_time": 1.6,
+          "pitch_classes": [
+            0,
+            3,
+            6,
+            9
+          ],
+          "note_names": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "chord_name": "Ebdim7",
+          "note_names_lilypond": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "note_names_unicode": [
+            "d\u266f",
+            "f\u266f",
+            "a",
+            "c"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_16",
+      "transposition": 2,
+      "first_pcs": [
+        3,
+        4,
+        6
+      ],
+      "last_pcs": [
+        0,
+        2,
+        8
+      ],
+      "duration_ms": 4379,
+      "chord_b_onset_ratio": 0.42680977392098657,
+      "bridging_chord": {
+        "name": "e_M7#11-55",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          7,
+          8,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          2,
+          8
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          4,
+          7,
+          10
+        ],
+        "next_sample": "handel_handel_12",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            4
+          ],
+          "note_names": [
+            "d",
+            "db",
+            "e"
+          ],
+          "note_names_lilypond": [
+            "d",
+            "df",
+            "e"
+          ],
+          "note_names_unicode": [
+            "d",
+            "d\u266d",
+            "e"
+          ]
+        },
+        {
+          "start_time": 1.869,
+          "pitch_classes": [
+            0,
+            6,
+            10
+          ],
+          "note_names": [
+            "c",
+            "gb",
+            "bb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "gf",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "c",
+            "g\u266d",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_12",
+      "transposition": -1,
+      "first_pcs": [
+        0,
+        4,
+        7,
+        10
+      ],
+      "last_pcs": [
+        0,
+        4,
+        8
+      ],
+      "duration_ms": 7136,
+      "chord_b_onset_ratio": 0.25707303586806957,
+      "bridging_chord": {
+        "name": "e_M7#11-55",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          7,
+          8,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          4,
+          8
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          7
+        ],
+        "next_sample": "3voices_13",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            5,
+            8,
+            11
+          ],
+          "note_names": [
+            "db",
+            "f",
+            "ab",
+            "b"
+          ],
+          "chord_name": "Db7",
+          "note_names_lilypond": [
+            "df",
+            "f",
+            "af",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "f",
+            "a\u266d",
+            "b"
+          ]
+        },
+        {
+          "start_time": 6,
+          "pitch_classes": [
+            1,
+            5,
+            9
+          ],
+          "note_names": [
+            "f",
+            "a",
+            "cs"
+          ],
+          "chord_name": "Faug",
+          "note_names_lilypond": [
+            "f",
+            "a",
+            "cs"
+          ],
+          "note_names_unicode": [
+            "f",
+            "a",
+            "c\u266f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_13",
+      "transposition": 1,
+      "first_pcs": [
+        0,
+        2,
+        7
+      ],
+      "last_pcs": [
+        1,
+        4,
+        6
+      ],
+      "duration_ms": 4232,
+      "chord_b_onset_ratio": 0.4170604914933837,
+      "bridging_chord": {
+        "name": "fs_7\u266d9-32",
+        "pitch_classes": [
+          0,
+          1,
+          4,
+          6,
+          7,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          6
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          4,
+          7,
+          10
+        ],
+        "next_sample": "handel_handel_15",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "gb",
+            "db",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "gf",
+            "df",
+            "b"
+          ],
+          "note_names_unicode": [
+            "g\u266d",
+            "d\u266d",
+            "b"
+          ]
+        },
+        {
+          "start_time": 1.765,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "eb",
+            "c",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "ef",
+            "c",
+            "f"
+          ],
+          "note_names_unicode": [
+            "e\u266d",
+            "c",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_15",
+      "transposition": 1,
+      "first_pcs": [
+        1,
+        4,
+        7,
+        10
+      ],
+      "last_pcs": [
+        2,
+        7,
+        10
+      ],
+      "duration_ms": 6531,
+      "chord_b_onset_ratio": 0.2702203456920438,
+      "bridging_chord": {
+        "name": "fs_9-19",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          6,
+          7,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          7,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          7
+        ],
+        "next_sample": "3voices_23",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            0,
+            3,
+            6,
+            9
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "fs",
+            "a"
+          ],
+          "chord_name": "Ebdim7",
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "fs",
+            "a"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f\u266f",
+            "a"
+          ]
+        },
+        {
+          "start_time": 6,
+          "pitch_classes": [
+            1,
+            6,
+            9
+          ],
+          "note_names": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "chord_name": "F#m",
+          "note_names_lilypond": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "note_names_unicode": [
+            "f\u266f",
+            "a",
+            "c\u266f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_23",
+      "transposition": 1,
+      "first_pcs": [
+        0,
+        2,
+        7
+      ],
+      "last_pcs": [
+        1,
+        4,
+        6
+      ],
+      "duration_ms": 4219,
+      "chord_b_onset_ratio": 0.41265702773169,
+      "bridging_chord": {
+        "name": "fs_7\u266d9-32",
+        "pitch_classes": [
+          0,
+          1,
+          4,
+          6,
+          7,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          6
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          4,
+          7,
+          10
+        ],
+        "next_sample": "handel_handel_3",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "b",
+            "gb",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "b",
+            "gf",
+            "df"
+          ],
+          "note_names_unicode": [
+            "b",
+            "g\u266d",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 1.741,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_3",
+      "transposition": 1,
+      "first_pcs": [
+        1,
+        4,
+        7,
+        10
+      ],
+      "last_pcs": [
+        0,
+        3,
+        6,
+        9
+      ],
+      "duration_ms": 6617,
+      "chord_b_onset_ratio": 0.23092035665709537,
+      "bridging_chord": {
+        "name": "a_13\u266d5(\u266d9)-66",
+        "pitch_classes": [
+          0,
+          3,
+          4,
+          6,
+          7,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          3,
+          6,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          3,
+          4,
+          6
+        ],
+        "next_sample": "3voices_20",
+        "next_transposition": 2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            0,
+            3,
+            6,
+            9
+          ],
+          "note_names": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "chord_name": "Ebdim7",
+          "note_names_lilypond": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "note_names_unicode": [
+            "d\u266f",
+            "f\u266f",
+            "a",
+            "c"
+          ]
+        },
+        {
+          "start_time": 1.528,
+          "pitch_classes": [
+            2,
+            5,
+            8,
+            11
+          ],
+          "note_names": [
+            "f",
+            "ab",
+            "b",
+            "d"
+          ],
+          "chord_name": "Bdim7",
+          "note_names_lilypond": [
+            "f",
+            "af",
+            "b",
+            "d"
+          ],
+          "note_names_unicode": [
+            "f",
+            "a\u266d",
+            "b",
+            "d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_20",
+      "transposition": 2,
+      "first_pcs": [
+        3,
+        4,
+        6
+      ],
+      "last_pcs": [
+        0,
+        2,
+        8
+      ],
+      "duration_ms": 4165,
+      "chord_b_onset_ratio": 0.41536614645858344,
+      "bridging_chord": {
+        "name": "e_M7#11-55",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          7,
+          8,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          2,
+          8
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          7,
+          10
+        ],
+        "next_sample": "handel_handel_16",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            4
+          ],
+          "note_names": [
+            "db",
+            "e",
+            "d"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "e",
+            "d"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "e",
+            "d"
+          ]
+        },
+        {
+          "start_time": 1.73,
+          "pitch_classes": [
+            0,
+            6,
+            10
+          ],
+          "note_names": [
+            "c",
+            "bb",
+            "fs"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "bf",
+            "fs"
+          ],
+          "note_names_unicode": [
+            "c",
+            "b\u266d",
+            "f\u266f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_16",
+      "transposition": 1,
+      "first_pcs": [
+        0,
+        2,
+        7,
+        10
+      ],
+      "last_pcs": [
+        0,
+        2,
+        6,
+        9
+      ],
+      "duration_ms": 6843,
+      "chord_b_onset_ratio": 0.25788493528355283,
+      "bridging_chord": {
+        "name": "fs_13-101",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          6,
+          7,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          2,
+          6,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          7
+        ],
+        "next_sample": "3voices_26",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            6,
+            9,
+            11
+          ],
+          "note_names": [
+            "cb",
+            "fs",
+            "a",
+            "b",
+            "cs"
+          ],
+          "chord_name": "F#m(add11)",
+          "note_names_lilypond": [
+            "cf",
+            "fs",
+            "a",
+            "b",
+            "cs"
+          ],
+          "note_names_unicode": [
+            "c\u266d",
+            "f\u266f",
+            "a",
+            "b",
+            "c\u266f"
+          ]
+        },
+        {
+          "start_time": 6,
+          "pitch_classes": [
+            1,
+            5,
+            8,
+            11
+          ],
+          "note_names": [
+            "db",
+            "f",
+            "ab",
+            "b"
+          ],
+          "chord_name": "Db7",
+          "note_names_lilypond": [
+            "df",
+            "f",
+            "af",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "f",
+            "a\u266d",
+            "b"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_26",
+      "transposition": 1,
+      "first_pcs": [
+        0,
+        2,
+        7
+      ],
+      "last_pcs": [
+        1,
+        4,
+        6
+      ],
+      "duration_ms": 6039,
+      "chord_b_onset_ratio": 0.3094883258817685,
+      "bridging_chord": {
+        "name": "g_M9-2",
+        "pitch_classes": [
+          1,
+          2,
+          4,
+          6,
+          7,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          6
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          4,
+          9
+        ],
+        "next_sample": "handel_handel_1",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "db",
+            "gb",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "gf",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "g\u266d",
+            "b"
+          ]
+        },
+        {
+          "start_time": 1.869,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_1",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        4,
+        9
+      ],
+      "last_pcs": [
+        1,
+        4,
+        7,
+        10
+      ],
+      "duration_ms": 6614,
+      "chord_b_onset_ratio": 0.2312471586604031,
+      "bridging_chord": {
+        "name": "a_7\u266d9-32",
+        "pitch_classes": [
+          1,
+          4,
+          6,
+          7,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          7,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          4,
+          9,
+          10
+        ],
+        "next_sample": "3voices_19",
+        "next_transposition": -3
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            4,
+            9
+          ],
+          "note_names": [
+            "a",
+            "cs",
+            "e"
+          ],
+          "chord_name": "A",
+          "note_names_lilypond": [
+            "a",
+            "cs",
+            "e"
+          ],
+          "note_names_unicode": [
+            "a",
+            "c\u266f",
+            "e"
+          ]
+        },
+        {
+          "start_time": 1.526,
+          "pitch_classes": [
+            1,
+            4,
+            7,
+            10
+          ],
+          "note_names": [
+            "cs",
+            "e",
+            "g",
+            "bb"
+          ],
+          "chord_name": "C#dim7",
+          "note_names_lilypond": [
+            "cs",
+            "e",
+            "g",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "c\u266f",
+            "e",
+            "g",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_19",
+      "transposition": -3,
+      "first_pcs": [
+        4,
+        9,
+        10
+      ],
+      "last_pcs": [
+        0,
+        3,
+        9
+      ],
+      "duration_ms": 4838,
+      "chord_b_onset_ratio": 0.3670938404299297,
+      "bridging_chord": {
+        "name": "a_13\u266d5(\u266d9)-66",
+        "pitch_classes": [
+          0,
+          3,
+          4,
+          6,
+          7,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          3,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          3,
+          6,
+          9
+        ],
+        "next_sample": "handel_handel_8",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            7
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "g"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "g"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "g"
+          ]
+        },
+        {
+          "start_time": 1.776,
+          "pitch_classes": [
+            0,
+            3,
+            6
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "fs"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "fs"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f\u266f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_8",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        3,
+        6,
+        9
+      ],
+      "last_pcs": [
+        1,
+        6,
+        9
+      ],
+      "duration_ms": 6804,
+      "chord_b_onset_ratio": 0.21982885807022723,
+      "bridging_chord": {
+        "name": "ds_7#9-109",
+        "pitch_classes": [
+          1,
+          3,
+          4,
+          6,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          6,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          3,
+          4
+        ],
+        "next_sample": "3voices_22",
+        "next_transposition": 2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            0,
+            3,
+            6,
+            9
+          ],
+          "note_names": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "chord_name": "Ebdim7",
+          "note_names_lilypond": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "note_names_unicode": [
+            "d\u266f",
+            "f\u266f",
+            "a",
+            "c"
+          ]
+        },
+        {
+          "start_time": 1.49,
+          "pitch_classes": [
+            1,
+            6,
+            9
+          ],
+          "note_names": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "chord_name": "F#m",
+          "note_names_lilypond": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "note_names_unicode": [
+            "f\u266f",
+            "a",
+            "c\u266f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_22",
+      "transposition": 2,
+      "first_pcs": [
+        1,
+        3,
+        4
+      ],
+      "last_pcs": [
+        1,
+        3,
+        4
+      ],
+      "duration_ms": 3753,
+      "chord_b_onset_ratio": 0.43005595523581136,
+      "bridging_chord": {
+        "name": "ds_7#9-109",
+        "pitch_classes": [
+          1,
+          3,
+          4,
+          6,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          3,
+          4
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          6,
+          9
+        ],
+        "next_sample": "handel_handel_9",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            11
+          ],
+          "note_names": [
+            "b",
+            "d",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "b",
+            "d",
+            "df"
+          ],
+          "note_names_unicode": [
+            "b",
+            "d",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 1.614,
+          "pitch_classes": [
+            1,
+            2,
+            11
+          ],
+          "note_names": [
+            "b",
+            "d",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "b",
+            "d",
+            "df"
+          ],
+          "note_names_unicode": [
+            "b",
+            "d",
+            "d\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_9",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        6,
+        9
+      ],
+      "last_pcs": [
+        1,
+        4,
+        7,
+        10
+      ],
+      "duration_ms": 6504,
+      "chord_b_onset_ratio": 0.23062730627306274,
+      "bridging_chord": {
+        "name": "a_7\u266d9-32",
+        "pitch_classes": [
+          1,
+          4,
+          6,
+          7,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          7,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          9,
+          10
+        ],
+        "next_sample": "3voices_21",
+        "next_transposition": -3
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            6,
+            9
+          ],
+          "note_names": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "chord_name": "F#m",
+          "note_names_lilypond": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "note_names_unicode": [
+            "f\u266f",
+            "a",
+            "c\u266f"
+          ]
+        },
+        {
+          "start_time": 1.5,
+          "pitch_classes": [
+            1,
+            4,
+            7,
+            10
+          ],
+          "note_names": [
+            "e",
+            "g",
+            "bb",
+            "db"
+          ],
+          "chord_name": "Edim7",
+          "note_names_lilypond": [
+            "e",
+            "g",
+            "bf",
+            "df"
+          ],
+          "note_names_unicode": [
+            "e",
+            "g",
+            "b\u266d",
+            "d\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_21",
+      "transposition": -3,
+      "first_pcs": [
+        1,
+        9,
+        10
+      ],
+      "last_pcs": [
+        0,
+        9,
+        10
+      ],
+      "duration_ms": 4963,
+      "chord_b_onset_ratio": 0.26677412855127947,
+      "bridging_chord": {
+        "name": "c_13\u266d9-108",
+        "pitch_classes": [
+          0,
+          1,
+          4,
+          7,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          9,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          4,
+          7,
+          10
+        ],
+        "next_sample": "handel_handel_4",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            4
+          ],
+          "note_names": [
+            "c",
+            "e",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "e",
+            "df"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 1.324,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "df"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "d\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_4",
+      "transposition": -1,
+      "first_pcs": [
+        1,
+        4,
+        7,
+        10
+      ],
+      "last_pcs": [
+        2,
+        5,
+        8,
+        11
+      ],
+      "duration_ms": 6828,
+      "chord_b_onset_ratio": 0.26525942432806726,
+      "bridging_chord": {
+        "name": "f_13\u266d5(\u266d9)-66",
+        "pitch_classes": [
+          2,
+          4,
+          5,
+          7,
+          8,
+          10,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          5,
+          8,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          4,
+          5,
+          7
+        ],
+        "next_sample": "3voices_24",
+        "next_transposition": 3
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            2,
+            5,
+            8,
+            11
+          ],
+          "note_names": [
+            "f",
+            "ab",
+            "b",
+            "d"
+          ],
+          "chord_name": "Bdim7",
+          "note_names_lilypond": [
+            "f",
+            "af",
+            "b",
+            "d"
+          ],
+          "note_names_unicode": [
+            "f",
+            "a\u266d",
+            "b",
+            "d"
+          ]
+        },
+        {
+          "start_time": 6,
+          "pitch_classes": [
+            0,
+            3,
+            6,
+            9
+          ],
+          "note_names": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "chord_name": "Ebdim7",
+          "note_names_lilypond": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "note_names_unicode": [
+            "d\u266f",
+            "f\u266f",
+            "a",
+            "c"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_24",
+      "transposition": 3,
+      "first_pcs": [
+        4,
+        5,
+        7
+      ],
+      "last_pcs": [
+        2,
+        3,
+        9
+      ],
+      "duration_ms": 3593,
+      "chord_b_onset_ratio": 0.3618146395769552,
+      "bridging_chord": {
+        "name": "[D,Eb,F,G,A,Bb]",
+        "pitch_classes": [
+          2,
+          3,
+          5,
+          7,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          3,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          2,
+          3,
+          7,
+          10
+        ],
+        "next_sample": "handel_handel_13",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            4
+          ],
+          "note_names": [
+            "db",
+            "d",
+            "e"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "d",
+            "e"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "d",
+            "e"
+          ]
+        },
+        {
+          "start_time": 1.3,
+          "pitch_classes": [
+            0,
+            6,
+            11
+          ],
+          "note_names": [
+            "c",
+            "gb",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "gf",
+            "b"
+          ],
+          "note_names_unicode": [
+            "c",
+            "g\u266d",
+            "b"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_13",
+      "transposition": 1,
+      "first_pcs": [
+        2,
+        3,
+        7,
+        10
+      ],
+      "last_pcs": [
+        0,
+        3,
+        8
+      ],
+      "duration_ms": 6952,
+      "chord_b_onset_ratio": 0.2612481857764877,
+      "bridging_chord": {
+        "name": "[C,D,Eb,F,G,Ab]",
+        "pitch_classes": [
+          0,
+          2,
+          3,
+          5,
+          7,
+          8
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          3,
+          8
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          7
+        ],
+        "next_sample": "3voices_28",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            2,
+            6,
+            9
+          ],
+          "note_names": [
+            "d",
+            "fs",
+            "a",
+            "cs"
+          ],
+          "chord_name": "Dmaj7",
+          "note_names_lilypond": [
+            "d",
+            "fs",
+            "a",
+            "cs"
+          ],
+          "note_names_unicode": [
+            "d",
+            "f\u266f",
+            "a",
+            "c\u266f"
+          ]
+        },
+        {
+          "start_time": 1.8,
+          "pitch_classes": [
+            2,
+            7,
+            11
+          ],
+          "note_names": [
+            "g",
+            "b",
+            "d"
+          ],
+          "chord_name": "G",
+          "note_names_lilypond": [
+            "g",
+            "b",
+            "d"
+          ],
+          "note_names_unicode": [
+            "g",
+            "b",
+            "d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_28",
+      "transposition": 1,
+      "first_pcs": [
+        0,
+        2,
+        7
+      ],
+      "last_pcs": [
+        1,
+        4,
+        6
+      ],
+      "duration_ms": 3529,
+      "chord_b_onset_ratio": 0.2635307452536129,
+      "bridging_chord": {
+        "name": "[C,Db,Eb,E,Gb,G]",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          4,
+          6,
+          7
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          6
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          3,
+          7
+        ],
+        "next_sample": "handel_corelli_7",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "db",
+            "gb",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "gf",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "g\u266d",
+            "b"
+          ]
+        },
+        {
+          "start_time": 0.93,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_corelli_7",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        3,
+        7
+      ],
+      "last_pcs": [
+        0,
+        3,
+        7
+      ],
+      "duration_ms": 3173,
+      "chord_b_onset_ratio": 0.5,
+      "bridging_chord": {
+        "name": "[C,Db,Eb,E,Gb,G]",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          4,
+          6,
+          7
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          3,
+          7
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          1,
+          3
+        ],
+        "next_sample": "3voices_18",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            0,
+            3,
+            7
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "g"
+          ],
+          "chord_name": "Cm",
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "g"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "g"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_18",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        1,
+        3
+      ],
+      "last_pcs": [
+        3,
+        5,
+        10
+      ],
+      "duration_ms": 4273,
+      "chord_b_onset_ratio": 0.42124970746548096,
+      "bridging_chord": {
+        "name": "cs_7 alt.-91",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          5,
+          6,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          3,
+          5,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          5,
+          10
+        ],
+        "next_sample": "handel_handel_11",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "e\u266d"
+          ]
+        },
+        {
+          "start_time": 1.8,
+          "pitch_classes": [
+            3,
+            5,
+            10
+          ],
+          "note_names": [
+            "f",
+            "eb",
+            "bb"
+          ],
+          "note_names_lilypond": [
+            "f",
+            "ef",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "f",
+            "e\u266d",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_11",
+      "transposition": -1,
+      "first_pcs": [
+        1,
+        5,
+        10
+      ],
+      "last_pcs": [
+        1,
+        4,
+        7,
+        10
+      ],
+      "duration_ms": 7290,
+      "chord_b_onset_ratio": 0.262002743484225,
+      "bridging_chord": {
+        "name": "fs_7\u266d9-32",
+        "pitch_classes": [
+          0,
+          1,
+          4,
+          6,
+          7,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          7,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          1,
+          4
+        ],
+        "next_sample": "3voices_6",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            2,
+            6,
+            11
+          ],
+          "note_names": [
+            "b",
+            "d",
+            "fs"
+          ],
+          "chord_name": "Bm",
+          "note_names_lilypond": [
+            "b",
+            "d",
+            "fs"
+          ],
+          "note_names_unicode": [
+            "b",
+            "d",
+            "f\u266f"
+          ]
+        },
+        {
+          "start_time": 1.91,
+          "pitch_classes": [
+            2,
+            5,
+            8,
+            11
+          ],
+          "note_names": [
+            "f",
+            "ab",
+            "b",
+            "d"
+          ],
+          "chord_name": "Bdim7",
+          "note_names_lilypond": [
+            "f",
+            "af",
+            "b",
+            "d"
+          ],
+          "note_names_unicode": [
+            "f",
+            "a\u266d",
+            "b",
+            "d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_6",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        1,
+        4
+      ],
+      "last_pcs": [
+        0,
+        1,
+        3
+      ],
+      "duration_ms": 4861,
+      "chord_b_onset_ratio": 0.23451964616334087,
+      "bridging_chord": {
+        "name": "[C,Db,Eb,E,Gb,G]",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          4,
+          6,
+          7
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          1,
+          3
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          3,
+          7
+        ],
+        "next_sample": "handel_corelli_8",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            4
+          ],
+          "note_names": [
+            "db",
+            "e",
+            "c"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "e",
+            "c"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "e",
+            "c"
+          ]
+        },
+        {
+          "start_time": 1.14,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "df"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "d\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_corelli_8",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        3,
+        7
+      ],
+      "last_pcs": [
+        0,
+        5,
+        8
+      ],
+      "duration_ms": 4423,
+      "chord_b_onset_ratio": 0.2623773671001597,
+      "bridging_chord": {
+        "name": "[C,Db,Eb,F,Gb,Ab]",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          5,
+          6,
+          8
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          5,
+          8
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          1,
+          3
+        ],
+        "next_sample": "3voices_27",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            0,
+            3,
+            7
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "g"
+          ],
+          "chord_name": "Cm",
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "g"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "g"
+          ]
+        },
+        {
+          "start_time": 1.15,
+          "pitch_classes": [
+            0,
+            5,
+            8
+          ],
+          "note_names": [
+            "f",
+            "ab",
+            "c"
+          ],
+          "chord_name": "Fm",
+          "note_names_lilypond": [
+            "f",
+            "af",
+            "c"
+          ],
+          "note_names_unicode": [
+            "f",
+            "a\u266d",
+            "c"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_27",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        1,
+        3
+      ],
+      "last_pcs": [
+        3,
+        5,
+        10
+      ],
+      "duration_ms": 5468,
+      "chord_b_onset_ratio": 0.33284564740307243,
+      "bridging_chord": {
+        "name": "f_m11-49",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          5,
+          8,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          3,
+          5,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          5,
+          8
+        ],
+        "next_sample": "handel_corelli_9",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "e\u266d"
+          ]
+        },
+        {
+          "start_time": 1.82,
+          "pitch_classes": [
+            3,
+            5,
+            10
+          ],
+          "note_names": [
+            "eb",
+            "f",
+            "bb"
+          ],
+          "note_names_lilypond": [
+            "ef",
+            "f",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "e\u266d",
+            "f",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_corelli_9",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        5,
+        8
+      ],
+      "last_pcs": [
+        2,
+        5,
+        11
+      ],
+      "duration_ms": 8181,
+      "chord_b_onset_ratio": 0.24322023592362882,
+      "bridging_chord": {
+        "name": "b_7#9-109",
+        "pitch_classes": [
+          1,
+          2,
+          5,
+          8,
+          10,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          5,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          10,
+          11
+        ],
+        "next_sample": "3voices_29",
+        "next_transposition": -2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            0,
+            5,
+            8
+          ],
+          "note_names": [
+            "c",
+            "f",
+            "ab"
+          ],
+          "chord_name": "Fm",
+          "note_names_lilypond": [
+            "c",
+            "f",
+            "af"
+          ],
+          "note_names_unicode": [
+            "c",
+            "f",
+            "a\u266d"
+          ]
+        },
+        {
+          "start_time": 2.0,
+          "pitch_classes": [
+            2,
+            5,
+            11
+          ],
+          "note_names": [
+            "b",
+            "d",
+            "f"
+          ],
+          "chord_name": "Bdim",
+          "note_names_lilypond": [
+            "b",
+            "d",
+            "f"
+          ],
+          "note_names_unicode": [
+            "b",
+            "d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_29",
+      "transposition": -2,
+      "first_pcs": [
+        1,
+        10,
+        11
+      ],
+      "last_pcs": [
+        1,
+        3,
+        8
+      ],
+      "duration_ms": 4254,
+      "chord_b_onset_ratio": 0.305594734367654,
+      "bridging_chord": {
+        "name": "b_m11-50",
+        "pitch_classes": [
+          1,
+          3,
+          5,
+          8,
+          10,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          3,
+          8
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          5,
+          8,
+          11
+        ],
+        "next_sample": "handel_handel_6",
+        "next_transposition": -3
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "e\u266d"
+          ]
+        },
+        {
+          "start_time": 1.3,
+          "pitch_classes": [
+            3,
+            5,
+            10
+          ],
+          "note_names": [
+            "eb",
+            "f",
+            "bb"
+          ],
+          "note_names_lilypond": [
+            "ef",
+            "f",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "e\u266d",
+            "f",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_6",
+      "transposition": -3,
+      "first_pcs": [
+        1,
+        5,
+        8,
+        11
+      ],
+      "last_pcs": [
+        2,
+        5,
+        8,
+        10
+      ],
+      "duration_ms": 6752,
+      "chord_b_onset_ratio": 0.25962878510573273,
+      "bridging_chord": {
+        "name": "b_7#9-109",
+        "pitch_classes": [
+          1,
+          2,
+          5,
+          8,
+          10,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          5,
+          8,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          10,
+          11
+        ],
+        "next_sample": "3voices_31",
+        "next_transposition": -2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            2,
+            4,
+            8,
+            11
+          ],
+          "note_names": [
+            "gs",
+            "b",
+            "d",
+            "e"
+          ],
+          "chord_name": "E7",
+          "note_names_lilypond": [
+            "gs",
+            "b",
+            "d",
+            "e"
+          ],
+          "note_names_unicode": [
+            "g\u266f",
+            "b",
+            "d",
+            "e"
+          ]
+        },
+        {
+          "start_time": 6,
+          "pitch_classes": [
+            1,
+            5,
+            8,
+            11
+          ],
+          "note_names": [
+            "db",
+            "f",
+            "ab",
+            "b"
+          ],
+          "chord_name": "Db7",
+          "note_names_lilypond": [
+            "df",
+            "f",
+            "af",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "f",
+            "a\u266d",
+            "b"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_31",
+      "transposition": -2,
+      "first_pcs": [
+        1,
+        10,
+        11
+      ],
+      "last_pcs": [
+        1,
+        3,
+        8
+      ],
+      "duration_ms": 6566,
+      "chord_b_onset_ratio": 0.373134328358209,
+      "bridging_chord": {
+        "name": "b_m11-50",
+        "pitch_classes": [
+          1,
+          3,
+          5,
+          8,
+          10,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          3,
+          8
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          5,
+          8
+        ],
+        "next_sample": "handel_handel_14",
+        "next_transposition": -6
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "e\u266d"
+          ]
+        },
+        {
+          "start_time": 2.45,
+          "pitch_classes": [
+            3,
+            5,
+            10
+          ],
+          "note_names": [
+            "eb",
+            "f",
+            "bb"
+          ],
+          "note_names_lilypond": [
+            "ef",
+            "f",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "e\u266d",
+            "f",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_14",
+      "transposition": -6,
+      "first_pcs": [
+        1,
+        5,
+        8
+      ],
+      "last_pcs": [
+        0,
+        1,
+        3,
+        9
+      ],
+      "duration_ms": 6902,
+      "chord_b_onset_ratio": 0.2540024640657084,
+      "bridging_chord": {
+        "name": "[C,Db,Eb,F,Ab,A]",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          5,
+          8,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          1,
+          3,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          1,
+          3
+        ],
+        "next_sample": "3voices_33",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            2,
+            7,
+            11
+          ],
+          "note_names": [
+            "d",
+            "g",
+            "b"
+          ],
+          "chord_name": "G",
+          "note_names_lilypond": [
+            "d",
+            "g",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d",
+            "g",
+            "b"
+          ]
+        },
+        {
+          "start_time": 6,
+          "pitch_classes": [
+            3,
+            6,
+            7,
+            9
+          ],
+          "note_names": [
+            "ds",
+            "fs",
+            "g",
+            "a"
+          ],
+          "chord_name": "Edim7",
+          "note_names_lilypond": [
+            "ds",
+            "fs",
+            "g",
+            "a"
+          ],
+          "note_names_unicode": [
+            "d\u266f",
+            "f\u266f",
+            "g",
+            "a"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_33",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        1,
+        3
+      ],
+      "last_pcs": [
+        3,
+        5,
+        10
+      ],
+      "duration_ms": 4896,
+      "chord_b_onset_ratio": 0.5024509803921569,
+      "bridging_chord": {
+        "name": "[C,Db,Eb,F,A,Bb]",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          5,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          3,
+          5,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          1,
+          3,
+          5,
+          9
+        ],
+        "next_sample": "handel_handel_17",
+        "next_transposition": 4
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "e\u266d"
+          ]
+        },
+        {
+          "start_time": 2.46,
+          "pitch_classes": [
+            3,
+            5,
+            10
+          ],
+          "note_names": [
+            "eb",
+            "f",
+            "bb"
+          ],
+          "note_names_lilypond": [
+            "ef",
+            "f",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "e\u266d",
+            "f",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_17",
+      "transposition": 4,
+      "first_pcs": [
+        0,
+        1,
+        3,
+        5,
+        9
+      ],
+      "last_pcs": [
+        1,
+        5,
+        10
+      ],
+      "duration_ms": 6574,
+      "chord_b_onset_ratio": 0.31841393811955543,
+      "bridging_chord": {
+        "name": "[C,Db,Eb,F,A,Bb]",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          5,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          5,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          1,
+          3
+        ],
+        "next_sample": "3voices_35",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            5,
+            8,
+            9,
+            11
+          ],
+          "note_names": [
+            "db",
+            "f",
+            "ab",
+            "a",
+            "b"
+          ],
+          "chord_name": "Db7(add#5)",
+          "note_names_lilypond": [
+            "df",
+            "f",
+            "af",
+            "a",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "f",
+            "a\u266d",
+            "a",
+            "b"
+          ]
+        },
+        {
+          "start_time": 2.12,
+          "pitch_classes": [
+            1,
+            6,
+            9
+          ],
+          "note_names": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "chord_name": "F#m",
+          "note_names_lilypond": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "note_names_unicode": [
+            "f\u266f",
+            "a",
+            "c\u266f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_35",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        1,
+        3
+      ],
+      "last_pcs": [
+        3,
+        5,
+        10
+      ],
+      "duration_ms": 7221,
+      "chord_b_onset_ratio": 0.34621243595069934,
+      "bridging_chord": {
+        "name": "a_M7(add#11/6)-23",
+        "pitch_classes": [
+          0,
+          3,
+          5,
+          6,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          3,
+          5,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          3,
+          6,
+          9
+        ],
+        "next_sample": "handel_handel_15",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "df"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 2.5,
+          "pitch_classes": [
+            3,
+            5,
+            10
+          ],
+          "note_names": [
+            "eb",
+            "bb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "ef",
+            "bf",
+            "f"
+          ],
+          "note_names_unicode": [
+            "e\u266d",
+            "b\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_15",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        3,
+        6,
+        9
+      ],
+      "last_pcs": [
+        1,
+        6,
+        9
+      ],
+      "duration_ms": 6531,
+      "chord_b_onset_ratio": 0.2702203456920438,
+      "bridging_chord": {
+        "name": "[C,Db,Eb,F,Gb,A]",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          5,
+          6,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          6,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          1,
+          3
+        ],
+        "next_sample": "3voices_9",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            0,
+            3,
+            6,
+            9
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "fs",
+            "a"
+          ],
+          "chord_name": "Ebdim7",
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "fs",
+            "a"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f\u266f",
+            "a"
+          ]
+        },
+        {
+          "start_time": 6,
+          "pitch_classes": [
+            1,
+            6,
+            9
+          ],
+          "note_names": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "chord_name": "F#m",
+          "note_names_lilypond": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "note_names_unicode": [
+            "f\u266f",
+            "a",
+            "c\u266f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_9",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        1,
+        3
+      ],
+      "last_pcs": [
+        3,
+        5,
+        10
+      ],
+      "duration_ms": 5522,
+      "chord_b_onset_ratio": 0.3585657370517928,
+      "bridging_chord": {
+        "name": "a_M7(add#11/6)-23",
+        "pitch_classes": [
+          0,
+          3,
+          5,
+          6,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          3,
+          5,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          3,
+          6,
+          9
+        ],
+        "next_sample": "handel_handel_3",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "db",
+            "c",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "c",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "c",
+            "e\u266d"
+          ]
+        },
+        {
+          "start_time": 1.98,
+          "pitch_classes": [
+            3,
+            5,
+            10
+          ],
+          "note_names": [
+            "bb",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "bf",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "b\u266d",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_3",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        3,
+        6,
+        9
+      ],
+      "last_pcs": [
+        2,
+        5,
+        8,
+        11
+      ],
+      "duration_ms": 6617,
+      "chord_b_onset_ratio": 0.23092035665709537,
+      "bridging_chord": {
+        "name": "f_7#5(\u266d9)-34",
+        "pitch_classes": [
+          2,
+          5,
+          6,
+          8,
+          10,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          5,
+          8,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          5,
+          10,
+          11
+        ],
+        "next_sample": "3voices_8",
+        "next_transposition": -2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            0,
+            3,
+            6,
+            9
+          ],
+          "note_names": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "chord_name": "Ebdim7",
+          "note_names_lilypond": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "note_names_unicode": [
+            "d\u266f",
+            "f\u266f",
+            "a",
+            "c"
+          ]
+        },
+        {
+          "start_time": 1.528,
+          "pitch_classes": [
+            2,
+            5,
+            8,
+            11
+          ],
+          "note_names": [
+            "f",
+            "ab",
+            "b",
+            "d"
+          ],
+          "chord_name": "Bdim7",
+          "note_names_lilypond": [
+            "f",
+            "af",
+            "b",
+            "d"
+          ],
+          "note_names_unicode": [
+            "f",
+            "a\u266d",
+            "b",
+            "d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_8",
+      "transposition": -2,
+      "first_pcs": [
+        5,
+        10,
+        11
+      ],
+      "last_pcs": [
+        1,
+        3,
+        10
+      ],
+      "duration_ms": 4886,
+      "chord_b_onset_ratio": 0.38886614817846904,
+      "bridging_chord": {
+        "name": "ds_7\u266d9-32",
+        "pitch_classes": [
+          1,
+          3,
+          4,
+          6,
+          7,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          3,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          4,
+          7,
+          10
+        ],
+        "next_sample": "handel_handel_10",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            7
+          ],
+          "note_names": [
+            "g",
+            "db",
+            "c"
+          ],
+          "note_names_lilypond": [
+            "g",
+            "df",
+            "c"
+          ],
+          "note_names_unicode": [
+            "g",
+            "d\u266d",
+            "c"
+          ]
+        },
+        {
+          "start_time": 1.9,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "f",
+            "c",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "f",
+            "c",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "f",
+            "c",
+            "e\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_10",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        4,
+        7,
+        10
+      ],
+      "last_pcs": [
+        1,
+        4,
+        6,
+        10
+      ],
+      "duration_ms": 7093,
+      "chord_b_onset_ratio": 0.2492598336387988,
+      "bridging_chord": {
+        "name": "ds_7\u266d9-32",
+        "pitch_classes": [
+          1,
+          3,
+          4,
+          6,
+          7,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          6,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          3,
+          4,
+          6
+        ],
+        "next_sample": "3voices_3",
+        "next_transposition": 2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            4,
+            7,
+            10
+          ],
+          "note_names": [
+            "g",
+            "bb",
+            "db",
+            "e"
+          ],
+          "chord_name": "Gdim7",
+          "note_names_lilypond": [
+            "g",
+            "bf",
+            "df",
+            "e"
+          ],
+          "note_names_unicode": [
+            "g",
+            "b\u266d",
+            "d\u266d",
+            "e"
+          ]
+        },
+        {
+          "start_time": 1.768,
+          "pitch_classes": [
+            1,
+            4,
+            6,
+            10
+          ],
+          "note_names": [
+            "fs",
+            "as",
+            "cs",
+            "e"
+          ],
+          "chord_name": "F#7",
+          "note_names_lilypond": [
+            "fs",
+            "as",
+            "cs",
+            "e"
+          ],
+          "note_names_unicode": [
+            "f\u266f",
+            "a\u266f",
+            "c\u266f",
+            "e"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_3",
+      "transposition": 2,
+      "first_pcs": [
+        3,
+        4,
+        6
+      ],
+      "last_pcs": [
+        1,
+        2,
+        8
+      ],
+      "duration_ms": 3676,
+      "chord_b_onset_ratio": 0.2992383025027204,
+      "bridging_chord": {
+        "name": "[Db,D,E,G,Ab,Bb]",
+        "pitch_classes": [
+          1,
+          2,
+          4,
+          7,
+          8,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          2,
+          8
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          4,
+          7,
+          10
+        ],
+        "next_sample": "handel_handel_2",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            4
+          ],
+          "note_names": [
+            "db",
+            "d",
+            "e"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "d",
+            "e"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "d",
+            "e"
+          ]
+        },
+        {
+          "start_time": 1.1,
+          "pitch_classes": [
+            0,
+            6,
+            11
+          ],
+          "note_names": [
+            "b",
+            "c",
+            "fs"
+          ],
+          "note_names_lilypond": [
+            "b",
+            "c",
+            "fs"
+          ],
+          "note_names_unicode": [
+            "b",
+            "c",
+            "f\u266f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_2",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        4,
+        7,
+        10
+      ],
+      "last_pcs": [
+        0,
+        3,
+        6,
+        9
+      ],
+      "duration_ms": 6512,
+      "chord_b_onset_ratio": 0.24570024570024573,
+      "bridging_chord": {
+        "name": "a_13\u266d5(\u266d9)-66",
+        "pitch_classes": [
+          0,
+          3,
+          4,
+          6,
+          7,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          3,
+          6,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          3,
+          4,
+          6
+        ],
+        "next_sample": "3voices_7",
+        "next_transposition": 2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            1,
+            4,
+            7,
+            10
+          ],
+          "note_names": [
+            "cs",
+            "e",
+            "g",
+            "bb"
+          ],
+          "chord_name": "C#dim7",
+          "note_names_lilypond": [
+            "cs",
+            "e",
+            "g",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "c\u266f",
+            "e",
+            "g",
+            "b\u266d"
+          ]
+        },
+        {
+          "start_time": 1.6,
+          "pitch_classes": [
+            0,
+            3,
+            6,
+            9
+          ],
+          "note_names": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "chord_name": "Ebdim7",
+          "note_names_lilypond": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "note_names_unicode": [
+            "d\u266f",
+            "f\u266f",
+            "a",
+            "c"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_7",
+      "transposition": 2,
+      "first_pcs": [
+        3,
+        4,
+        6
+      ],
+      "last_pcs": [
+        0,
+        2,
+        8
+      ],
+      "duration_ms": 4225,
+      "chord_b_onset_ratio": 0.4698224852071007,
+      "bridging_chord": {
+        "name": "[C,D,Eb,Gb,Ab,A]",
+        "pitch_classes": [
+          0,
+          2,
+          3,
+          6,
+          8,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          2,
+          8
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          3,
+          6,
+          9
+        ],
+        "next_sample": "handel_handel_8",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            4
+          ],
+          "note_names": [
+            "e",
+            "d",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "e",
+            "d",
+            "df"
+          ],
+          "note_names_unicode": [
+            "e",
+            "d",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 1.985,
+          "pitch_classes": [
+            0,
+            6,
+            10
+          ],
+          "note_names": [
+            "c",
+            "fs",
+            "bb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "fs",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "c",
+            "f\u266f",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_8",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        3,
+        6,
+        9
+      ],
+      "last_pcs": [
+        1,
+        6,
+        9
+      ],
+      "duration_ms": 6804,
+      "chord_b_onset_ratio": 0.21982885807022723,
+      "bridging_chord": {
+        "name": "[C,Db,Eb,Gb,Ab,A]",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          6,
+          8,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          6,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          3,
+          8
+        ],
+        "next_sample": "3voices_30",
+        "next_transposition": 2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            0,
+            3,
+            6,
+            9
+          ],
+          "note_names": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "chord_name": "Ebdim7",
+          "note_names_lilypond": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "note_names_unicode": [
+            "d\u266f",
+            "f\u266f",
+            "a",
+            "c"
+          ]
+        },
+        {
+          "start_time": 1.49,
+          "pitch_classes": [
+            1,
+            6,
+            9
+          ],
+          "note_names": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "chord_name": "F#m",
+          "note_names_lilypond": [
+            "fs",
+            "a",
+            "cs"
+          ],
+          "note_names_unicode": [
+            "f\u266f",
+            "a",
+            "c\u266f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_30",
+      "transposition": 2,
+      "first_pcs": [
+        1,
+        3,
+        8
+      ],
+      "last_pcs": [
+        2,
+        5,
+        7
+      ],
+      "duration_ms": 4867,
+      "chord_b_onset_ratio": 0.3817546743373742,
+      "bridging_chord": {
+        "name": "b_13-100",
+        "pitch_classes": [
+          0,
+          2,
+          5,
+          7,
+          8,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          5,
+          7
+        ],
+        "next_sample_first_pcs_subset": [
+          2,
+          5,
+          8,
+          11
+        ],
+        "next_sample": "handel_handel_4",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "db",
+            "gb",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "gf",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "g\u266d",
+            "b"
+          ]
+        },
+        {
+          "start_time": 1.858,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "handel_handel_4",
+      "transposition": 0,
+      "first_pcs": [
+        2,
+        5,
+        8,
+        11
+      ],
+      "last_pcs": [
+        0,
+        3,
+        6,
+        9
+      ],
+      "duration_ms": 6828,
+      "chord_b_onset_ratio": 0.26525942432806726,
+      "bridging_chord": {
+        "name": "fs_m6/9-43",
+        "pitch_classes": [
+          0,
+          2,
+          3,
+          6,
+          7,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          3,
+          6,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          7
+        ],
+        "next_sample": "3voices_32",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0,
+          "pitch_classes": [
+            2,
+            5,
+            8,
+            11
+          ],
+          "note_names": [
+            "f",
+            "ab",
+            "b",
+            "d"
+          ],
+          "chord_name": "Bdim7",
+          "note_names_lilypond": [
+            "f",
+            "af",
+            "b",
+            "d"
+          ],
+          "note_names_unicode": [
+            "f",
+            "a\u266d",
+            "b",
+            "d"
+          ]
+        },
+        {
+          "start_time": 6,
+          "pitch_classes": [
+            0,
+            3,
+            6,
+            9
+          ],
+          "note_names": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "chord_name": "Ebdim7",
+          "note_names_lilypond": [
+            "ds",
+            "fs",
+            "a",
+            "c"
+          ],
+          "note_names_unicode": [
+            "d\u266f",
+            "f\u266f",
+            "a",
+            "c"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_32",
+      "transposition": 1,
+      "first_pcs": [
+        0,
+        2,
+        7
+      ],
+      "last_pcs": [
+        1,
+        4,
+        6
+      ],
+      "duration_ms": 4944,
+      "chord_b_onset_ratio": 0.38754045307443363,
+      "bridging_chord": {
+        "name": "g_M9-2",
+        "pitch_classes": [
+          1,
+          2,
+          4,
+          6,
+          7,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          6
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          2,
+          4
+        ],
+        "next_sample": "3voices_12",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "db",
+            "gb",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "gf",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "g\u266d",
+            "b"
+          ]
+        },
+        {
+          "start_time": 1.916,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_12",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        2,
+        4
+      ],
+      "last_pcs": [
+        0,
+        6,
+        11
+      ],
+      "duration_ms": 3660,
+      "chord_b_onset_ratio": 0.31721311475409836,
+      "bridging_chord": {
+        "name": "g_13-101",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          6,
+          7,
+          9,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          6,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          7
+        ],
+        "next_sample": "3voices_1",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            4
+          ],
+          "note_names": [
+            "d",
+            "e",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "d",
+            "e",
+            "df"
+          ],
+          "note_names_unicode": [
+            "d",
+            "e",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 1.161,
+          "pitch_classes": [
+            0,
+            6,
+            11
+          ],
+          "note_names": [
+            "c",
+            "b",
+            "gb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "b",
+            "gf"
+          ],
+          "note_names_unicode": [
+            "c",
+            "b",
+            "g\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_1",
+      "transposition": 1,
+      "first_pcs": [
+        0,
+        2,
+        7
+      ],
+      "last_pcs": [
+        1,
+        4,
+        6
+      ],
+      "duration_ms": 4791,
+      "chord_b_onset_ratio": 0.3339595074097266,
+      "bridging_chord": {
+        "name": "d_m6/9-43",
+        "pitch_classes": [
+          1,
+          2,
+          4,
+          6,
+          7,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          4,
+          6
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          6,
+          11
+        ],
+        "next_sample": "3voices_4",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "db",
+            "gb",
+            "cb"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "gf",
+            "cf"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "g\u266d",
+            "c\u266d"
+          ]
+        },
+        {
+          "start_time": 1.6,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_4",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        6,
+        11
+      ],
+      "last_pcs": [
+        0,
+        3,
+        5
+      ],
+      "duration_ms": 4203,
+      "chord_b_onset_ratio": 0.41874851296692833,
+      "bridging_chord": {
+        "name": "[C,D,Eb,F,Gb,B]",
+        "pitch_classes": [
+          0,
+          2,
+          3,
+          5,
+          6,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          3,
+          5
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          3
+        ],
+        "next_sample": "3voices_5",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "db",
+            "cb",
+            "fs"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "cf",
+            "fs"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "c\u266d",
+            "f\u266f"
+          ]
+        },
+        {
+          "start_time": 1.76,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_5",
+      "transposition": 1,
+      "first_pcs": [
+        0,
+        2,
+        3
+      ],
+      "last_pcs": [
+        0,
+        2,
+        3
+      ],
+      "duration_ms": 3561,
+      "chord_b_onset_ratio": 0.3257511934849761,
+      "bridging_chord": {
+        "name": "[C,D,Eb,F,Gb,B]",
+        "pitch_classes": [
+          0,
+          2,
+          3,
+          5,
+          6,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          2,
+          3
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          3
+        ],
+        "next_sample": "3voices_14",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            11
+          ],
+          "note_names": [
+            "db",
+            "cb",
+            "d"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "cf",
+            "d"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "c\u266d",
+            "d"
+          ]
+        },
+        {
+          "start_time": 1.16,
+          "pitch_classes": [
+            1,
+            2,
+            11
+          ],
+          "note_names": [
+            "b",
+            "db",
+            "d"
+          ],
+          "note_names_lilypond": [
+            "b",
+            "df",
+            "d"
+          ],
+          "note_names_unicode": [
+            "b",
+            "d\u266d",
+            "d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_14",
+      "transposition": 1,
+      "first_pcs": [
+        0,
+        2,
+        3
+      ],
+      "last_pcs": [
+        0,
+        2,
+        3
+      ],
+      "duration_ms": 3609,
+      "chord_b_onset_ratio": 0.2881684677195899,
+      "bridging_chord": {
+        "name": "[C,D,Eb,F,Gb,B]",
+        "pitch_classes": [
+          0,
+          2,
+          3,
+          5,
+          6,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          2,
+          3
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          3,
+          11
+        ],
+        "next_sample": "3voices_15",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            11
+          ],
+          "note_names": [
+            "db",
+            "b",
+            "d"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "b",
+            "d"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "b",
+            "d"
+          ]
+        },
+        {
+          "start_time": 1.04,
+          "pitch_classes": [
+            1,
+            2,
+            11
+          ],
+          "note_names": [
+            "d",
+            "db",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "d",
+            "df",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d",
+            "d\u266d",
+            "b"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_15",
+      "transposition": -1,
+      "first_pcs": [
+        0,
+        3,
+        11
+      ],
+      "last_pcs": [
+        0,
+        2,
+        11
+      ],
+      "duration_ms": 4810,
+      "chord_b_onset_ratio": 0.2494802494802495,
+      "bridging_chord": {
+        "name": "[C,D,Eb,F,Gb,B]",
+        "pitch_classes": [
+          0,
+          2,
+          3,
+          5,
+          6,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          2,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          2,
+          3,
+          5
+        ],
+        "next_sample": "3voices_16",
+        "next_transposition": 1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            4
+          ],
+          "note_names": [
+            "e",
+            "c",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "e",
+            "c",
+            "df"
+          ],
+          "note_names_unicode": [
+            "e",
+            "c",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 1.2,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "e\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_16",
+      "transposition": 1,
+      "first_pcs": [
+        2,
+        3,
+        5
+      ],
+      "last_pcs": [
+        1,
+        7,
+        11
+      ],
+      "duration_ms": 4379,
+      "chord_b_onset_ratio": 0.42680977392098657,
+      "bridging_chord": {
+        "name": "d_m9(add6)-94",
+        "pitch_classes": [
+          1,
+          2,
+          6,
+          7,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          7,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          6,
+          11
+        ],
+        "next_sample": "3voices_10",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            4
+          ],
+          "note_names": [
+            "d",
+            "db",
+            "e"
+          ],
+          "note_names_lilypond": [
+            "d",
+            "df",
+            "e"
+          ],
+          "note_names_unicode": [
+            "d",
+            "d\u266d",
+            "e"
+          ]
+        },
+        {
+          "start_time": 1.869,
+          "pitch_classes": [
+            0,
+            6,
+            10
+          ],
+          "note_names": [
+            "c",
+            "gb",
+            "bb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "gf",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "c",
+            "g\u266d",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_10",
+      "transposition": 0,
+      "first_pcs": [
+        1,
+        6,
+        11
+      ],
+      "last_pcs": [
+        0,
+        3,
+        5
+      ],
+      "duration_ms": 4921,
+      "chord_b_onset_ratio": 0.3657793131477342,
+      "bridging_chord": {
+        "name": "[C,D,Eb,F,Gb,B]",
+        "pitch_classes": [
+          0,
+          2,
+          3,
+          5,
+          6,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          3,
+          5
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          6,
+          11
+        ],
+        "next_sample": "3voices_17",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "gb",
+            "db",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "gf",
+            "df",
+            "b"
+          ],
+          "note_names_unicode": [
+            "g\u266d",
+            "d\u266d",
+            "b"
+          ]
+        },
+        {
+          "start_time": 1.8,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "f",
+            "c",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "f",
+            "c",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "f",
+            "c",
+            "e\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_17",
+      "transposition": -1,
+      "first_pcs": [
+        0,
+        6,
+        11
+      ],
+      "last_pcs": [
+        2,
+        4,
+        11
+      ],
+      "duration_ms": 4832,
+      "chord_b_onset_ratio": 0.38079470198675497,
+      "bridging_chord": {
+        "name": "c_M7#11-55",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          6,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          4,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          11
+        ],
+        "next_sample": "3voices_18",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            7
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "g"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "g"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "g"
+          ]
+        },
+        {
+          "start_time": 1.84,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "f",
+            "eb",
+            "c"
+          ],
+          "note_names_lilypond": [
+            "f",
+            "ef",
+            "c"
+          ],
+          "note_names_unicode": [
+            "f",
+            "e\u266d",
+            "c"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_18",
+      "transposition": -1,
+      "first_pcs": [
+        0,
+        2,
+        11
+      ],
+      "last_pcs": [
+        2,
+        4,
+        9
+      ],
+      "duration_ms": 4273,
+      "chord_b_onset_ratio": 0.42124970746548096,
+      "bridging_chord": {
+        "name": "c_M7(add#11/6)-56",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          6,
+          9,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          4,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          6,
+          11
+        ],
+        "next_sample": "3voices_19",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "e\u266d"
+          ]
+        },
+        {
+          "start_time": 1.8,
+          "pitch_classes": [
+            3,
+            5,
+            10
+          ],
+          "note_names": [
+            "f",
+            "eb",
+            "bb"
+          ],
+          "note_names_lilypond": [
+            "f",
+            "ef",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "f",
+            "e\u266d",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_19",
+      "transposition": -1,
+      "first_pcs": [
+        0,
+        6,
+        11
+      ],
+      "last_pcs": [
+        2,
+        5,
+        11
+      ],
+      "duration_ms": 4838,
+      "chord_b_onset_ratio": 0.3670938404299297,
+      "bridging_chord": {
+        "name": "[C,D,E,F,A,B]",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          5,
+          9,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          5,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          11
+        ],
+        "next_sample": "3voices_27",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            7
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "g"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "g"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "g"
+          ]
+        },
+        {
+          "start_time": 1.776,
+          "pitch_classes": [
+            0,
+            3,
+            6
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "fs"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "fs"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f\u266f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_27",
+      "transposition": -1,
+      "first_pcs": [
+        0,
+        2,
+        11
+      ],
+      "last_pcs": [
+        2,
+        4,
+        9
+      ],
+      "duration_ms": 5468,
+      "chord_b_onset_ratio": 0.33284564740307243,
+      "bridging_chord": {
+        "name": "[C,D,E,F,A,B]",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          5,
+          9,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          4,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          11
+        ],
+        "next_sample": "3voices_29",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "e\u266d"
+          ]
+        },
+        {
+          "start_time": 1.82,
+          "pitch_classes": [
+            3,
+            5,
+            10
+          ],
+          "note_names": [
+            "eb",
+            "f",
+            "bb"
+          ],
+          "note_names_lilypond": [
+            "ef",
+            "f",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "e\u266d",
+            "f",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_29",
+      "transposition": -1,
+      "first_pcs": [
+        0,
+        2,
+        11
+      ],
+      "last_pcs": [
+        2,
+        4,
+        9
+      ],
+      "duration_ms": 4254,
+      "chord_b_onset_ratio": 0.305594734367654,
+      "bridging_chord": {
+        "name": "[C,D,E,F,A,B]",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          5,
+          9,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          4,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          11
+        ],
+        "next_sample": "3voices_31",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "e\u266d"
+          ]
+        },
+        {
+          "start_time": 1.3,
+          "pitch_classes": [
+            3,
+            5,
+            10
+          ],
+          "note_names": [
+            "eb",
+            "f",
+            "bb"
+          ],
+          "note_names_lilypond": [
+            "ef",
+            "f",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "e\u266d",
+            "f",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_31",
+      "transposition": -1,
+      "first_pcs": [
+        0,
+        2,
+        11
+      ],
+      "last_pcs": [
+        2,
+        4,
+        9
+      ],
+      "duration_ms": 6566,
+      "chord_b_onset_ratio": 0.373134328358209,
+      "bridging_chord": {
+        "name": "[C,D,E,F,A,B]",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          5,
+          9,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          4,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          11
+        ],
+        "next_sample": "3voices_33",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "e\u266d"
+          ]
+        },
+        {
+          "start_time": 2.45,
+          "pitch_classes": [
+            3,
+            5,
+            10
+          ],
+          "note_names": [
+            "eb",
+            "f",
+            "bb"
+          ],
+          "note_names_lilypond": [
+            "ef",
+            "f",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "e\u266d",
+            "f",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_33",
+      "transposition": -1,
+      "first_pcs": [
+        0,
+        2,
+        11
+      ],
+      "last_pcs": [
+        2,
+        4,
+        9
+      ],
+      "duration_ms": 4896,
+      "chord_b_onset_ratio": 0.5024509803921569,
+      "bridging_chord": {
+        "name": "[C,D,E,F,A,B]",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          5,
+          9,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          4,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          2,
+          11
+        ],
+        "next_sample": "3voices_35",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "db",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "df",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "c",
+            "d\u266d",
+            "e\u266d"
+          ]
+        },
+        {
+          "start_time": 2.46,
+          "pitch_classes": [
+            3,
+            5,
+            10
+          ],
+          "note_names": [
+            "eb",
+            "f",
+            "bb"
+          ],
+          "note_names_lilypond": [
+            "ef",
+            "f",
+            "bf"
+          ],
+          "note_names_unicode": [
+            "e\u266d",
+            "f",
+            "b\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_35",
+      "transposition": -1,
+      "first_pcs": [
+        0,
+        2,
+        11
+      ],
+      "last_pcs": [
+        2,
+        4,
+        9
+      ],
+      "duration_ms": 7221,
+      "chord_b_onset_ratio": 0.34621243595069934,
+      "bridging_chord": {
+        "name": "[C,D,E,F,A,B]",
+        "pitch_classes": [
+          0,
+          2,
+          4,
+          5,
+          9,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          4,
+          9
+        ],
+        "next_sample_first_pcs_subset": [
+          4,
+          9,
+          11
+        ],
+        "next_sample": "3voices_13",
+        "next_transposition": -2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "df"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 2.5,
+          "pitch_classes": [
+            3,
+            5,
+            10
+          ],
+          "note_names": [
+            "eb",
+            "bb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "ef",
+            "bf",
+            "f"
+          ],
+          "note_names_unicode": [
+            "e\u266d",
+            "b\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_13",
+      "transposition": -2,
+      "first_pcs": [
+        4,
+        9,
+        11
+      ],
+      "last_pcs": [
+        1,
+        3,
+        10
+      ],
+      "duration_ms": 4232,
+      "chord_b_onset_ratio": 0.4170604914933837,
+      "bridging_chord": {
+        "name": "[C,Db,Eb,E,A,Bb]",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          4,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          3,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          1,
+          4
+        ],
+        "next_sample": "3voices_21",
+        "next_transposition": 0
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "gb",
+            "db",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "gf",
+            "df",
+            "b"
+          ],
+          "note_names_unicode": [
+            "g\u266d",
+            "d\u266d",
+            "b"
+          ]
+        },
+        {
+          "start_time": 1.765,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "eb",
+            "c",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "ef",
+            "c",
+            "f"
+          ],
+          "note_names_unicode": [
+            "e\u266d",
+            "c",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_21",
+      "transposition": 0,
+      "first_pcs": [
+        0,
+        1,
+        4
+      ],
+      "last_pcs": [
+        0,
+        1,
+        3
+      ],
+      "duration_ms": 4963,
+      "chord_b_onset_ratio": 0.26677412855127947,
+      "bridging_chord": {
+        "name": "[C,Db,Eb,E,A,Bb]",
+        "pitch_classes": [
+          0,
+          1,
+          3,
+          4,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          0,
+          1,
+          3
+        ],
+        "next_sample_first_pcs_subset": [
+          0,
+          1,
+          3
+        ],
+        "next_sample": "3voices_20",
+        "next_transposition": -1
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            0,
+            1,
+            4
+          ],
+          "note_names": [
+            "c",
+            "e",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "e",
+            "df"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 1.324,
+          "pitch_classes": [
+            0,
+            1,
+            3
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "df"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "d\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_20",
+      "transposition": -1,
+      "first_pcs": [
+        0,
+        1,
+        3
+      ],
+      "last_pcs": [
+        5,
+        9,
+        11
+      ],
+      "duration_ms": 4165,
+      "chord_b_onset_ratio": 0.41536614645858344,
+      "bridging_chord": {
+        "name": "cs_m6(Maj7)-74",
+        "pitch_classes": [
+          1,
+          4,
+          5,
+          9,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          5,
+          9,
+          11
+        ],
+        "next_sample_first_pcs_subset": [
+          4,
+          9,
+          11
+        ],
+        "next_sample": "3voices_23",
+        "next_transposition": -2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            4
+          ],
+          "note_names": [
+            "db",
+            "e",
+            "d"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "e",
+            "d"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "e",
+            "d"
+          ]
+        },
+        {
+          "start_time": 1.73,
+          "pitch_classes": [
+            0,
+            6,
+            10
+          ],
+          "note_names": [
+            "c",
+            "bb",
+            "fs"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "bf",
+            "fs"
+          ],
+          "note_names_unicode": [
+            "c",
+            "b\u266d",
+            "f\u266f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_23",
+      "transposition": -2,
+      "first_pcs": [
+        4,
+        9,
+        11
+      ],
+      "last_pcs": [
+        1,
+        3,
+        10
+      ],
+      "duration_ms": 4219,
+      "chord_b_onset_ratio": 0.41265702773169,
+      "bridging_chord": {
+        "name": "[Db,Eb,E,A,Bb]",
+        "pitch_classes": [
+          1,
+          3,
+          4,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          3,
+          10
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          3,
+          4
+        ],
+        "next_sample": "3voices_22",
+        "next_transposition": 2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "b",
+            "gb",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "b",
+            "gf",
+            "df"
+          ],
+          "note_names_unicode": [
+            "b",
+            "g\u266d",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 1.741,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_22",
+      "transposition": 2,
+      "first_pcs": [
+        1,
+        3,
+        4
+      ],
+      "last_pcs": [
+        1,
+        3,
+        4
+      ],
+      "duration_ms": 3753,
+      "chord_b_onset_ratio": 0.43005595523581136,
+      "bridging_chord": {
+        "name": "ds_7#9-109",
+        "pitch_classes": [
+          1,
+          3,
+          4,
+          6,
+          9,
+          10
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          3,
+          4
+        ],
+        "next_sample_first_pcs_subset": [
+          3,
+          4,
+          6
+        ],
+        "next_sample": "3voices_24",
+        "next_transposition": 2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            11
+          ],
+          "note_names": [
+            "b",
+            "d",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "b",
+            "d",
+            "df"
+          ],
+          "note_names_unicode": [
+            "b",
+            "d",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 1.614,
+          "pitch_classes": [
+            1,
+            2,
+            11
+          ],
+          "note_names": [
+            "b",
+            "d",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "b",
+            "d",
+            "df"
+          ],
+          "note_names_unicode": [
+            "b",
+            "d",
+            "d\u266d"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_24",
+      "transposition": 2,
+      "first_pcs": [
+        3,
+        4,
+        6
+      ],
+      "last_pcs": [
+        1,
+        2,
+        8
+      ],
+      "duration_ms": 3593,
+      "chord_b_onset_ratio": 0.3618146395769552,
+      "bridging_chord": {
+        "name": "[Db,D,E,Gb,Ab,A]",
+        "pitch_classes": [
+          1,
+          2,
+          4,
+          6,
+          8,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          2,
+          8
+        ],
+        "next_sample_first_pcs_subset": [
+          2,
+          4,
+          9
+        ],
+        "next_sample": "3voices_26",
+        "next_transposition": 3
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            2,
+            4
+          ],
+          "note_names": [
+            "db",
+            "d",
+            "e"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "d",
+            "e"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "d",
+            "e"
+          ]
+        },
+        {
+          "start_time": 1.3,
+          "pitch_classes": [
+            0,
+            6,
+            11
+          ],
+          "note_names": [
+            "c",
+            "gb",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "gf",
+            "b"
+          ],
+          "note_names_unicode": [
+            "c",
+            "g\u266d",
+            "b"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_26",
+      "transposition": 3,
+      "first_pcs": [
+        2,
+        4,
+        9
+      ],
+      "last_pcs": [
+        3,
+        6,
+        8
+      ],
+      "duration_ms": 6039,
+      "chord_b_onset_ratio": 0.3094883258817685,
+      "bridging_chord": {
+        "name": "ds_m9-15",
+        "pitch_classes": [
+          1,
+          3,
+          4,
+          6,
+          8,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          3,
+          6,
+          8
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          3,
+          8
+        ],
+        "next_sample": "3voices_28",
+        "next_transposition": 2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "db",
+            "gb",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "gf",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "g\u266d",
+            "b"
+          ]
+        },
+        {
+          "start_time": 1.869,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_28",
+      "transposition": 2,
+      "first_pcs": [
+        1,
+        3,
+        8
+      ],
+      "last_pcs": [
+        2,
+        5,
+        7
+      ],
+      "duration_ms": 3529,
+      "chord_b_onset_ratio": 0.2635307452536129,
+      "bridging_chord": {
+        "name": "g_m(add9)(Maj7)-12",
+        "pitch_classes": [
+          1,
+          2,
+          4,
+          5,
+          7,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          5,
+          7
+        ],
+        "next_sample_first_pcs_subset": [
+          2,
+          4,
+          9
+        ],
+        "next_sample": "3voices_30",
+        "next_transposition": 3
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "db",
+            "gb",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "gf",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "g\u266d",
+            "b"
+          ]
+        },
+        {
+          "start_time": 0.93,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_30",
+      "transposition": 3,
+      "first_pcs": [
+        2,
+        4,
+        9
+      ],
+      "last_pcs": [
+        3,
+        6,
+        8
+      ],
+      "duration_ms": 4867,
+      "chord_b_onset_ratio": 0.3817546743373742,
+      "bridging_chord": {
+        "name": "ds_m(add9)(Maj7)-12",
+        "pitch_classes": [
+          1,
+          3,
+          5,
+          6,
+          8,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          3,
+          6,
+          8
+        ],
+        "next_sample_first_pcs_subset": [
+          1,
+          3,
+          8
+        ],
+        "next_sample": "3voices_32",
+        "next_transposition": 2
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "db",
+            "gb",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "gf",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "g\u266d",
+            "b"
+          ]
+        },
+        {
+          "start_time": 1.858,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_32",
+      "transposition": 2,
+      "first_pcs": [
+        1,
+        3,
+        8
+      ],
+      "last_pcs": [
+        2,
+        5,
+        7
+      ],
+      "duration_ms": 4944,
+      "chord_b_onset_ratio": 0.38754045307443363,
+      "bridging_chord": {
+        "name": "g_m(Maj7)-10",
+        "pitch_classes": [
+          1,
+          2,
+          5,
+          7,
+          9
+        ],
+        "this_sample_last_pcs_subset": [
+          2,
+          5,
+          7
+        ],
+        "next_sample_first_pcs_subset": [
+          2,
+          7,
+          9
+        ],
+        "next_sample": "3voices_34",
+        "next_transposition": -4
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "db",
+            "gb",
+            "b"
+          ],
+          "note_names_lilypond": [
+            "df",
+            "gf",
+            "b"
+          ],
+          "note_names_unicode": [
+            "d\u266d",
+            "g\u266d",
+            "b"
+          ]
+        },
+        {
+          "start_time": 1.916,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "c",
+            "eb",
+            "f"
+          ],
+          "note_names_lilypond": [
+            "c",
+            "ef",
+            "f"
+          ],
+          "note_names_unicode": [
+            "c",
+            "e\u266d",
+            "f"
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "3voices_34",
+      "transposition": -4,
+      "first_pcs": [
+        2,
+        7,
+        9
+      ],
+      "last_pcs": [
+        1,
+        8,
+        11
+      ],
+      "duration_ms": 5857,
+      "chord_b_onset_ratio": 0.28683626429912923,
+      "bridging_chord": {
+        "name": "[Db,D,F,Ab,A,B]",
+        "pitch_classes": [
+          1,
+          2,
+          5,
+          8,
+          9,
+          11
+        ],
+        "this_sample_last_pcs_subset": [
+          1,
+          8,
+          11
+        ]
+      },
+      "chord_sequence": [
+        {
+          "start_time": 0.0,
+          "pitch_classes": [
+            1,
+            6,
+            11
+          ],
+          "note_names": [
+            "b",
+            "gb",
+            "db"
+          ],
+          "note_names_lilypond": [
+            "b",
+            "gf",
+            "df"
+          ],
+          "note_names_unicode": [
+            "b",
+            "g\u266d",
+            "d\u266d"
+          ]
+        },
+        {
+          "start_time": 1.68,
+          "pitch_classes": [
+            0,
+            3,
+            5
+          ],
+          "note_names": [
+            "f",
+            "c",
+            "eb"
+          ],
+          "note_names_lilypond": [
+            "f",
+            "c",
+            "ef"
+          ],
+          "note_names_unicode": [
+            "f",
+            "c",
+            "e\u266d"
+          ]
+        }
+      ]
+    }
+  ]
+}
