@@ -5791,7 +5791,8 @@ def render_chain_to_wav(
     include_synth_bass: bool = True,
     render_midi_synth: bool = True,
     seed: Optional[int] = None,
-    max_duration_ms: Optional[int] = None
+    max_duration_ms: Optional[int] = None,
+    export_stems: bool = False
 ) -> Path:
     """
     Render the chain to a WAV file.
@@ -5821,6 +5822,7 @@ def render_chain_to_wav(
     chain_samples_list = []  # [(samples_np, duration_samples)]
     rendered_events = []  # List[RenderedSkeletonEvent] - actual timing
     rendered_cursor_ms = 0.0  # Single source of truth for timing
+    gap_trigger_times = []  # Track gap start times for chord-triggered layers
 
     for i, link in enumerate(chain):
         sample_audio_dir = link.audio_dir if link.audio_dir else AUDIO_DIR
@@ -5910,6 +5912,8 @@ def render_chain_to_wav(
             gap_samples = int(gap_ms * SAMPLE_RATE / 1000)
             silence = np.zeros((gap_samples, CHANNELS), dtype=np.float32)
             chain_samples_list.append((silence, gap_samples))
+            # Track gap start time for chord-triggered layers (like Godette)
+            gap_trigger_times.append((rendered_cursor_ms, link.last_pcs, link.inferred_chord))
             rendered_cursor_ms += gap_ms
             if verbose:
                 print(f"    [gap: {gap_ms/1000:.1f}s]")
@@ -5923,6 +5927,19 @@ def render_chain_to_wav(
     for samples, num_samples in chain_samples_list:
         master_buffer[current_sample:current_sample + num_samples] = samples
         current_sample += num_samples
+
+    # Create stem buffers if stem export is enabled
+    # Stem 1: Clouds (Gothic Harp, Gentle Harpsichord, Laken)
+    # Stem 2: Intervals (Organetta, Stylo, Feedback, Harmonicker, Prophet False, etc.)
+    # Stem 3: Main (Skeleton + continuous + triggered)
+    if export_stems:
+        clouds_buffer = np.zeros_like(master_buffer)
+        intervals_buffer = np.zeros_like(master_buffer)
+        main_buffer = master_buffer.copy()  # Start with skeleton
+    else:
+        clouds_buffer = None
+        intervals_buffer = None
+        main_buffer = None
 
     current_time_ms = rendered_cursor_ms  # Use the rendered cursor as total time
     chain_duration_ms = current_time_ms
@@ -5941,8 +5958,25 @@ def render_chain_to_wav(
     # === BUILD HARMONIC TIMELINE FROM RENDERED TIMING ===
     # This ensures MIDI uses the exact same timing as the audio render
     harmonic_timeline = build_harmonic_timeline_from_rendered(rendered_events, chain)
+
+    # Inject gap trigger events for chord-triggered layers (like Godette)
+    # This allows Godette to fire during skeleton gaps, not just at skeleton starts
+    for gap_start_ms, last_pcs, inferred_chord in gap_trigger_times:
+        # Create a synthetic chord event at the start of each gap
+        gap_event = HarmonicEvent(
+            start_ms=gap_start_ms,
+            end_ms=gap_start_ms + 1000,  # 1 second nominal duration
+            chord_pcs=set(last_pcs) if last_pcs else set(),
+            chord_root=inferred_chord.get("root", 0) if inferred_chord else 0,
+            chord_name=inferred_chord.get("name", "?") if inferred_chord else "?"
+        )
+        harmonic_timeline.append(gap_event)
+
+    # Re-sort timeline by start time after adding gap events
+    harmonic_timeline.sort(key=lambda e: e.start_ms)
+
     if verbose:
-        print(f"  Built harmonic timeline with {len(harmonic_timeline)} chord events (from rendered timing)")
+        print(f"  Built harmonic timeline with {len(harmonic_timeline)} chord events ({len(gap_trigger_times)} gap triggers)")
 
     # Build harmonic index for fast O(log n) lookup
     harmonic_start_times, harmonic_events_sorted = build_harmonic_index(harmonic_timeline)
@@ -6175,6 +6209,8 @@ def render_chain_to_wav(
 
                 usable_len = min(len(bassflute_np), len(master_buffer))
                 master_buffer[:usable_len] += bassflute_np[:usable_len]
+                if export_stems and main_buffer is not None:
+                    main_buffer[:usable_len] += bassflute_np[:usable_len]
                 combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
 
                 if verbose:
@@ -6261,6 +6297,8 @@ def render_chain_to_wav(
 
             usable_len = min(len(jicello_np), len(master_buffer))
             master_buffer[:usable_len] += jicello_np[:usable_len]
+            if export_stems and main_buffer is not None:
+                main_buffer[:usable_len] += jicello_np[:usable_len]
             combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
 
             if verbose:
@@ -6301,6 +6339,8 @@ def render_chain_to_wav(
 
             usable_len = min(len(organetta_np), len(master_buffer))
             master_buffer[:usable_len] += organetta_np[:usable_len]
+            if export_stems and intervals_buffer is not None:
+                intervals_buffer[:usable_len] += organetta_np[:usable_len]
             combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
 
             if verbose:
@@ -6452,6 +6492,8 @@ def render_chain_to_wav(
             # Mix into master buffer (NumPy)
             usable_len = min(len(prophetfalse_np), len(master_buffer))
             master_buffer[:usable_len] += prophetfalse_np[:usable_len]
+            if export_stems and intervals_buffer is not None:
+                intervals_buffer[:usable_len] += prophetfalse_np[:usable_len]
 
             # Update combined AudioSegment for compatibility
             combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
@@ -6492,6 +6534,8 @@ def render_chain_to_wav(
             # Mix into master buffer (NumPy)
             usable_len = min(len(harmonicker_np), len(master_buffer))
             master_buffer[:usable_len] += harmonicker_np[:usable_len]
+            if export_stems and intervals_buffer is not None:
+                intervals_buffer[:usable_len] += harmonicker_np[:usable_len]
 
             # Update combined AudioSegment for compatibility
             combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
@@ -6681,6 +6725,10 @@ def render_chain_to_wav(
             # Mix into master
             master_buffer += panned_buf
 
+            # Also add to clouds stem if exporting stems
+            if export_stems and clouds_buffer is not None:
+                clouds_buffer += panned_buf
+
             if verbose:
                 # Calculate how much panning was applied
                 active_samples = cloud_activities[i].sum()
@@ -6730,6 +6778,8 @@ def render_chain_to_wav(
 
             usable_len = min(len(feedback_np), len(master_buffer))
             master_buffer[:usable_len] += feedback_np[:usable_len]
+            if export_stems and intervals_buffer is not None:
+                intervals_buffer[:usable_len] += feedback_np[:usable_len]
             combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
 
             if verbose:
@@ -6773,6 +6823,8 @@ def render_chain_to_wav(
 
             usable_len = min(len(stylo_np), len(master_buffer))
             master_buffer[:usable_len] += stylo_np[:usable_len]
+            if export_stems and intervals_buffer is not None:
+                intervals_buffer[:usable_len] += stylo_np[:usable_len]
             combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
 
             if verbose:
@@ -6816,6 +6868,8 @@ def render_chain_to_wav(
 
             usable_len = min(len(trichords_np), len(master_buffer))
             master_buffer[:usable_len] += trichords_np[:usable_len]
+            if export_stems and main_buffer is not None:
+                main_buffer[:usable_len] += trichords_np[:usable_len]
             combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
 
             if verbose:
@@ -6860,6 +6914,8 @@ def render_chain_to_wav(
 
             usable_len = min(len(tremolo_oct_np), len(master_buffer))
             master_buffer[:usable_len] += tremolo_oct_np[:usable_len]
+            if export_stems and intervals_buffer is not None:
+                intervals_buffer[:usable_len] += tremolo_oct_np[:usable_len]
             combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
 
             if verbose:
@@ -6887,7 +6943,7 @@ def render_chain_to_wav(
                     name="Avery Violin",
                     samples=av_sample_list,
                     layer_type=LayerType.CONTINUOUS,
-                    gain_db=-2.0,  # Boosted from -6.0
+                    gain_db=-22.0,
                 )
 
                 averyviolin_np = render_layer(
@@ -6906,6 +6962,8 @@ def render_chain_to_wav(
 
                 usable_len = min(len(averyviolin_np), len(master_buffer))
                 master_buffer[:usable_len] += averyviolin_np[:usable_len]
+                if export_stems and main_buffer is not None:
+                    main_buffer[:usable_len] += averyviolin_np[:usable_len]
                 combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
 
                 if verbose:
@@ -6952,6 +7010,8 @@ def render_chain_to_wav(
 
                 usable_len = min(len(dictamel_np), len(master_buffer))
                 master_buffer[:usable_len] += dictamel_np[:usable_len]
+                if export_stems and main_buffer is not None:
+                    main_buffer[:usable_len] += dictamel_np[:usable_len]
                 combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
 
                 if verbose:
@@ -7000,6 +7060,8 @@ def render_chain_to_wav(
 
                 usable_len = min(len(scelsipezzi_np), len(master_buffer))
                 master_buffer[:usable_len] += scelsipezzi_np[:usable_len]
+                if export_stems and intervals_buffer is not None:
+                    intervals_buffer[:usable_len] += scelsipezzi_np[:usable_len]
                 combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
 
                 if verbose:
@@ -7041,6 +7103,8 @@ def render_chain_to_wav(
 
             usable_len = min(len(godette_np), len(master_buffer))
             master_buffer[:usable_len] += godette_np[:usable_len]
+            if export_stems and main_buffer is not None:
+                main_buffer[:usable_len] += godette_np[:usable_len]
             combined = buffer_to_audiosegment(master_buffer, SAMPLE_RATE)
 
             if verbose:
@@ -7069,6 +7133,38 @@ def render_chain_to_wav(
     if verbose:
         print(f"\nExported: {output_path}")
         print(f"Duration: {len(combined) / 1000:.2f}s")
+
+    # Export stems if enabled
+    if export_stems:
+        # Truncate stem buffers to match main output
+        truncate_samples = int(max_duration_ms * SAMPLE_RATE / 1000) if max_duration_ms else len(clouds_buffer)
+
+        # Export clouds stem
+        if clouds_buffer is not None:
+            clouds_truncated = clouds_buffer[:truncate_samples]
+            clouds_audio = buffer_to_audiosegment(clouds_truncated, SAMPLE_RATE)
+            clouds_path = output_path.with_name(output_path.stem + "_stem_clouds.wav")
+            clouds_audio.export(clouds_path, format="wav")
+            if verbose:
+                print(f"Exported stem: {clouds_path}")
+
+        # Export intervals stem
+        if intervals_buffer is not None:
+            intervals_truncated = intervals_buffer[:truncate_samples]
+            intervals_audio = buffer_to_audiosegment(intervals_truncated, SAMPLE_RATE)
+            intervals_path = output_path.with_name(output_path.stem + "_stem_intervals.wav")
+            intervals_audio.export(intervals_path, format="wav")
+            if verbose:
+                print(f"Exported stem: {intervals_path}")
+
+        # Export main stem (skeleton + continuous + triggered)
+        if main_buffer is not None:
+            main_truncated = main_buffer[:truncate_samples]
+            main_audio = buffer_to_audiosegment(main_truncated, SAMPLE_RATE)
+            main_path = output_path.with_name(output_path.stem + "_stem_main.wav")
+            main_audio.export(main_path, format="wav")
+            if verbose:
+                print(f"Exported stem: {main_path}")
 
     # Export MIDI files if generated
     if include_midi_chords and chord_events and 'voicing_midi_obj' in locals():
@@ -7236,6 +7332,7 @@ def main():
     parser.add_argument("--scelsipezzi", action="store_true", help="Enable Scelsi Pezzi layer (interval-based, transposes to fit harmony)")
     parser.add_argument("--scelsipezzi-interval", type=float, default=8.0, help="Scelsi Pezzi interval in seconds (default: 8)")
     parser.add_argument("--godette", action="store_true", help="Enable Godette layer (chord-triggered, one at a time)")
+    parser.add_argument("--stems", action="store_true", help="Export separate stems: clouds, intervals, main")
     parser.add_argument("--json-only", action="store_true", help="Output JSON only, skip audio rendering")
     parser.add_argument("--duration", type=float, default=90.0, help="Max output duration in seconds (default: 90s = 1:30)")
     parser.add_argument("--fast-preview", action="store_true", help="Use FAST_PREVIEW mode (applies render switches)")
@@ -7421,7 +7518,8 @@ def main():
             include_godette=args.godette,
             include_synth_bass=not args.no_synth_bass,
             render_midi_synth=not args.no_midi_synth,
-            max_duration_ms=int(args.duration * 1000)
+            max_duration_ms=int(args.duration * 1000),
+            export_stems=args.stems
         )
     else:
         print("\n[JSON-only mode - skipping audio render]")
