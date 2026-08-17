@@ -202,7 +202,7 @@ The 57-scale network is based on Dmitri Tymoczko's research on voice leading and
 ## References
 
 - Tymoczko, D. (2011). *A Geometry of Music*
-- Turczan, N. (2019). NIME paper on scale networks
+- Turczan, N., Kapur, A., Ho, N., Honigman, C., & Shepherd, D. (2019). The Scale Navigator: A System for Networked Algorithmic Harmony. NIME'19, Porto Alegre, Brazil. https://doi.org/10.5281/zenodo.3672882
 - MacDowell's "To a Wild Rose" with random modulations: https://nathanturczan.bandcamp.com
 - Ted Gioia tweet: https://twitter.com/tedgioia/status/1321481234567890
 

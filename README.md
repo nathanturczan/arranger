@@ -151,7 +151,7 @@ See `datasets/README.md` for full provenance documentation.
 ## References
 
 - Tymoczko, D. (2011). *A Geometry of Music*
-- Turczan, N. (2019). Scale Navigator: A Networked Approach to Scale-Based Composition. NIME 2019.
+- Turczan, N., Kapur, A., Ho, N., Honigman, C., & Shepherd, D. (2019). The Scale Navigator: A System for Networked Algorithmic Harmony. NIME'19, Porto Alegre, Brazil. https://doi.org/10.5281/zenodo.3672882
 
 ## License
 
