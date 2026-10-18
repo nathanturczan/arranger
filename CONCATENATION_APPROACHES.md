@@ -8,7 +8,7 @@ Terms follow `idiom-engine/GLOSSARY.md`; the research program behind these appro
 strictness levels, research questions, known gaps) is `idiom-engine/RESEARCH.md`. Three kinds of chaining appear
 below: **endpoint joins** (whole units joined where one ends as the next begins), **transition chains** (Markov walks
 over every attested link of a source), and **superset inference** (notes → containing chord → containing scale).
-Status: **Active** = working and in use; **Working** = built, not in regular use; **Planned** = not built.
+Status: **Active** = working and in use; **Broken** = fails when run (checked 2026-10-18); **Working** = built, not in regular use; **Planned** = not built.
 
 ---
 
@@ -16,7 +16,7 @@ Status: **Active** = working and in use; **Working** = built, not in regular use
 
 | Approach | Domain | Matching Logic | Transposition Method | Scale Network | Status |
 |----------|--------|----------------|---------------------|---------------|--------|
-| **Progression Concatenator** | MIDI | Voice-leading intervals (4-6 voice flexible matching) | Bass note alignment + octave correction | Graph of compatible progressions | **Active** |
+| **Progression Concatenator** | MIDI | Voice-leading intervals (4-6 voice flexible matching) | Bass note alignment + octave correction | Graph of compatible progressions | **Broken** (CLI fails at import, #4; renders first measure only, #5) |
 | **Sample Laboratory** | Audio | Pitch class subset → scale membership | Pre-computed transpositions (-7 to +4 semitones) | Tymoczko 57-scale adjacency | Active |
 | **Reger Mods Chainer** | MIDI/LilyPond | First/last chord matching | Transpose entire progression | TBD | Planned |
 | **Sarabande Project** | Audio | Pitch class subset → scale membership | Scale network navigation | Tymoczko 57-scale adjacency | Planned |
