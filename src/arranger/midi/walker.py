@@ -56,7 +56,7 @@ def add_ties_for_repeated_notes(part_stream):
 
 
 def random_walk(arr_dict, start_name, target_progressions=100, enable_playback=True,
-                output_format="lilypond", output_path=None):
+                output_format="lilypond", output_path=None, first_measure_only=False):
     """
     Walk through the graph of progressions and build a score.
 
@@ -71,6 +71,9 @@ def random_walk(arr_dict, start_name, target_progressions=100, enable_playback=T
         enable_playback: Enable realtime MIDI playback while generating
         output_format: "lilypond" (default), "musicxml", or "show"
         output_path: Path for output file (auto-generated if None)
+        first_measure_only: Render only each example's first measure (the original 2022 behaviour).
+            Off by default: joins are matched on each example's last chord, so a one-measure excerpt can leave
+            out the very chord that justified the join (arranger #5).
 
     Returns:
         The generated Part with measures
@@ -100,11 +103,14 @@ def random_walk(arr_dict, start_name, target_progressions=100, enable_playback=T
 
         prog_stream = get_parsed(name)
 
-        # Try to take the first notated measure (1-based in music21).
-        # If that gives an empty slice, fall back to the whole stream.
-        c = prog_stream.measures(1, 1)
-        if len(c.recurse().notesAndRests) == 0:
-            c = prog_stream
+        # The whole example by default, so the chords the join was matched on are heard. With
+        # first_measure_only, take the first notated measure (1-based in music21), falling back to the
+        # whole stream if that slice is empty.
+        c = prog_stream
+        if first_measure_only:
+            c = prog_stream.measures(1, 1)
+            if len(c.recurse().notesAndRests) == 0:
+                c = prog_stream
 
         # normalization:
         # - on the very first snippet, transpose so that the outer voices

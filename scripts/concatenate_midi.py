@@ -70,6 +70,12 @@ def parse_args(argv=None):
         default=Path("/Users/soney/Github/idiom-engine/datasets"),
         help="directory containing MIDI datasets (default: the Idiom Engine's datasets)",
     )
+    parser.add_argument(
+        "--first-measure-only",
+        action="store_true",
+        help="render only the first measure of each example (the original 2022 behaviour; can drop the chord "
+             "a join was matched on)",
+    )
 
     return parser.parse_args(argv)
 
@@ -129,6 +135,7 @@ def main(argv=None):
         start_name=start_path,
         target_progressions=args.num,
         enable_playback=not args.no_play,
+        first_measure_only=args.first_measure_only,
     )
 
     # Handle output
