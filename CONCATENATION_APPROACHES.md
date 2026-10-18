@@ -54,7 +54,7 @@ Status: **Active** = working and in use; **Broken** = fails when run (checked 20
 | **Messiaen** | Modes of limited transposition | 101 | MIDI | Active |
 | **Misc** | Various sources | 74 | MIDI | Active |
 | **Hindemith** | Craft of Musical Composition | 65 | MIDI | Active |
-| **HAM** | Harmonic Analysis Materials | 52 | MIDI | Active |
+| **HAM** | Horace Alden Miller, *New Harmonic Devices* | 52 | MIDI | Active |
 | **Hanson** | Harmonic Materials of Modern Music | 52 | MIDI | Active |
 | **Levarie** | Theory textbook | 39 | MIDI | Active |
 | **Persichetti** | Twentieth-Century Harmony | 37 | MIDI | Active |
@@ -105,7 +105,7 @@ Status: **Active** = working and in use; **Broken** = fails when run (checked 20
 | Messiaen | 101 | Modes of limited transposition |
 | Misc | 74 | Various sources |
 | Hindemith | 65 | *Craft of Musical Composition* |
-| HAM | 52 | Harmonic Analysis Materials |
+| HAM | 52 | Horace Alden Miller, *New Harmonic Devices* |
 | Hanson | 52 | *Harmonic Materials of Modern Music* |
 | Levarie | 39 | Theory textbook |
 | Persichetti | 37 | *Twentieth-Century Harmony* |
