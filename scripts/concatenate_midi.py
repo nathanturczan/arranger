@@ -67,9 +67,10 @@ def parse_args(argv=None):
     parser.add_argument(
         "--datasets-dir",
         type=Path,
-        default=Path(__file__).parent.parent / "datasets",
-        help="directory containing MIDI datasets",
+        default=Path("/Users/soney/Github/idiom-engine/datasets"),
+        help="directory containing MIDI datasets (default: the Idiom Engine's datasets)",
     )
+
     return parser.parse_args(argv)
 
 

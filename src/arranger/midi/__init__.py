@@ -3,7 +3,7 @@
 from .analyzer import build_intervals, get_parsed, get_filelist, load_or_build_analysis
 from .graph import build_connections, mark_sinks, prune_sinks, build_non_sink_children
 from .walker import random_walk, add_ties_for_repeated_notes
-from .output import render_graph, export_lilypond, export_musicxml
+from .output import render_graph, export_lilypond, export_musicxml, show_musicxml
 
 __all__ = [
     "build_intervals",
@@ -19,4 +19,5 @@ __all__ = [
     "render_graph",
     "export_lilypond",
     "export_musicxml",
+    "show_musicxml",
 ]

@@ -16,7 +16,7 @@ Status: **Active** = working and in use; **Broken** = fails when run (checked 20
 
 | Approach | Domain | Matching Logic | Transposition Method | Scale Network | Status |
 |----------|--------|----------------|---------------------|---------------|--------|
-| **Progression Concatenator** | MIDI | Voice-leading intervals (4-6 voice flexible matching) | Bass note alignment + octave correction | Graph of compatible progressions | **Broken** (CLI fails at import, #4; renders first measure only, #5) |
+| **Progression Concatenator** | MIDI | Voice-leading intervals (4-6 voice flexible matching) | Bass note alignment + octave correction | Graph of compatible progressions | **Working** (renders only the first measure of each example: #5) |
 | **Sample Laboratory** | Audio | Pitch class subset → scale membership | Pre-computed transpositions (-7 to +4 semitones) | Tymoczko 57-scale adjacency | Active |
 | **Reger Mods Chainer** | MIDI/LilyPond | First/last chord matching | Transpose entire progression | TBD | Planned |
 | **Sarabande Project** | Audio | Pitch class subset → scale membership | Scale network navigation | Tymoczko 57-scale adjacency | Planned |
