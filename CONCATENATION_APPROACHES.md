@@ -4,6 +4,12 @@
 
 This document tracks different approaches to musical concatenation—chaining audio snippets, MIDI progressions, or notation fragments end-to-end based on harmonic compatibility.
 
+Terms follow `idiom-engine/GLOSSARY.md`; the research program behind these approaches (attested vs generated links,
+strictness levels, research questions, known gaps) is `idiom-engine/RESEARCH.md`. Three kinds of chaining appear
+below: **endpoint joins** (whole units joined where one ends as the next begins), **transition chains** (Markov walks
+over every attested link of a source), and **superset inference** (notes → containing chord → containing scale).
+Status: **Active** = working and in use; **Working** = built, not in regular use; **Planned** = not built.
+
 ---
 
 ## Approach Comparison
@@ -14,6 +20,11 @@ This document tracks different approaches to musical concatenation—chaining au
 | **Sample Laboratory** | Audio | Pitch class subset → scale membership | Pre-computed transpositions (-7 to +4 semitones) | Tymoczko 57-scale adjacency | Active |
 | **Reger Mods Chainer** | MIDI/LilyPond | First/last chord matching | Transpose entire progression | TBD | Planned |
 | **Sarabande Project** | Audio | Pitch class subset → scale membership | Scale network navigation | Tymoczko 57-scale adjacency | Planned |
+| **Bach Verticalities** (transition chain) | MIDI / web | Attested links between verticalities (exact voicing or pitch classes above the bass), memory 1–3 with backoff | Bass motion carried on each link | Not used | Working (`harmony-tools/bach-chorales/web/verticalities.html`) |
+| **Infinite Boyd** (transition chain) | MIDI / web | Attested links in Boyd's book at four strictness levels, recurrence threshold, Boyd's rhythm and text | Bass or root motion carried on each link | Not used | Working (`harmony-tools/boyd-chord-categories/bakeoff/chain/`) |
+| **NotesChordScales** (superset inference) | MIDI, live | Held notes ⊆ Boyd chord ⊆ scale, chosen by one of five policies | None (follows the input) | Scale supersets, scale memory | Active (`noteschordsscales/`) |
+| **Harmonic Engine idiom continuations** (endpoint joins) | MCP | `idiom-find-continuations` over the Idiom Engine index (first/last chords) | Per query | Via engine tools | Working (`harmonic-engine/`) |
+| **Early Downhome Blues** (transition chain, notes) | Web | Titon's pitch network: attested note-to-note links, quarter-tones | None | Not used | Working (`early-downhome-blues/`) |
 
 ---
 
@@ -33,7 +44,7 @@ This document tracks different approaches to musical concatenation—chaining au
 
 ### MIDI/Notation Collections
 
-**Consolidated Location:** `/Users/soney/Github/concatenator/datasets/`
+**Consolidated Location:** `/Users/soney/Github/idiom-engine/datasets/` (formerly `concatenator/datasets/`, then `idiom-database/datasets/`)
 
 | Collection | Source | Items | Format | Status |
 |------------|--------|-------|--------|--------|
@@ -81,8 +92,8 @@ This document tracks different approaches to musical concatenation—chaining au
 
 ### 2. Progression Concatenator (MIDI Chaining)
 
-**Active Implementation:** `/Users/soney/Github/concatenator/` (consolidated repo)
-**Documentation:** `/Users/soney/Github/concatenator/README.md`
+**Active Implementation:** `/Users/soney/Github/arranger/` (`src/arranger/midi/graph.py`, `walker.py`, `scripts/concatenate_midi.py`; the `concatenator` repo no longer exists)
+**Documentation:** this file; algorithm notes in `harmony-tools/progression-concatenator/README.md`
 **Original Source:** `/Users/soney/Music/MIDI_Experiments/Modulation/progression5.py`
 
 **MIDI Corpus (~905 progressions):**
@@ -115,8 +126,9 @@ This document tracks different approaches to musical concatenation—chaining au
 
 **Usage:**
 ```bash
-cd /Users/soney/Github/concatenator
-python scripts/concatenate_midi.py datasets/schoenberg/harmonielehre-p89-91-inversions-of-7th-chords-1.midi -n 100 --no-play
+cd /Users/soney/Github/arranger
+# the script's default --datasets-dir (arranger/datasets) no longer exists; pass the Idiom Engine datasets
+python scripts/concatenate_midi.py schoenberg/harmonielehre-p89-91-inversions-of-7th-chords-1.midi --datasets-dir /Users/soney/Github/idiom-engine/datasets -n 100 --no-play
 ```
 
 **Output:** LilyPond file (default) or MusicXML score, with optional realtime MIDI playback

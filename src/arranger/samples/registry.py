@@ -204,7 +204,7 @@ CHORDS_JSON_PATH = Path(__file__).parent.parent.parent.parent / "data" / "chords
 
 # Idiom database - MIDI progressions from theory textbooks (Schoenberg, Reger, etc.)
 # Used for: harmonic queries, idiom-driven arrangement
-IDIOM_DATABASE_DIR = Path("/Users/soney/Github/idiom-database")
+IDIOM_DATABASE_DIR = Path("/Users/soney/Github/idiom-engine")
 IDIOM_INDEX_PATH = IDIOM_DATABASE_DIR / "idioms_index.json"
 IDIOM_DATASETS_DIR = IDIOM_DATABASE_DIR / "datasets"
 
